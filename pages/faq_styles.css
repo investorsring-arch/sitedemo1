@@ -1,0 +1,126 @@
+/* ============================================================
+   FAQ — Styles de protection anti-scraping
+   À ajouter dans styles/globals.css
+   ============================================================ */
+
+/* ── Sélection bloquée sur contenu protégé ────────────────── */
+[data-protected] {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Empêche la sélection via touch sur mobile */
+[data-protected] * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
+/* Curseur normal sur les zones protégées */
+[data-protected] {
+  cursor: default !important;
+}
+
+/* Masquer le texte dans les impressions */
+@media print {
+  [data-protected],
+  .faq-answer,
+  .faq-content {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .faq-print-block::after {
+    content: "Contenu protégé — Impression non autorisée — FAQ en Douane © DAS";
+    display: block;
+    padding: 2rem;
+    text-align: center;
+    font-size: 14pt;
+    color: #999;
+    border: 1px solid #ccc;
+  }
+}
+
+/* ── Watermark visuel discret sur les réponses ────────────── */
+.faq-answer-wrap {
+  position: relative;
+}
+
+.faq-answer-wrap::before {
+  content: "DAS · Contenu protégé";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 11px;
+  color: rgba(12, 45, 92, 0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  letter-spacing: .3em;
+  font-weight: 700;
+}
+
+/* ── Accordion FAQ ────────────────────────────────────────── */
+.faq-item {
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.faq-item:hover {
+  border-color: var(--ba) !important;
+}
+
+.faq-question-btn {
+  transition: background .12s;
+}
+
+.faq-question-btn:hover {
+  background: var(--bl) !important;
+}
+
+/* ── Badges difficulté ────────────────────────────────────── */
+.badge-debutant {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.badge-intermediaire {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.badge-avance {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+/* ── Tags ─────────────────────────────────────────────────── */
+.faq-tag {
+  font-size: 10px;
+  padding: 1px 7px;
+  letter-spacing: .06em;
+  background: var(--bl);
+  color: var(--bm);
+  border: .5px solid var(--rule);
+  white-space: nowrap;
+}
+
+.faq-tag-profil {
+  background: #F5F3FF;
+  color: #4C1D95;
+  border-color: #DDD6FE;
+}
+
+/* ── Notice droit d'auteur ────────────────────────────────── */
+.faq-copyright {
+  font-size: 10px;
+  color: var(--rule);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}

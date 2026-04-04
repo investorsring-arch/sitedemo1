@@ -1,0 +1,18 @@
+import Layout from '../components/Layout'
+
+export default function Lexique() {
+  return (
+    <Layout>
+      <iframe 
+        src="/lexique/index.html"
+        style={{
+          width: '100%',
+          height: '100vh',
+          border: 'none',
+          overflow: 'auto'
+        }}
+        title="Lexique Douanier"
+      />
+    </Layout>
+  )
+}

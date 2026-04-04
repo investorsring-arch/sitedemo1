@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexique Douanier - SiteDemo1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .filters {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .letters-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            justify-content: center;
+        }
+
+        .letter-btn {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .letter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .letter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .clear-filters {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+
+        .results {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .results-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .results-header h2 {
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        .results-count {
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .glossaire-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .glossaire-item:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+
+        .glossaire-item h3 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .glossaire-item p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-results h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            color: #0c5aa0;
+        }
+
+        .error-box {
+            background: #ffe7e7;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>📚 Lexique Douanier</h1>
+            <p>Glossaire complet des termes et définitions douaniers - 895 entrées</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="filters">
+            <!-- Recherche par mot-clé -->
+            <div class="filter-group">
+                <label for="search-input">🔍 Recherche par mot-clé</label>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Tapez un mot (ex: tariff, douane...)"
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Menu déroulant -->
+            <div class="filter-group">
+                <label for="dropdown-select">📋 Ou sélectionnez par catégorie</label>
+                <select id="dropdown-select">
+                    <option value="">-- Tous les termes --</option>
+                    <option value="accord">Accords commerciaux</option>
+                    <option value="tarif">Tarifs & Droits</option>
+                    <option value="operation">Opérations Douanières</option>
+                    <option value="marchandise">Marchandises</option>
+                    <option value="zone">Zones & Ports</option>
+                </select>
+            </div>
+
+            <!-- Filtre par lettre -->
+            <div class="filter-group">
+                <label for="letter-input">🔤 Ou cherchez par lettre initiale</label>
+                <input 
+                    type="text" 
+                    id="letter-input" 
+                    placeholder="Tapez une lettre (A-Z)"
+                    maxlength="1"
+                    autocomplete="off"
+                >
+            </div>
+        </div>
+
+        <!-- Letters Quick Filter -->
+        <div class="letters-filter">
+            <button class="letter-btn" data-letter="A">A</button>
+            <button class="letter-btn" data-letter="B">B</button>
+            <button class="letter-btn" data-letter="C">C</button>
+            <button class="letter-btn" data-letter="D">D</button>
+            <button class="letter-btn" data-letter="E">E</button>
+            <button class="letter-btn" data-letter="F">F</button>
+            <button class="letter-btn" data-letter="G">G</button>
+            <button class="letter-btn" data-letter="H">H</button>
+            <button class="letter-btn" data-letter="I">I</button>
+            <button class="letter-btn" data-letter="J">J</button>
+            <button class="letter-btn" data-letter="K">K</button>
+            <button class="letter-btn" data-letter="L">L</button>
+            <button class="letter-btn" data-letter="M">M</button>
+            <button class="letter-btn" data-letter="N">N</button>
+            <button class="letter-btn" data-letter="O">O</button>
+            <button class="letter-btn" data-letter="P">P</button>
+            <button class="letter-btn" data-letter="Q">Q</button>
+            <button class="letter-btn" data-letter="R">R</button>
+            <button class="letter-btn" data-letter="S">S</button>
+            <button class="letter-btn" data-letter="T">T</button>
+            <button class="letter-btn" data-letter="U">U</button>
+            <button class="letter-btn" data-letter="V">V</button>
+            <button class="letter-btn" data-letter="W">W</button>
+            <button class="letter-btn" data-letter="X">X</button>
+            <button class="letter-btn" data-letter="Y">Y</button>
+            <button class="letter-btn" data-letter="Z">Z</button>
+        </div>
+
+        <!-- Clear Filters -->
+        <div class="clear-filters">
+            <button class="clear-btn" id="clear-btn">🔄 Réinitialiser les filtres</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results">
+            <div class="results-header">
+                <h2>Résultats</h2>
+                <div class="results-count" id="results-count">Chargement des données...</div>
+            </div>
+            <div id="results-container">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Chargement du glossaire...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Lexique Douanier - Tous droits réservés | Données fournies par Expert Douanier</p>
+        </footer>
+    </div>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Configuration (À CRÉER: copier config.example.js en config.js et remplir) -->
+    <script src="config.js"></script>
+    
+    <script>
+        // ====================================
+        // INITIALISATION SUPABASE
+        // ====================================
+        if (typeof SUPABASE_CONFIG === 'undefined') {
+            showError(`
+                ⚠️ Configuration manquante!<br>
+                1. Copiez <strong>config.example.js</strong> en <strong>config.js</strong><br>
+                2. Remplissez vos credentials Supabase (URL + anon key)<br>
+                3. Rechargez la page
+            `);
+            throw new Error('SUPABASE_CONFIG not found');
+        }
+
+        const { createClient } = window.supabase;
+        const supabase = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+
+        // ====================================
+        // VARIABLES GLOBALES
+        // ====================================
+        let allGlossaire = [];
+        let filteredGlossaire = [];
+        let currentFilters = {
+            searchTerm: '',
+            letter: '',
+            category: ''
+        };
+
+        // ====================================
+        // CHARGER LE GLOSSAIRE
+        // ====================================
+        async function loadGlossaire() {
+            try {
+                const { data, error } = await supabase
+                    .from(SUPABASE_CONFIG.tableName)
+                    .select('*')
+                    .order('titre', { ascending: true });
+
+                if (error) {
+                    console.error('Erreur Supabase:', error);
+                    showError('❌ Erreur lors du chargement des données de Supabase');
+                    return;
+                }
+
+                allGlossaire = data || [];
+                filteredGlossaire = [...allGlossaire];
+                
+                updateResults();
+                console.log(`✅ ${allGlossaire.length} entrées chargées`);
+            } catch (err) {
+                console.error('Erreur:', err);
+                showError('❌ Erreur de connexion à Supabase. Vérifiez vos credentials.');
+            }
+        }
+
+        // ====================================
+        // AFFICHER LES RÉSULTATS
+        // ====================================
+        function displayResults() {
+            const container = document.getElementById('results-container');
+            const count = document.getElementById('results-count');
+
+            if (filteredGlossaire.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>Aucun résultat trouvé</h3>
+                        <p>Essayez une autre recherche ou modifiez vos filtres</p>
+                    </div>
+                `;
+                count.textContent = `0 résultats`;
+                return;
+            }
+
+            container.innerHTML = filteredGlossaire.map(item => `
+                <div class="glossaire-item">
+                    <h3>${escapeHtml(item.titre)}</h3>
+                    <p>${escapeHtml(item.definition)}</p>
+                </div>
+            `).join('');
+
+            count.textContent = `${filteredGlossaire.length} résultat${filteredGlossaire.length > 1 ? 's' : ''}`;
+        }
+
+        // ====================================
+        // APPLIQUER LES FILTRES
+        // ====================================
+        function applyFilters() {
+            filteredGlossaire = allGlossaire.filter(item => {
+                // Filtre par mot-clé
+                if (currentFilters.searchTerm) {
+                    const term = currentFilters.searchTerm.toLowerCase();
+                    const matches = item.titre.toLowerCase().includes(term) ||
+                                  item.definition.toLowerCase().includes(term);
+                    if (!matches) return false;
+                }
+
+                // Filtre par lettre
+                if (currentFilters.letter) {
+                    const firstLetter = item.titre.charAt(0).toUpperCase();
+                    if (firstLetter !== currentFilters.letter.toUpperCase()) return false;
+                }
+
+                return true;
+            });
+
+            displayResults();
+        }
+
+        function updateResults() {
+            applyFilters();
+        }
+
+        // ====================================
+        // EVENT LISTENERS
+        // ====================================
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            currentFilters.searchTerm = e.target.value;
+            updateResults();
+        });
+
+        document.getElementById('letter-input').addEventListener('input', (e) => {
+            const value = e.target.value.toUpperCase();
+            currentFilters.letter = value;
+            // Mettre à jour les boutons
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.letter === value);
+            });
+            updateResults();
+        });
+
+        document.querySelectorAll('.letter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const letter = btn.dataset.letter;
+                currentFilters.letter = currentFilters.letter === letter ? '' : letter;
+                document.getElementById('letter-input').value = currentFilters.letter;
+                
+                document.querySelectorAll('.letter-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.letter === currentFilters.letter);
+                });
+                
+                updateResults();
+            });
+        });
+
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            currentFilters = { searchTerm: '', letter: '', category: '' };
+            document.getElementById('search-input').value = '';
+            document.getElementById('letter-input').value = '';
+            document.getElementById('dropdown-select').value = '';
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+            updateResults();
+        });
+
+        document.getElementById('dropdown-select').addEventListener('change', (e) => {
+            currentFilters.category = e.target.value;
+            updateResults();
+        });
+
+        // ====================================
+        // UTILITAIRES
+        // ====================================
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function showError(message) {
+            const container = document.getElementById('results-container');
+            container.innerHTML = `
+                <div class="error-box">
+                    ${message}
+                </div>
+            `;
+        }
+
+        // ====================================
+        // INITIALISATION
+        // ====================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGlossaire();
+        });
+    </script>
+</body>
+</html>
