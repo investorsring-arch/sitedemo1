@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Référence Logistique — Termes, Manutention & Matières Dangereuses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f3f7;--surface:#fff;--surface2:#e8edf4;--border:#d0d9e6;--border-active:#a8bcda;--accent:#c47f00;--accent2:#007a64;--accent3:#c43a3a;--text:#2a3544;--text-dim:#7a8fa6;--text-bright:#0f1c2e;--shadow:0 1px 4px rgba(30,60,100,.07);--shadow-md:0 4px 16px rgba(30,60,100,.1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+header{position:sticky;top:0;border-bottom:1px solid var(--border);padding:0 40px;background:#fff;z-index:100;box-shadow:var(--shadow)}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:stretch;gap:0}
+.logo-area{display:flex;align-items:center;gap:14px;padding:16px 28px 16px 0;border-right:1px solid var(--border);margin-right:8px;flex-shrink:0}
+.logo-icon{width:38px;height:38px;background:var(--accent);display:flex;align-items:center;justify-content:center;clip-path:polygon(0 0,84% 0,100% 50%,84% 100%,0 100%)}
+.logo-icon svg{color:#fff}
+.logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-bright);line-height:1.1}
+.logo-text span{display:block;font-size:9px;font-weight:500;letter-spacing:.18em;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:2px}
+nav{display:flex;align-items:stretch;flex:1}
+.nav-btn{padding:0 20px;border:none;background:transparent;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.nav-btn:hover{color:var(--text);background:var(--bg)}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);background:#fff9ee}
+.nav-icon{font-size:15px}
+.header-badges{display:flex;align-items:center;gap:8px;margin-left:auto;padding-left:16px;flex-shrink:0}
+.badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:4px 10px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;font-weight:500}
+.badge-imdg{background:rgba(196,127,0,.1);border:1px solid rgba(196,127,0,.3);color:var(--accent)}
+.badge-iso{background:rgba(0,122,100,.08);border:1px solid rgba(0,122,100,.25);color:var(--accent2)}
+
+/* MAIN */
+main{max-width:1400px;margin:0 auto;padding:0 40px 80px}
+.section{display:none}
+.section.active{display:block}
+
+/* HERO */
+.section-hero{padding:40px 0 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.section-hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,4.5vw,56px);font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:var(--text-bright);line-height:.95}
+.section-hero h1 em{font-style:normal;color:var(--accent)}
+.section-hero p{max-width:460px;color:var(--text-dim);font-size:14px;line-height:1.75;margin-top:12px}
+.section-meta{display:flex;gap:28px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:.06em;flex-shrink:0}
+.meta-item strong{display:block;font-size:22px;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--accent);letter-spacing:0}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.search-input{background:#fff;border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;padding:9px 16px;outline:none;transition:border-color .2s;width:270px;box-shadow:var(--shadow)}
+.search-input::placeholder{color:var(--text-dim)}
+.search-input:focus{border-color:var(--accent)}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chip{padding:7px 14px;border:1px solid var(--border);background:#fff;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.filter-chip:hover{border-color:var(--border-active);color:var(--text)}
+.filter-chip.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:none}
+
+/* TERMS */
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.term-card{background:#fff;border:1px solid var(--border);padding:22px;cursor:pointer;transition:all .2s;position:relative;box-shadow:var(--shadow);border-left:4px solid transparent}
+.term-card:hover{border-color:var(--border-active);box-shadow:var(--shadow-md);border-left-color:var(--border-active)}
+.term-card.expanded{border-left-color:var(--accent);box-shadow:var(--shadow-md)}
+.term-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.term-abbr{font-family:'Barlow Condensed',sans-serif;font-size:25px;font-weight:800;letter-spacing:.02em;color:var(--text-bright);line-height:1}
+.term-type-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;flex-shrink:0;margin-top:3px;border-radius:2px}
+.type-door{background:rgba(196,127,0,.08);border:1px solid rgba(196,127,0,.25);color:var(--accent)}
+.type-liner{background:rgba(0,122,100,.08);border:1px solid rgba(0,122,100,.25);color:var(--accent2)}
+.type-free{background:rgba(196,58,58,.08);border:1px solid rgba(196,58,58,.25);color:var(--accent3)}
+.type-cy{background:rgba(40,100,200,.08);border:1px solid rgba(40,100,200,.25);color:#2a6acc}
+.type-surcharge{background:rgba(100,50,180,.08);border:1px solid rgba(100,50,180,.25);color:#6a32b0}
+.term-full-name{font-size:12px;color:var(--text-dim);font-style:italic;margin-bottom:10px}
+.term-summary{font-size:13.5px;color:var(--text);line-height:1.6}
+.term-details{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);animation:fadeSlide .2s ease}
+.term-card.expanded .term-details{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.thc-diagram{margin-top:12px;display:flex;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.thc-segment{flex:1;padding:8px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.04em;border-right:1px solid rgba(0,0,0,.06)}
+.thc-segment:last-child{border-right:none}
+.thc-segment svg{width:13px;height:13px}
+.seg-included{background:rgba(0,122,100,.07);color:var(--accent2)}
+.seg-excluded{background:rgba(196,58,58,.07);color:var(--accent3)}
+
+/* DIVIDER */
+.section-divider{display:flex;align-items:center;gap:14px;margin:38px 0 18px}
+.section-divider h2{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--text-dim);white-space:nowrap}
+.section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* MARKS */
+.marks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+.mark-card{background:#fff;border:1px solid var(--border);padding:22px 16px;text-align:center;cursor:pointer;transition:all .25s;box-shadow:var(--shadow);border-top:3px solid transparent}
+.mark-card:hover{box-shadow:var(--shadow-md);border-top-color:var(--accent);transform:translateY(-2px)}
+.mark-icon{width:62px;height:62px;margin:0 auto 12px;transition:transform .3s}
+.mark-card:hover .mark-icon{transform:scale(1.08)}
+.mark-icon svg{width:100%;height:100%}
+.mark-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-bright);margin-bottom:4px}
+.mark-code{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:.08em}
+
+/* MARK OVERLAY */
+.mark-detail-overlay{display:none;position:fixed;inset:0;background:rgba(20,40,70,.4);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);animation:fadeIn .2s ease}
+.mark-detail-overlay.open{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.mark-detail-panel{background:#fff;border:1px solid var(--border);max-width:480px;width:92%;padding:40px;position:relative;box-shadow:var(--shadow-md);animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.panel-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:20px;transition:color .2s}
+.panel-close:hover{color:var(--text-bright)}
+.panel-icon{width:88px;height:88px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
+.panel-icon svg{width:100%;height:100%}
+.panel-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.15em;margin-bottom:6px;text-align:center}
+.panel-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;text-transform:uppercase;color:var(--text-bright);text-align:center;margin-bottom:14px}
+.panel-desc{font-size:13.5px;line-height:1.75;color:var(--text);text-align:center;margin-bottom:18px}
+.panel-usage{background:var(--bg);border:1px solid var(--border);padding:14px 18px;font-size:13px;color:var(--text-dim);line-height:1.6;border-radius:2px}
+.panel-usage strong{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:6px}
+
+/* DANGEROUS GOODS */
+.dg-layout{display:grid;grid-template-columns:275px 1fr;gap:18px;align-items:start}
+.dg-sidebar{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);position:sticky;top:80px}
+.dg-sidebar-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);padding:14px 18px 10px;border-bottom:1px solid var(--border)}
+.dg-class-btn{width:100%;display:flex;align-items:center;gap:12px;padding:11px 16px;border:none;background:transparent;cursor:pointer;text-align:left;border-bottom:1px solid var(--border);transition:all .18s;border-left:4px solid transparent}
+.dg-class-btn:last-child{border-bottom:none}
+.dg-class-btn:hover{background:var(--bg)}
+.dg-class-btn.active{background:#fff9ee;border-left-color:var(--accent)}
+.dg-class-diamond{width:34px;height:34px;flex-shrink:0}
+.dg-class-diamond svg{width:100%;height:100%}
+.dg-class-info{flex:1;min-width:0}
+.dg-class-num{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase}
+.dg-class-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--text-bright);line-height:1.2;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dg-class-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:auto;flex-shrink:0;background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 7px}
+.dg-content{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow)}
+.dg-content-header{display:flex;align-items:flex-start;gap:20px;padding:26px 28px;border-bottom:1px solid var(--border)}
+.dg-big-diamond{width:76px;height:76px;flex-shrink:0}
+.dg-big-diamond svg{width:100%;height:100%}
+.dg-header-class{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--text-dim);margin-bottom:4px;text-transform:uppercase}
+.dg-header-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;color:var(--text-bright);letter-spacing:.03em;line-height:1;margin-bottom:8px}
+.dg-header-desc{font-size:13px;color:var(--text-dim);line-height:1.65;max-width:580px}
+.dg-subs{padding:22px 28px}
+.dg-subs-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}
+.dg-sub-list{display:flex;flex-direction:column;gap:10px}
+.dg-sub-item{display:flex;align-items:stretch;border:1px solid var(--border);overflow:hidden;background:#fff;transition:box-shadow .2s}
+.dg-sub-item:hover{box-shadow:var(--shadow-md)}
+.dg-sub-color{width:5px;flex-shrink:0}
+.dg-sub-body{flex:1;padding:14px 16px}
+.dg-sub-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.dg-sub-num{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--text-bright);line-height:1}
+.dg-sub-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--text-bright);text-transform:uppercase;letter-spacing:.04em}
+.dg-sub-desc{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:8px}
+.dg-examples{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.dg-example-tag{background:var(--bg);border:1px solid var(--border);padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);border-radius:2px}
+.dg-sub-diamond{width:48px;height:48px;flex-shrink:0;margin:14px 16px 14px 0;align-self:flex-start}
+.dg-sub-diamond svg{width:100%;height:100%}
+.dg-info-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.dg-info-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 10px;border-radius:2px;letter-spacing:.05em}
+.dg-tag-danger{background:rgba(196,58,58,.08);border:1px solid rgba(196,58,58,.2);color:var(--accent3)}
+.dg-tag-color{background:rgba(196,127,0,.08);border:1px solid rgba(196,127,0,.2);color:var(--accent)}
+.dg-tag-reg{background:rgba(40,100,200,.08);border:1px solid rgba(40,100,200,.2);color:#2a6acc}
+.dg-empty{padding:60px;text-align:center;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* MISC */
+.no-results{grid-column:1/-1;text-align:center;padding:60px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:12px}
+footer{border-top:1px solid var(--border);padding:22px 40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:.08em;background:#fff}
+.reveal{opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══════════════════════════════════════
+   CALCULATOR SECTION
+═══════════════════════════════════════ */
+.calc-layout{display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:start}
+.calc-panel{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);padding:28px}
+.calc-panel-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.form-select,.form-input{width:100%;background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:10px 14px;outline:none;transition:border-color .2s;box-shadow:var(--shadow);-webkit-appearance:none;appearance:none;cursor:pointer}
+.form-select:focus,.form-input:focus{border-color:var(--accent)}
+.form-input{cursor:text}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.select-wrap{position:relative}
+.select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none;font-size:12px}
+.calc-btn{width:100%;padding:13px;background:var(--accent);border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:8px}
+.calc-btn:hover{background:#a86c00}
+.calc-btn-reset{width:100%;padding:10px;background:transparent;border:1px solid var(--border);color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:8px}
+.calc-btn-reset:hover{border-color:var(--border-active);color:var(--text)}
+
+/* Results panel */
+.result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;border:2px dashed var(--border);color:var(--text-dim)}
+.result-empty svg{margin-bottom:16px;opacity:.35}
+.result-empty p{font-size:14px;line-height:1.7}
+
+.result-header{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.result-kpi{background:#fff;border:1px solid var(--border);padding:20px;text-align:center;box-shadow:var(--shadow)}
+.kpi-value{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;color:var(--accent);line-height:1}
+.kpi-value.green{color:var(--accent2)}
+.kpi-value.red{color:var(--accent3)}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:6px}
+.kpi-sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+
+/* Container visual */
+.container-visual-wrap{background:#fff;border:1px solid var(--border);padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.container-visual-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px}
+.container-svg-wrap{width:100%;overflow:hidden}
+.container-svg-wrap svg{width:100%;height:auto;display:block}
+
+/* Detail table */
+.result-detail{background:#fff;border:1px solid var(--border);padding:24px;box-shadow:var(--shadow)}
+.detail-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.detail-table{width:100%;border-collapse:collapse;font-size:13px}
+.detail-table th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--bg)}
+.detail-table td{padding:10px 12px;border-bottom:1px solid var(--surface2);vertical-align:middle}
+.detail-table tr:last-child td{border-bottom:none}
+.detail-table .val{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--text-bright)}
+.detail-table .unit{font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
+.tag-ok{background:rgba(0,122,100,.08);border:1px solid rgba(0,122,100,.2);color:var(--accent2);padding:3px 8px;font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em}
+.tag-warn{background:rgba(196,127,0,.08);border:1px solid rgba(196,127,0,.2);color:var(--accent);padding:3px 8px;font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em}
+.tag-danger{background:rgba(196,58,58,.08);border:1px solid rgba(196,58,58,.2);color:var(--accent3);padding:3px 8px;font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em}
+
+/* Weight bar */
+.weight-bar-wrap{margin-top:12px}
+.weight-bar-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;display:flex;justify-content:space-between}
+.weight-bar{height:10px;background:var(--surface2);border-radius:2px;overflow:hidden;position:relative}
+.weight-bar-fill{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.16,1,.3,1)}
+.weight-bar-fill.ok{background:var(--accent2)}
+.weight-bar-fill.warn{background:var(--accent)}
+.weight-bar-fill.danger{background:var(--accent3)}
+
+/* Pallet type info box */
+.pallet-info-box{background:var(--bg);border:1px solid var(--border);padding:14px 16px;margin-top:12px;font-size:13px}
+.pallet-info-box strong{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--text-bright)}
+.pallet-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:8px;font-size:12px;color:var(--text-dim)}
+.pallet-info-grid b{color:var(--text);font-weight:600}
+
+/* Stacking toggle */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:10px 0}
+.toggle-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);flex:1}
+.toggle{position:relative;width:42px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border);transition:.3s;border-radius:22px;cursor:pointer}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;transition:.3s;border-radius:50%}
+.toggle input:checked+.toggle-slider{background:var(--accent2)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+
+@media(max-width:1100px){.calc-layout{grid-template-columns:1fr}}
+@media(max-width:900px){.result-header{grid-template-columns:1fr 1fr}.form-row-3{grid-template-columns:1fr 1fr}}
+
+
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </div>
+      <div class="logo-text">Référence Logistique<span>Guide Professionnel</span></div>
+    </div>
+    <nav>
+      <button class="nav-btn active" onclick="showSection('liner',this)"><span class="nav-icon">🚢</span>Termes de Ligne</button>
+      <button class="nav-btn" onclick="showSection('handling',this)"><span class="nav-icon">📦</span>Marquages ISO 780</button>
+      <button class="nav-btn" onclick="showSection('dangerous',this)"><span class="nav-icon">⚠️</span>Matières Dangereuses</button>
+      <button class="nav-btn" onclick="showSection('calculator',this)"><span class="nav-icon">🧮</span>Calculateur</button>
+    </nav>
+    <div class="header-badges">
+      <span class="badge badge-imdg">Code IMDG</span>
+      <span class="badge badge-iso">ISO 780:2015</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════ TERMES DE LIGNE ═══════════════════ -->
+<div class="section active" id="section-liner">
+  <div class="section-hero">
+    <div>
+      <h1>Termes de <em>Ligne</em><br>&amp; Surcharges</h1>
+      <p>Abréviations adoptées dans la pratique commerciale pour les transports maritimes de ligne. Définit les frais inclus ou exclus du taux de fret.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-item"><strong>17</strong>Termes</div>
+      <div class="meta-item"><strong>5</strong>Surcharges</div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <input class="search-input" type="text" placeholder="Rechercher un terme…" id="liner-search" oninput="renderTerms()"/>
+    <div class="filter-group">
+      <button class="filter-chip active" onclick="setFilter('all',this,'liner')">Tous</button>
+      <button class="filter-chip" onclick="setFilter('door',this,'liner')">Door</button>
+      <button class="filter-chip" onclick="setFilter('liner',this,'liner')">Liner</button>
+      <button class="filter-chip" onclick="setFilter('free',this,'liner')">Free</button>
+      <button class="filter-chip" onclick="setFilter('cy',this,'liner')">CY</button>
+      <button class="filter-chip" onclick="setFilter('surcharge',this,'liner')">Surcharges</button>
+    </div>
+  </div>
+  <div class="terms-grid" id="terms-grid"></div>
+  <div class="section-divider"><h2>Surcharges additionnelles</h2></div>
+  <div class="terms-grid" id="surcharge-grid"></div>
+</div>
+
+<!-- ═══════════════════ MARQUAGES ISO 780 ═══════════════════ -->
+<div class="section" id="section-handling">
+  <div class="section-hero">
+    <div>
+      <h1>Marquages de <em>Manutention</em><br>ISO 780</h1>
+      <p>Symboles graphiques internationaux apposés sur les colis et marchandises. Normalisés par ISO 780:2015 pour garantir une manutention, un stockage et un transport corrects.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-item"><strong>20</strong>Symboles</div>
+      <div class="meta-item"><strong>ISO</strong>780:2015</div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <input class="search-input" type="text" placeholder="Rechercher un symbole…" id="mark-search" oninput="renderMarks()"/>
+    <div class="filter-group">
+      <button class="filter-chip active" onclick="setFilter('all',this,'mark')">Tous</button>
+      <button class="filter-chip" onclick="setFilter('orientation',this,'mark')">Orientation</button>
+      <button class="filter-chip" onclick="setFilter('fragility',this,'mark')">Fragilité</button>
+      <button class="filter-chip" onclick="setFilter('environment',this,'mark')">Environnement</button>
+      <button class="filter-chip" onclick="setFilter('weight',this,'mark')">Poids/Levage</button>
+      <button class="filter-chip" onclick="setFilter('stacking',this,'mark')">Empilage</button>
+    </div>
+  </div>
+  <div class="marks-grid" id="marks-grid"></div>
+</div>
+
+<!-- ═══════════════════ MATIÈRES DANGEREUSES ═══════════════════ -->
+<div class="section" id="section-dangerous">
+  <div class="section-hero">
+    <div>
+      <h1>Matières <em>Dangereuses</em><br>Code IMDG</h1>
+      <p>Classification internationale des marchandises dangereuses selon le Code IMDG de l'OMI. 9 classes réparties en sous-divisions, avec étiquettes et symboles réglementaires.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-item"><strong>9</strong>Classes</div>
+      <div class="meta-item"><strong>21</strong>Divisions</div>
+      <div class="meta-item"><strong>IMDG</strong>Amend. 42-24</div>
+    </div>
+  </div>
+  <div class="dg-layout">
+    <div class="dg-sidebar">
+      <div class="dg-sidebar-title">Sélectionner une classe</div>
+      <div id="dg-class-list"></div>
+    </div>
+    <div class="dg-content" id="dg-content">
+      <div class="dg-empty">← Sélectionner une classe dans la liste pour afficher ses détails</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CALCULATEUR DE CHARGEMENT ═══════════════════ -->
+<div class="section" id="section-calculator">
+  <div class="section-hero">
+    <div>
+      <h1>Calculateur de <em>Chargement</em><br>en Palettes</h1>
+      <p>Calculez la capacité d'un conteneur en nombre de palettes, l'espace non utilisé, la charge totale et le taux de remplissage selon le type de conteneur et le type de palette.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-item"><strong>8</strong>Conteneurs</div>
+      <div class="meta-item"><strong>14</strong>Types de palettes</div>
+      <div class="meta-item"><strong>ISO</strong>6780:2011</div>
+    </div>
+  </div>
+
+  <div class="calc-layout">
+    <!-- LEFT: FORM -->
+    <div>
+      <!-- Container -->
+      <div class="calc-panel" style="margin-bottom:16px">
+        <div class="calc-panel-title">🚢 Type de conteneur</div>
+        <div class="form-group">
+          <label class="form-label">Sélectionner le conteneur</label>
+          <div class="select-wrap">
+            <select class="form-select" id="calc-container" onchange="updateContainerInfo()">
+              <option value="20std">20' Standard (Dry/TEU)</option>
+              <option value="40std" selected>40' Standard (Dry/FEU)</option>
+              <option value="40hc">40' High Cube (HC)</option>
+              <option value="45hc">45' High Cube (HC)</option>
+              <option value="20reefer">20' Reefer</option>
+              <option value="40reefer">40' Reefer HC</option>
+              <option value="40pw">40' Pallet Wide (2.5m)</option>
+              <option value="45pw">45' Pallet Wide (2.5m)</option>
+            </select>
+          </div>
+        </div>
+        <div class="pallet-info-box" id="container-info-box">
+          <strong id="ci-name">40' Standard</strong>
+          <div class="pallet-info-grid">
+            <div>Longueur int. <b id="ci-l">—</b></div>
+            <div>Largeur int. <b id="ci-w">—</b></div>
+            <div>Hauteur int. <b id="ci-h">—</b></div>
+            <div>Volume utile <b id="ci-vol">—</b></div>
+            <div>Charge utile <b id="ci-payload">—</b></div>
+            <div>Tare <b id="ci-tare">—</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Palette -->
+      <div class="calc-panel" style="margin-bottom:16px">
+        <div class="calc-panel-title">📦 Type de palette</div>
+        <div class="form-group">
+          <label class="form-label">Sélectionner la palette</label>
+          <div class="select-wrap">
+            <select class="form-select" id="calc-pallet" onchange="updatePalletInfo()">
+              <optgroup label="Europe">
+                <option value="eur1" selected>EUR 1 — 800 × 1200 mm (EPAL)</option>
+                <option value="eur2">EUR 2 — 1000 × 1200 mm</option>
+                <option value="eur3">EUR 3 — 1000 × 1200 mm (variante)</option>
+                <option value="eur6">EUR 6 — 600 × 800 mm (demi)</option>
+                <option value="half">Demi palette — 600 × 400 mm</option>
+              </optgroup>
+              <optgroup label="Amérique du Nord">
+                <option value="gma">GMA Standard — 1016 × 1219 mm (40"×48")</option>
+                <option value="na42">42" × 42" — 1067 × 1067 mm</option>
+                <option value="na48">48" × 48" — 1219 × 1219 mm</option>
+                <option value="na4842">48" × 42" — 1219 × 1067 mm</option>
+                <option value="na4040">40" × 40" — 1016 × 1016 mm</option>
+                <option value="na4845">48" × 45" — 1219 × 1143 mm</option>
+              </optgroup>
+              <optgroup label="Asie / Australie">
+                <option value="aus">Australie — 1165 × 1165 mm</option>
+                <option value="asia1100">Asie — 1100 × 1100 mm</option>
+                <option value="custom">Palette personnalisée…</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <!-- Custom palette inputs -->
+        <div id="custom-pallet-inputs" style="display:none">
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Largeur (mm)</label>
+              <input class="form-input" type="number" id="custom-w" value="1200" min="100" max="2000" oninput="updatePalletInfo()">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Longueur (mm)</label>
+              <input class="form-input" type="number" id="custom-l" value="800" min="100" max="2000" oninput="updatePalletInfo()">
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Poids palette vide (kg)</label>
+              <input class="form-input" type="number" id="custom-pw" value="25" min="1" max="200" oninput="updatePalletInfo()">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Charge max (kg)</label>
+              <input class="form-input" type="number" id="custom-pl" value="1000" min="100" max="5000" oninput="updatePalletInfo()">
+            </div>
+          </div>
+        </div>
+        <div class="pallet-info-box" id="pallet-info-box">
+          <strong id="pi-name">EUR 1</strong>
+          <div class="pallet-info-grid">
+            <div>Dimensions <b id="pi-dims">—</b></div>
+            <div>Poids palette <b id="pi-weight">—</b></div>
+            <div>Charge utile max <b id="pi-maxload">—</b></div>
+            <div>Espace au sol <b id="pi-area">—</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charge & options -->
+      <div class="calc-panel" style="margin-bottom:16px">
+        <div class="calc-panel-title">⚖️ Charge & configuration</div>
+        <div class="form-group">
+          <label class="form-label">Nombre de palettes chargées</label>
+          <input class="form-input" type="number" id="calc-qty" value="20" min="1" max="500" oninput="calculate()">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Poids marchandise / palette (kg)</label>
+            <input class="form-input" type="number" id="calc-cargo-weight" value="500" min="0" max="30000" oninput="calculate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hauteur chargée / palette (mm)</label>
+            <input class="form-input" type="number" id="calc-pallet-height" value="1400" min="100" max="3000" oninput="calculate()">
+          </div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Empilage double niveau (si hauteur le permet)</span>
+          <label class="toggle"><input type="checkbox" id="calc-stack" onchange="calculate()"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Orientation tête-bêche (optimisation mixte)</span>
+          <label class="toggle"><input type="checkbox" id="calc-mixed" onchange="calculate()"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">⟳ Calculer le chargement</button>
+      <button class="calc-btn-reset" onclick="resetCalc()">Réinitialiser</button>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div id="calc-results">
+      <div class="result-empty">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <p>Configurez le conteneur et la palette,<br>puis cliquez sur <strong>Calculer</strong> pour afficher les résultats.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MARK OVERLAY -->
+<div class="mark-detail-overlay" id="mark-overlay" onclick="closeMarkOverlay(event)">
+  <div class="mark-detail-panel">
+    <button class="panel-close" onclick="closeOverlay()">✕</button>
+    <div class="panel-icon" id="panel-icon"></div>
+    <div class="panel-code" id="panel-code"></div>
+    <div class="panel-title" id="panel-title"></div>
+    <div class="panel-desc" id="panel-desc"></div>
+    <div class="panel-usage"><strong>Application</strong><span id="panel-usage"></span></div>
+  </div>
+</div>
+
+<footer>RÉFÉRENCE LOGISTIQUE — CODE IMDG · ISO 780:2015 · TERMES DE LIGNE — USAGE PROFESSIONNEL UNIQUEMENT</footer>
+
+<script>
+/* ══ DATA: LINER TERMS ══ */
+const LINER_TERMS=[
+  {abbr:"Door-to-Door",fullName:"",type:"door",typeLabel:"Door",summary:"Le transporteur organise la livraison depuis l'entrepôt de l'expéditeur jusqu'à l'entrepôt du destinataire.",details:"Tous les frais inclus : livraison terrestre aux deux extrémités, transbordements, surcharges, fret maritime ou aérien, frais de terminal (THC).",segments:[{l:"Livraison origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"included"}]},
+  {abbr:"Door-LO",fullName:"Door / Liner Out",type:"door",typeLabel:"Door",summary:"Livraison depuis l'entrepôt de l'expéditeur jusqu'au terminal de destination.",details:"Tous les frais jusqu'au terminal de destination inclus : livraison terrestre à l'origine, transbordements, surcharges, fret et THC.",segments:[{l:"Livraison origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"Door-CY",fullName:"Door / Container Yard",type:"door",typeLabel:"Door",summary:"Livraison depuis l'entrepôt de l'expéditeur jusqu'au parc à conteneurs de destination.",details:"Tous les frais inclus jusqu'au parc à conteneurs de destination : livraison à l'origine, transbordements, surcharges, fret, THC et transit terminal destination.",segments:[{l:"Livraison origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC+Transit",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"Door-FO",fullName:"Door / Free Out",type:"door",typeLabel:"Door",summary:"Livraison depuis l'entrepôt jusqu'au terminal de destination. Le DTHC n'est PAS inclus.",details:"Tous les frais inclus sauf le DTHC : livraison terrestre à l'origine, transbordements, surcharges et fret principal.",segments:[{l:"Livraison origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"excluded"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"FIOS",fullName:"Free In / Out and Stowed",type:"free",typeLabel:"Free",summary:"Les THC de chargement/déchargement ne sont PAS inclus. Uniquement le fret principal avec surcharges.",details:"OTHC et DTHC exclus. Uniquement le fret maritime ou aérien principal avec surcharges.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"excluded"},{l:"Fret",s:"included"},{l:"DTHC",s:"excluded"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"FIFO",fullName:"Free In / Out",type:"free",typeLabel:"Free",summary:"Les THC de chargement/déchargement ne sont PAS inclus. Uniquement le fret principal avec surcharges.",details:"OTHC et DTHC exclus. Uniquement le fret maritime ou aérien principal avec surcharges.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"excluded"},{l:"Fret",s:"included"},{l:"DTHC",s:"excluded"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"LIFO",fullName:"Liner In / Free Out",type:"liner",typeLabel:"Liner",summary:"Fret principal avec OTHC inclus. Le DTHC n'est PAS inclus.",details:"Le THC à l'origine (OTHC) est inclus dans le taux de fret. Le THC à destination (DTHC) est exclu.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"excluded"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"LILO",fullName:"Liner In / Liner Out",type:"liner",typeLabel:"Liner",summary:"Fret principal avec THC de chargement/déchargement inclus.",details:"L'OTHC et le DTHC sont tous les deux inclus dans le taux de fret.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"FILO",fullName:"Free In / Liner Out",type:"liner",typeLabel:"Liner",summary:"Fret principal sans OTHC et avec DTHC inclus.",details:"L'OTHC est exclu. Le DTHC est inclus dans le taux de fret.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"excluded"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"LICY",fullName:"Liner In / Container Yard",type:"cy",typeLabel:"CY",summary:"Fret principal avec OTHC, DTHC et frais de transit terminal de destination inclus.",details:"OTHC et DTHC inclus. Les frais de transit terminal de destination sont également inclus.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC+Transit",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"FICY",fullName:"Free In / Container Yard",type:"cy",typeLabel:"CY",summary:"Fret sans OTHC mais avec DTHC et frais de transit terminal de destination.",details:"OTHC exclu. DTHC et frais de transit du terminal de destination inclus.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"excluded"},{l:"Fret",s:"included"},{l:"DTHC+Transit",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"CYCY",fullName:"Container Yard / Container Yard",type:"cy",typeLabel:"CY",summary:"Fret avec THC et frais de transit aux deux terminaux inclus.",details:"OTHC et DTHC inclus, ainsi que les frais de transit des terminaux d'origine et de destination.",segments:[{l:"Transit origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC+Transit",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"CYLO",fullName:"Container Yard / Liner Out",type:"cy",typeLabel:"CY",summary:"Fret avec frais de transit à l'origine, OTHC et DTHC inclus.",details:"Transit terminal d'origine, OTHC et DTHC tous inclus.",segments:[{l:"Transit origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"CYFO",fullName:"Container Yard / Free Out",type:"cy",typeLabel:"CY",summary:"Fret avec transit à l'origine et OTHC inclus. DTHC NON inclus.",details:"Transit terminal d'origine et OTHC inclus. Le DTHC est exclu.",segments:[{l:"Transit origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"excluded"},{l:"Livraison dest.",s:"excluded"}]},
+  {abbr:"CY-Door",fullName:"Container Yard / Door",type:"door",typeLabel:"Door",summary:"Livraison depuis le parc à conteneurs à l'origine jusqu'à l'entrepôt du destinataire.",details:"Tous les frais depuis le parc à conteneurs d'origine : transit, THC, fret, surcharges, transbordements, livraison terrestre à destination.",segments:[{l:"Transit origine",s:"included"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"included"}]},
+  {abbr:"LI-Door",fullName:"Liner In / Door",type:"door",typeLabel:"Door",summary:"Livraison depuis le terminal d'origine jusqu'à l'entrepôt du destinataire.",details:"Tous les frais inclus : OTHC, fret, surcharges, transbordements, livraison terrestre à destination.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"included"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"included"}]},
+  {abbr:"FI-Door",fullName:"Free In / Door",type:"door",typeLabel:"Door",summary:"Livraison depuis le terminal d'origine jusqu'à l'entrepôt du destinataire. L'OTHC n'est PAS inclus.",details:"Tous les frais inclus sauf l'OTHC : fret, surcharges, transbordements, DTHC, livraison terrestre à destination.",segments:[{l:"Livraison origine",s:"excluded"},{l:"OTHC",s:"excluded"},{l:"Fret",s:"included"},{l:"DTHC",s:"included"},{l:"Livraison dest.",s:"included"}]},
+];
+const SURCHARGES=[
+  {abbr:"CAF",fullName:"Currency Adjustment Factor",type:"surcharge",typeLabel:"Surcharge",summary:"Frais compensant les fluctuations des taux de change dans le fret international.",details:"Appliqué en pourcentage du fret de base pour protéger le transporteur contre le risque de change.",segments:[]},
+  {abbr:"BAF",fullName:"Bunker Adjustment Factor",type:"surcharge",typeLabel:"Surcharge",summary:"Part variable du fret maritime liée aux fluctuations du prix du carburant (fioul de soute).",details:"Varie avec les prix mondiaux du pétrole pour couvrir les coûts d'exploitation variables du transporteur.",segments:[]},
+  {abbr:"Wharfage",fullName:"Frais de quai",type:"surcharge",typeLabel:"Frais portuaire",summary:"Redevance portuaire pour l'utilisation d'un quai lors du déchargement.",details:"Normalement inclus dans le coût du fret ou le THC, sauf indication contraire. Appliqué par l'autorité portuaire.",segments:[]},
+  {abbr:"CUC",fullName:"Chassis Using Charge",type:"surcharge",typeLabel:"Surcharge",summary:"Redevance pour l'utilisation d'un châssis lors du transport terrestre.",details:"Appliqué lorsque l'expéditeur ou le destinataire utilise le châssis du transporteur pour l'acheminement terrestre.",segments:[]},
+  {abbr:"Doc. Fee",fullName:"Frais de documentation",type:"surcharge",typeLabel:"Admin",summary:"Redevance pour l'établissement des documents d'expédition.",details:"Couvre les frais de préparation et de traitement : connaissements, certificats, déclarations en douane, etc.",segments:[]},
+];
+
+/* ══ DATA: HANDLING MARKS ══ */
+const HANDLING_MARKS=[
+  {code:"ISO 7000-0623",name:"Ce côté en haut",category:"orientation",desc:"Indique la position verticale correcte du colis. Doit être maintenu dans cette orientation pendant toute la manutention et le transport.",usage:"Obligatoire sur les colis contenant des liquides ou articles sensibles au renversement. Doit figurer sur au moins deux côtés opposés.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c47f00" stroke-width="2.5"/><path d="M40 18 L26 38 L34 38 L34 62 L46 62 L46 38 L54 38 Z" fill="#c47f00"/></svg>`},
+  {code:"ISO 7000-0625",name:"Fragile",category:"fragility",desc:"Le colis contient des marchandises fragiles nécessitant une manipulation soigneuse pour éviter la casse ou les dommages.",usage:"Verrerie, céramique, électronique, instruments de précision. Doit figurer sur les quatre faces du colis.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#007a64" stroke-width="2.5"/><path d="M40 12 L50 30 L68 30 L54 42 L60 60 L40 50 L20 60 L26 42 L12 30 L30 30 Z" stroke="#007a64" stroke-width="2" fill="none"/><line x1="40" y1="28" x2="34" y2="44" stroke="#007a64" stroke-width="1.5"/><line x1="40" y1="28" x2="46" y2="40" stroke="#007a64" stroke-width="1.5"/></svg>`},
+  {code:"ISO 7000-0626",name:"Tenir au sec",category:"environment",desc:"Le colis doit être protégé de l'humidité. Son contenu peut être endommagé par la pluie, l'eau ou les conditions humides.",usage:"Marchandises hygroscopiques, électronique, papier, textiles. Stockage en conditions sèches uniquement.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#2a6acc" stroke-width="2.5"/><path d="M40 16 C40 16 24 36 24 48 C24 58 32 66 40 66 C48 66 56 58 56 48 C56 36 40 16 40 16Z" stroke="#2a6acc" stroke-width="2" fill="none"/><line x1="16" y1="20" x2="64" y2="60" stroke="#2a6acc" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0628",name:"Protéger de la chaleur",category:"environment",desc:"Le colis doit être protégé des sources de chaleur. Son contenu peut fondre, s'enflammer ou se dégrader à des températures élevées.",usage:"Cire, chocolat, adhésifs, articles inflammables, plastiques, composants électroniques sensibles.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><circle cx="40" cy="52" r="12" stroke="#c43a3a" stroke-width="2" fill="none"/><path d="M40 10 L40 18 M20 20 L26 26 M60 20 L54 26 M14 40 L22 40 M58 40 L66 40" stroke="#c43a3a" stroke-width="2.5" stroke-linecap="round"/><path d="M36 52 C36 48 40 44 40 44 C40 44 44 48 44 52 C44 54.2 42.2 56 40 56 C37.8 56 36 54.2 36 52Z" fill="#c43a3a"/></svg>`},
+  {code:"ISO 7000-0629",name:"Protéger du soleil",category:"environment",desc:"Ne pas exposer à la lumière directe du soleil. L'exposition aux UV ou à la chaleur solaire peut endommager le contenu.",usage:"Médicaments, produits chimiques, colorants, matériaux photographiques, certains plastiques et caoutchoucs.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c47f00" stroke-width="2.5"/><circle cx="40" cy="40" r="12" fill="#c47f00" opacity="0.2" stroke="#c47f00" stroke-width="2"/><path d="M40 16 L40 22 M40 58 L40 64 M16 40 L22 40 M58 40 L64 40 M22.4 22.4 L26.6 26.6 M53.4 53.4 L57.6 57.6 M57.6 22.4 L53.4 26.6 M26.6 53.4 L22.4 57.6" stroke="#c47f00" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="18" x2="64" y2="62" stroke="#c47f00" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0630",name:"Sangler ici",category:"weight",desc:"Indique l'emplacement approuvé pour fixer les sangles ou équipements de levage sur le colis.",usage:"Machines lourdes, gros appareils électroménagers, équipements industriels. Évite les dommages liés à un serrage incorrect.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#007a64" stroke-width="2.5"/><rect x="14" y="32" width="12" height="16" rx="1" stroke="#007a64" stroke-width="2" fill="none"/><rect x="54" y="32" width="12" height="16" rx="1" stroke="#007a64" stroke-width="2" fill="none"/><path d="M26 36 L54 36 M26 44 L54 44" stroke="#007a64" stroke-width="2"/><path d="M32 20 L32 60 M48 20 L48 60" stroke="#007a64" stroke-width="1.5" stroke-dasharray="4 3"/></svg>`},
+  {code:"ISO 7000-0631",name:"Centre de gravité",category:"weight",desc:"Indique le centre de gravité du colis pour assurer une levée, un empilage et une manutention en toute sécurité.",usage:"Machines, véhicules, marchandises industrielles lourdes à répartition inégale du poids.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#2a6acc" stroke-width="2.5"/><circle cx="40" cy="40" r="16" stroke="#2a6acc" stroke-width="2" fill="none"/><circle cx="40" cy="40" r="4" fill="#2a6acc"/><line x1="40" y1="16" x2="40" y2="64" stroke="#2a6acc" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="16" y1="40" x2="64" y2="40" stroke="#2a6acc" stroke-width="1.5" stroke-dasharray="4 3"/></svg>`},
+  {code:"ISO 7000-0621",name:"Ne pas empiler",category:"stacking",desc:"Aucun autre colis ne doit être placé au-dessus de celui-ci. L'empilement peut écraser le contenu ou déstabiliser la charge.",usage:"Emballages légers avec contenu fragile, formes irrégulières ou contenu sensible au poids.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><rect x="18" y="44" width="44" height="20" rx="1" stroke="#c43a3a" stroke-width="2" fill="none"/><rect x="22" y="22" width="36" height="16" rx="1" stroke="#c43a3a" stroke-width="2" fill="none" opacity="0.4"/><line x1="14" y1="18" x2="66" y2="66" stroke="#c43a3a" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0627",name:"Limite d'empilage (kg)",category:"stacking",desc:"Indique le poids maximum en kilogrammes pouvant être empilé sur ce colis.",usage:"Tous les colis à résistance structurelle limitée. La limite de poids doit être clairement indiquée à côté du symbole.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c47f00" stroke-width="2.5"/><rect x="14" y="48" width="52" height="18" rx="1" stroke="#c47f00" stroke-width="2" fill="none"/><rect x="20" y="30" width="40" height="14" rx="1" stroke="#c47f00" stroke-width="2" fill="none" opacity="0.5"/><rect x="26" y="16" width="28" height="10" rx="1" stroke="#c47f00" stroke-width="2" fill="none" opacity="0.25"/><text x="40" y="62" text-anchor="middle" fill="#c47f00" font-family="Arial" font-size="9" font-weight="bold">MAX kg</text></svg>`},
+  {code:"ISO 7000-0632",name:"Ne pas utiliser de diable",category:"weight",desc:"Ne pas utiliser de diable ou chariot à main à l'endroit marqué. Le contenu pourrait se déplacer ou être endommagé.",usage:"Colis contenant des liquides, des matériaux en vrac ou des articles sensibles à l'inclinaison.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><path d="M52 20 L52 54 L60 60 M36 54 L66 54" stroke="#c43a3a" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="44" cy="60" r="5" stroke="#c43a3a" stroke-width="2" fill="none"/><circle cx="60" cy="60" r="5" stroke="#c43a3a" stroke-width="2" fill="none"/><rect x="30" y="24" width="20" height="28" rx="1" stroke="#c43a3a" stroke-width="2" fill="none"/><line x1="14" y1="14" x2="66" y2="66" stroke="#c43a3a" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0633",name:"Ne pas utiliser de chariot élévateur",category:"weight",desc:"Le colis ne doit pas être soulevé par un chariot élévateur de ce côté. Risque de dommage au contenu.",usage:"Colis à répartition inégale du poids, ou dont le contenu peut être endommagé par les fourches.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><path d="M18 54 L18 28 M18 28 L30 28 M30 28 L30 44 L50 44" stroke="#c43a3a" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M36 44 L36 56 M44 44 L44 56" stroke="#c43a3a" stroke-width="2"/><circle cx="28" cy="58" r="4" stroke="#c43a3a" stroke-width="2" fill="none"/><circle cx="54" cy="58" r="4" stroke="#c43a3a" stroke-width="2" fill="none"/><line x1="14" y1="14" x2="66" y2="66" stroke="#c43a3a" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0636",name:"Maintenir à l'état congelé",category:"environment",desc:"Le colis doit être maintenu à une température de congélation (0°C ou moins). Le contenu sera endommagé en cas de décongélation.",usage:"Aliments surgelés, échantillons biologiques, médicaments, glaces, fruits de mer surgelés.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#2a6acc" stroke-width="2.5"/><line x1="40" y1="14" x2="40" y2="66" stroke="#2a6acc" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="40" x2="66" y2="40" stroke="#2a6acc" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="20" x2="60" y2="60" stroke="#2a6acc" stroke-width="2.5" stroke-linecap="round"/><line x1="60" y1="20" x2="20" y2="60" stroke="#2a6acc" stroke-width="2.5" stroke-linecap="round"/><circle cx="40" cy="40" r="6" fill="#2a6acc" opacity="0.2" stroke="#2a6acc" stroke-width="2"/></svg>`},
+  {code:"ISO 7000-0637",name:"Marchandise périssable",category:"environment",desc:"Le contenu est périssable et nécessite des conditions de température contrôlée pour le stockage et le transport.",usage:"Produits frais, viande, produits laitiers, fruits de mer, fleurs, médicaments, produits biologiques.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#007a64" stroke-width="2.5"/><path d="M40 14 C28 22 20 34 20 46 C20 58 30 66 40 66 C50 66 60 58 60 46 C60 34 52 22 40 14Z" stroke="#007a64" stroke-width="2" fill="none"/><circle cx="40" cy="46" r="8" stroke="#007a64" stroke-width="2" fill="none"/><line x1="40" y1="26" x2="40" y2="38" stroke="#007a64" stroke-width="1.5"/><path d="M40 44 L44 38" stroke="#007a64" stroke-width="2" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0622",name:"Manipulation soigneuse",category:"fragility",desc:"Le colis requiert une manipulation douce lors de toutes les opérations de chargement, de transport et de livraison.",usage:"Électronique sensible, équipements de précision, œuvres d'art, antiquités, dispositifs médicaux.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c47f00" stroke-width="2.5"/><path d="M40 60 C28 52 18 42 20 30 C20 22 28 16 36 20 C38 21 39 22 40 24 C41 22 42 21 44 20 C52 16 60 22 60 30 C62 42 52 52 40 60Z" stroke="#c47f00" stroke-width="2.5" fill="none"/></svg>`},
+  {code:"ISO 7000-0638",name:"Élinguer ici",category:"weight",desc:"Indique la position correcte pour fixer des élingues ou équipements de levage au colis.",usage:"Caisses industrielles lourdes, machines, grands matériaux de construction.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#007a64" stroke-width="2.5"/><circle cx="40" cy="18" r="6" stroke="#007a64" stroke-width="2" fill="none"/><path d="M34 22 L24 46 M46 22 L56 46" stroke="#007a64" stroke-width="2" stroke-linecap="round"/><path d="M20 46 L60 46" stroke="#007a64" stroke-width="2.5" stroke-linecap="round"/><rect x="20" y="46" width="40" height="20" rx="1" stroke="#007a64" stroke-width="2" fill="none"/></svg>`},
+  {code:"ISO 7000-0639",name:"Protéger des radiations",category:"environment",desc:"Le colis doit être protégé des radiations (rayons X, UV, sources nucléaires) pendant le transport.",usage:"Films photographiques, électronique avec composants photosensibles, certains dispositifs médicaux.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#6a32b0" stroke-width="2.5"/><circle cx="40" cy="40" r="8" fill="#6a32b0" opacity="0.2" stroke="#6a32b0" stroke-width="2"/><path d="M40 40 L40 16 A24 24 0 0 1 60.8 52 Z" fill="#6a32b0" opacity="0.2" stroke="#6a32b0" stroke-width="1.5"/><path d="M40 40 L19.2 52 A24 24 0 0 1 40 16 Z" fill="#6a32b0" opacity="0.2" stroke="#6a32b0" stroke-width="1.5"/><path d="M40 40 L60.8 52 A24 24 0 0 1 19.2 52 Z" fill="none" stroke="#6a32b0" stroke-width="1.5"/></svg>`},
+  {code:"ISO 7000-0641",name:"Ne pas rouler",category:"orientation",desc:"Le colis ne doit pas être roulé ou basculé sur le côté lors de la manutention ou du transport.",usage:"Machines lourdes, conteneurs sous pression, marchandises emballées irrégulièrement.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><circle cx="40" cy="40" r="22" stroke="#c43a3a" stroke-width="2" fill="none"/><path d="M26 54 C28 44 36 38 40 40 C44 42 46 50 50 52" stroke="#c43a3a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M46 44 L50 52 L42 52" stroke="#c43a3a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="18" x2="64" y2="62" stroke="#c43a3a" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0642",name:"Ne pas laisser tomber",category:"fragility",desc:"Le colis ne doit pas être lâché ou jeté lors de la manutention. Même une courte chute peut endommager le contenu.",usage:"Électronique, instruments de précision, articles en verre, toute cargaison sensible aux chocs.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#c43a3a" stroke-width="2.5"/><rect x="26" y="14" width="28" height="28" rx="1" stroke="#c43a3a" stroke-width="2" fill="none"/><path d="M40 42 L40 58" stroke="#c43a3a" stroke-width="2.5" stroke-linecap="round"/><path d="M32 52 L40 62 L48 52" stroke="#c43a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="14" y1="18" x2="66" y2="66" stroke="#c43a3a" stroke-width="3" stroke-linecap="round"/></svg>`},
+  {code:"ISO 7000-0643",name:"Recyclable",category:"environment",desc:"Le matériau d'emballage est recyclable. Le destinataire doit éliminer l'emballage de manière responsable.",usage:"Tous les emballages où l'expéditeur souhaite signaler une responsabilité environnementale.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#007a64" stroke-width="2.5"/><path d="M40 16 L48 30 L56 24 L52 40 L36 40 L40 28 L32 34 Z" stroke="#007a64" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M20 52 L14 40 L22 34 L26 50 L14 58 L18 44 L30 44 Z" stroke="#007a64" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M60 52 L66 40 L58 34 L54 50 L66 58 L62 44 L50 44 Z" stroke="#007a64" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>`},
+  {code:"ISO 7000-0624",name:"Limites de température",category:"environment",desc:"Le colis doit être stocké et transporté dans la plage de température spécifiée pour préserver le contenu.",usage:"Médicaments, produits chimiques, aliments, échantillons biologiques, composants électroniques.",svg:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="2" stroke="#2a6acc" stroke-width="2.5"/><rect x="34" y="12" width="12" height="38" rx="6" stroke="#2a6acc" stroke-width="2" fill="none"/><circle cx="40" cy="56" r="10" stroke="#2a6acc" stroke-width="2" fill="none"/><rect x="36" y="34" width="8" height="18" rx="4" fill="#2a6acc" opacity="0.3"/><circle cx="40" cy="56" r="5" fill="#2a6acc" opacity="0.4"/><line x1="46" y1="22" x2="52" y2="22" stroke="#2a6acc" stroke-width="1.5" stroke-linecap="round"/><line x1="46" y1="30" x2="52" y2="30" stroke="#2a6acc" stroke-width="1.5" stroke-linecap="round"/><line x1="46" y1="38" x2="52" y2="38" stroke="#2a6acc" stroke-width="1.5" stroke-linecap="round"/></svg>`},
+];
+
+/* ══ DATA: DANGEROUS GOODS ══ */
+const DG_CLASSES=[
+  {id:1,num:"Classe 1",name:"Explosifs",color:"#f5c842",stroke:"#6b4a00",reglements:"IMDG · ADR · IATA",desc:"Substances ou objets pouvant exploser par réaction chimique, provoquer des ondes de choc, des projections ou des incendies. Exigent les conditions d'arrimage les plus strictes.",labelColors:"Orange / Noir",subs:[
+    {num:"1.1",name:"Risque d'explosion en masse",color:"#f5c842",stroke:"#6b4a00",desc:"Substances et objets présentant un risque d'explosion en masse affectant la totalité du chargement quasi instantanément.",examples:["Dynamite","Nitrocellulose","TNT","Poudre noire","Nitroglycérine"],dangerLevel:"Très élevé",labelColor:"Orange"},
+    {num:"1.2",name:"Risque de projection",color:"#f5c842",stroke:"#6b4a00",desc:"Substances et objets présentant un risque de projection sans risque d'explosion en masse.",examples:["Munitions perforantes","Bombes éclairantes","Grenades","Roquettes"],dangerLevel:"Élevé",labelColor:"Orange"},
+    {num:"1.3",name:"Risque d'incendie",color:"#f5c842",stroke:"#6b4a00",desc:"Substances et objets présentant un risque d'incendie avec un léger risque de souffle ou de projection, mais pas d'explosion en masse.",examples:["Feux de signalisation","Fusées de détresse","Torches pyrotechniques"],dangerLevel:"Élevé",labelColor:"Orange"},
+    {num:"1.4",name:"Risque mineur",color:"#f5c842",stroke:"#6b4a00",desc:"Substances et objets ne présentant qu'un faible risque en cas d'allumage pendant le transport.",examples:["Cartouches pour armes légères","Artifices de signalisation","Pétards"],dangerLevel:"Faible",labelColor:"Orange"},
+    {num:"1.5",name:"Très peu sensibles",color:"#f5c842",stroke:"#6b4a00",desc:"Substances très peu sensibles présentant un risque d'explosion en masse mais très peu susceptibles d'être amorcées.",examples:["ANFO","Explosifs en émulsion industrielle"],dangerLevel:"Modéré",labelColor:"Orange"},
+    {num:"1.6",name:"Extrêmement peu sensibles",color:"#f5c842",stroke:"#6b4a00",desc:"Objets extrêmement peu sensibles ne présentant pas de risque d'explosion en masse.",examples:["Munitions militaires spéciales à usage limité"],dangerLevel:"Très faible",labelColor:"Orange"},
+  ]},
+  {id:2,num:"Classe 2",name:"Gaz",color:"#43a047",stroke:"#1b5e20",reglements:"IMDG · ADR · IATA",desc:"Substances à l'état gazeux à 20°C / 101,3 kPa, ou transportées sous pression. Comprend les gaz comprimés, liquéfiés, dissous et réfrigérés. Risques : inflammabilité, toxicité, asphyxie.",labelColors:"Rouge / Vert / Blanc",subs:[
+    {num:"2.1",name:"Gaz inflammables",color:"#e53935",stroke:"#fff",desc:"Gaz s'enflammant dans l'air à une concentration de 13 % ou moins, ou dont la plage d'inflammabilité dans l'air est d'au moins 12 %.",examples:["Propane","Butane","Hydrogène","Acétylène","Gaz naturel (GNL)"],dangerLevel:"Élevé",labelColor:"Rouge"},
+    {num:"2.2",name:"Gaz non inflammables, non toxiques",color:"#43a047",stroke:"#fff",desc:"Gaz qui ne rentrent pas dans les divisions 2.1 ou 2.3. Comprend les gaz asphyxiants et comburants.",examples:["Azote","Dioxyde de carbone","Hélium","Argon","Air comprimé","Oxygène"],dangerLevel:"Faible",labelColor:"Vert"},
+    {num:"2.3",name:"Gaz toxiques",color:"#9e9e9e",stroke:"#333",desc:"Gaz présentant un danger pour la santé humaine en cas d'inhalation. Peuvent être létaux même à faibles concentrations.",examples:["Chlore","Ammoniac anhydre","Phosgène","Fluorure d'hydrogène","Monoxyde de carbone"],dangerLevel:"Très élevé",labelColor:"Blanc"},
+  ]},
+  {id:3,num:"Classe 3",name:"Liquides inflammables",color:"#e53935",stroke:"#fff",reglements:"IMDG · ADR · IATA",desc:"Liquides produisant des vapeurs inflammables à des températures ne dépassant pas 60°C (point d'éclair). Classés en 3 groupes d'emballage selon leur dangerosité.",labelColors:"Rouge / Blanc",subs:[
+    {num:"3",name:"Liquides inflammables",color:"#e53935",stroke:"#fff",desc:"Point d'éclair ≤ 60°C. GE I : ≤ 35°C et ébullition ≤ 35°C. GE II : PE < 23°C. GE III : 23°C ≤ PE ≤ 60°C.",examples:["Essence","Acétone","Éthanol","Peintures","Solvants organiques","Kérosène","Benzène","Éther diéthylique"],dangerLevel:"Élevé",labelColor:"Rouge"},
+  ]},
+  {id:4,num:"Classe 4",name:"Solides inflammables",color:"#ef6c00",stroke:"#fff",reglements:"IMDG · ADR · IATA",desc:"Matières solides présentant un risque d'incendie pendant le transport : matières facilement inflammables, auto-inflammables, ou réagissant avec l'eau.",labelColors:"Rouge-blanc rayé · Blanc-rouge · Bleu",subs:[
+    {num:"4.1",name:"Solides inflammables",color:"#ef6c00",stroke:"#fff",desc:"Matières solides facilement inflammables pouvant s'enflammer par friction, ou matières auto-réactives.",examples:["Soufre","Allumettes de sécurité","Magnésium en poudre","Nitrocellulose","Naphtalène"],dangerLevel:"Modéré",labelColor:"Rouge/Blanc rayé"},
+    {num:"4.2",name:"Matières sujettes à inflammation spontanée",color:"#e65100",stroke:"#fff",desc:"Matières pouvant s'échauffer spontanément dans les conditions normales de transport et s'enflammer au contact de l'air.",examples:["Phosphore blanc","Charbon actif","Farine de poisson","Huile de lin","Copeaux de fer"],dangerLevel:"Élevé",labelColor:"Blanc-rouge"},
+    {num:"4.3",name:"Dégagement de gaz inflammables au contact de l'eau",color:"#1565c0",stroke:"#fff",desc:"Matières qui, au contact de l'eau, dégagent des gaz inflammables en quantités dangereuses.",examples:["Sodium","Potassium","Carbure de calcium","Hydrure de lithium","Alliages de magnésium"],dangerLevel:"Très élevé",labelColor:"Bleu"},
+  ]},
+  {id:5,num:"Classe 5",name:"Matières comburantes & Peroxydes",color:"#f9a825",stroke:"#5a3a00",reglements:"IMDG · ADR · IATA",desc:"Matières pouvant provoquer ou favoriser la combustion d'autres matières. Les peroxydes organiques sont thermiquement instables et peuvent subir une décomposition exothermique.",labelColors:"Jaune / Noir · Jaune-Rouge",subs:[
+    {num:"5.1",name:"Matières comburantes",color:"#f9a825",stroke:"#5a3a00",desc:"Matières qui peuvent provoquer ou favoriser la combustion d'autres matières en cédant de l'oxygène.",examples:["Nitrate d'ammonium","Peroxyde d'hydrogène","Permanganate de potassium","Chlorate de sodium","Nitrate de sodium"],dangerLevel:"Élevé",labelColor:"Jaune"},
+    {num:"5.2",name:"Peroxydes organiques",color:"#d84315",stroke:"#fff",desc:"Matières organiques thermiquement instables contenant la structure bivalente -O-O-, pouvant subir une décomposition auto-accélérée exothermique.",examples:["Peroxyde de benzoyle","Peroxyde de méthyléthylcétone (MEK)","Peroxyde de dilauroyle","Peroxyde de dicumyle"],dangerLevel:"Très élevé",labelColor:"Jaune-rouge"},
+  ]},
+  {id:6,num:"Classe 6",name:"Matières toxiques & Infectieuses",color:"#e0e0e0",stroke:"#333",reglements:"IMDG · ADR · IATA",desc:"Inclut les matières toxiques pouvant causer mort ou lésions graves, et les matières infectieuses contenant des agents pathogènes.",labelColors:"Blanc / Noir",subs:[
+    {num:"6.1",name:"Matières toxiques",color:"#e0e0e0",stroke:"#333",desc:"Matières susceptibles de causer la mort ou des lésions graves si elles sont ingérées, inhalées ou en contact avec la peau.",examples:["Insecticides organophosphorés","Herbicides","Cyanures","Arsenic","Chloroforme","Méthanol","Aniline"],dangerLevel:"Très élevé",labelColor:"Blanc"},
+    {num:"6.2",name:"Matières infectieuses",color:"#e0e0e0",stroke:"#333",desc:"Matières contenant des agents pathogènes (micro-organismes, prions) susceptibles de provoquer des maladies infectieuses.",examples:["Échantillons diagnostiques","Cultures microbiennes","Déchets médicaux","Virus isolés","Bactéries pathogènes"],dangerLevel:"Très élevé",labelColor:"Blanc"},
+  ]},
+  {id:7,num:"Classe 7",name:"Matières radioactives",color:"#fff8e1",stroke:"#8a6000",reglements:"IMDG · AIEA · ADR · IATA",desc:"Toute matière dont l'activité spécifique dépasse 70 kBq/kg. Le transport est soumis à des réglementations strictes de l'AIEA.",labelColors:"Jaune-blanc / Noir",subs:[
+    {num:"I — Blanc",name:"Catégorie I — Blanc",color:"#fff8e1",stroke:"#8a6000",desc:"Niveau de rayonnement en surface très faible (≤ 0,005 mSv/h). Aucune exigence particulière de séparation.",examples:["Isotopes médicaux scellés","Appareils de mesure étalonnés","Petites sources industrielles"],dangerLevel:"Faible",labelColor:"Blanc"},
+    {num:"II — Jaune",name:"Catégorie II — Jaune",color:"#f9a825",stroke:"#5a3a00",desc:"Niveau de rayonnement en surface jusqu'à 0,5 mSv/h. Un indice de transport est assigné.",examples:["Sources industrielles moyennes","Colis médicaux actifs","Générateurs de radionucléides"],dangerLevel:"Modéré",labelColor:"Jaune"},
+    {num:"III — Jaune",name:"Catégorie III — Jaune",color:"#f57f17",stroke:"#fff",desc:"Niveau de rayonnement en surface pouvant atteindre 2 mSv/h. Séparation obligatoire.",examples:["Sources haute activité","Matières fissiles","Réacteurs de recherche (éléments combustibles)"],dangerLevel:"Élevé",labelColor:"Jaune foncé"},
+  ]},
+  {id:8,num:"Classe 8",name:"Matières corrosives",color:"#212121",stroke:"#fff",reglements:"IMDG · ADR · IATA",desc:"Matières qui, par action chimique, attaquent et détruisent les tissus vivants et/ou endommagent d'autres marchandises ou moyens de transport en cas de fuite.",labelColors:"Noir / Blanc",subs:[
+    {num:"8",name:"Matières corrosives",color:"#212121",stroke:"#fff",desc:"Causent des dégâts irréversibles à la peau/yeux, ou corrodent l'acier à un taux supérieur à 6,25 mm/an à 55°C. Peuvent émettre des vapeurs irritantes.",examples:["Acide sulfurique","Acide chlorhydrique","Soude caustique (NaOH)","Acide nitrique","Hypochlorite de sodium","Acide fluorhydrique","Chlorure de fer (III)"],dangerLevel:"Élevé",labelColor:"Noir/Blanc"},
+  ]},
+  {id:9,num:"Classe 9",name:"Matières dangereuses diverses",color:"#e0e0e0",stroke:"#333",reglements:"IMDG · ADR · IATA",desc:"Matières et objets présentant un risque pendant le transport mais ne correspondant pas aux définitions des autres classes. Inclut les polluants marins.",labelColors:"Blanc / Noir rayé",subs:[
+    {num:"9A",name:"Piles et batteries au lithium",color:"#607d8b",stroke:"#fff",desc:"Piles et batteries lithium-métal ou lithium-ion présentant un risque d'emballement thermique en cas de court-circuit, d'écrasement ou d'endommagement.",examples:["Batteries Li-ion (véhicules électriques)","Piles lithium (électronique grand public)","Power banks","Batteries stationnaires"],dangerLevel:"Modéré",labelColor:"Blanc/Noir"},
+    {num:"9B",name:"Polluants marins",color:"#2e7d32",stroke:"#fff",desc:"Substances liquides ou solides présentant un danger pour l'environnement aquatique. Marquage obligatoire avec le symbole polluant marin (arbre mort et poisson).",examples:["Polychlorobiphényles (PCB)","Pesticides organochlorés","Certains métaux lourds en solution"],dangerLevel:"Modéré",labelColor:"Blanc"},
+    {num:"9C",name:"Matières diverses",color:"#546e7a",stroke:"#fff",desc:"Glace sèche, substances magnétisées, moteurs à combustion, véhicules, engins de sauvetage gonflables, billes polymères expansibles.",examples:["Glace sèche (CO₂ solide)","Moteurs et véhicules","Engins de sauvetage","Amiante bleu","Appareils de sauvetage"],dangerLevel:"Variable",labelColor:"Blanc/Noir rayé"},
+  ]},
+];
+
+/* ══ STATE ══ */
+let linerFilter='all', markFilter='all', activeDGClass=null;
+
+/* ══ NAVIGATION ══ */
+function showSection(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(name==='handling') renderMarks();
+  if(name==='dangerous') renderDGClasses();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══ FILTER ══ */
+function setFilter(val,btn,ctx){
+  if(ctx==='liner') linerFilter=val;
+  else if(ctx==='mark') markFilter=val;
+  btn.closest('.filter-group').querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  if(ctx==='liner') renderTerms();
+  else if(ctx==='mark') renderMarks();
+}
+
+/* ══ LINER TERMS ══ */
+function renderTerms(){
+  const q=document.getElementById('liner-search').value.toLowerCase();
+  const filt=t=>(linerFilter==='all'||t.type===linerFilter)&&(!q||t.abbr.toLowerCase().includes(q)||t.summary.toLowerCase().includes(q));
+  document.getElementById('terms-grid').innerHTML=LINER_TERMS.filter(filt).map(termCard).join('')||'<div class="no-results">Aucun terme trouvé.</div>';
+  document.getElementById('surcharge-grid').innerHTML=SURCHARGES.filter(t=>(linerFilter==='all'||linerFilter==='surcharge')&&(!q||t.abbr.toLowerCase().includes(q)||t.summary.toLowerCase().includes(q))).map(termCard).join('');
+  observeReveal();
+}
+function termCard(t){
+  const diag=t.segments.length?`<div class="thc-diagram">${t.segments.map(s=>`<div class="thc-segment seg-${s.s}">${s.s==='included'?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`}<span>${s.l}</span></div>`).join('')}</div>`:'';
+  return `<div class="term-card reveal" onclick="toggleTerm(this)"><div class="term-header"><div class="term-abbr">${t.abbr}</div><span class="term-type-badge type-${t.type}">${t.typeLabel}</span></div>${t.fullName?`<div class="term-full-name">${t.fullName}</div>`:''}<div class="term-summary">${t.summary}</div><div class="term-details"><p style="font-size:13px;color:var(--text);line-height:1.7">${t.details}</p>${diag}</div></div>`;
+}
+function toggleTerm(el){
+  const open=el.classList.contains('expanded');
+  document.querySelectorAll('.term-card.expanded').forEach(c=>c.classList.remove('expanded'));
+  if(!open) el.classList.add('expanded');
+}
+
+/* ══ MARKS ══ */
+function renderMarks(){
+  const q=document.getElementById('mark-search').value.toLowerCase();
+  const filtered=HANDLING_MARKS.filter(m=>(markFilter==='all'||m.category===markFilter)&&(!q||m.name.toLowerCase().includes(q)||m.code.toLowerCase().includes(q)));
+  document.getElementById('marks-grid').innerHTML=filtered.length?filtered.map((m,i)=>`<div class="mark-card reveal" onclick="openMark(${HANDLING_MARKS.indexOf(m)})"><div class="mark-icon">${m.svg}</div><div class="mark-name">${m.name}</div><div class="mark-code">${m.code}</div></div>`).join(''):'<div class="no-results">Aucun symbole trouvé.</div>';
+  observeReveal();
+}
+function openMark(idx){
+  const m=HANDLING_MARKS[idx];
+  document.getElementById('panel-icon').innerHTML=m.svg;
+  document.getElementById('panel-code').textContent=m.code;
+  document.getElementById('panel-title').textContent=m.name;
+  document.getElementById('panel-desc').textContent=m.desc;
+  document.getElementById('panel-usage').textContent=m.usage;
+  document.getElementById('mark-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeOverlay(){document.getElementById('mark-overlay').classList.remove('open');document.body.style.overflow='';}
+function closeMarkOverlay(e){if(e.target===document.getElementById('mark-overlay'))closeOverlay();}
+
+/* ══ DANGEROUS GOODS ══ */
+function dgSVG(bg,stroke,label){
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="8" width="84" height="84" rx="3" transform="rotate(45 50 50)" fill="${bg}" stroke="${stroke}" stroke-width="3.5"/>
+    <text x="50" y="62" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="${stroke}">${label}</text>
+  </svg>`;
+}
+
+function renderDGClasses(){
+  document.getElementById('dg-class-list').innerHTML=DG_CLASSES.map(c=>`
+    <button class="dg-class-btn${activeDGClass===c.id?' active':''}" onclick="showDGClass(${c.id})">
+      <div class="dg-class-diamond">${dgSVG(c.color,c.stroke,c.id)}</div>
+      <div class="dg-class-info">
+        <div class="dg-class-num">${c.num}</div>
+        <div class="dg-class-name">${c.name}</div>
+      </div>
+      <div class="dg-class-count">${c.subs.length}</div>
+    </button>`).join('');
+  if(activeDGClass) showDGClass(activeDGClass);
+}
+
+function showDGClass(id){
+  activeDGClass=id;
+  const cls=DG_CLASSES.find(c=>c.id===id);
+  document.querySelectorAll('.dg-class-btn').forEach((b,i)=>{b.classList.toggle('active',DG_CLASSES[i].id===id);});
+  document.getElementById('dg-content').innerHTML=`
+    <div class="dg-content-header">
+      <div class="dg-big-diamond">${dgSVG(cls.color,cls.stroke,cls.id)}</div>
+      <div>
+        <div class="dg-header-class">${cls.num} · ${cls.reglements}</div>
+        <div class="dg-header-title">${cls.name}</div>
+        <div class="dg-header-desc">${cls.desc}</div>
+        <div class="dg-info-row" style="margin-top:10px">
+          <span class="dg-info-tag dg-tag-color">Étiquette : ${cls.labelColors}</span>
+          <span class="dg-info-tag dg-tag-reg">${cls.subs.length} division(s)</span>
+        </div>
+      </div>
+    </div>
+    <div class="dg-subs">
+      <div class="dg-subs-title">Sous-divisions et catégories</div>
+      <div class="dg-sub-list">${cls.subs.map((s,i)=>`
+        <div class="dg-sub-item reveal" style="transition-delay:${i*50}ms">
+          <div class="dg-sub-color" style="background:${s.color}"></div>
+          <div class="dg-sub-body">
+            <div class="dg-sub-header">
+              <div class="dg-sub-num">${s.num}</div>
+              <div class="dg-sub-name">${s.name}</div>
+            </div>
+            <div class="dg-sub-desc">${s.desc}</div>
+            <div class="dg-info-row">
+              <span class="dg-info-tag dg-tag-danger">Risque : ${s.dangerLevel}</span>
+              <span class="dg-info-tag dg-tag-color">Étiquette : ${s.labelColor}</span>
+            </div>
+            <div class="dg-examples">${s.examples.map(ex=>`<span class="dg-example-tag">${ex}</span>`).join('')}</div>
+          </div>
+          <div class="dg-sub-diamond">${dgSVG(s.color,s.stroke,s.num)}</div>
+        </div>`).join('')}</div>
+    </div>`;
+  observeReveal();
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   CALCULATOR DATA & LOGIC
+══════════════════════════════════════════════════════════ */
+
+// Container data: {name, L, W, H (mm), payload (kg), tare (kg)}
+const CONTAINERS = {
+  '20std':   {name:"20' Standard (Dry/TEU)",  L:5900, W:2350, H:2390, payload:28200, tare:2100},
+  '40std':   {name:"40' Standard (Dry/FEU)",  L:12030,W:2350, H:2390, payload:26780, tare:3780},
+  '40hc':    {name:"40' High Cube (HC)",       L:12030,W:2350, H:2695, payload:26460, tare:4020},
+  '45hc':    {name:"45' High Cube (HC)",       L:13556,W:2350, H:2695, payload:27600, tare:4800},
+  '20reefer':{name:"20' Reefer",               L:5450, W:2290, H:2260, payload:27360, tare:3080},
+  '40reefer':{name:"40' Reefer HC",            L:11580,W:2290, H:2545, payload:29100, tare:4900},
+  '40pw':    {name:"40' Pallet Wide (2.5m)",   L:12030,W:2500, H:2390, payload:27000, tare:3900},
+  '45pw':    {name:"45' Pallet Wide (2.5m)",   L:13556,W:2500, H:2695, payload:26500, tare:5000},
+};
+
+// Palette data: {name, W, L (mm), palletWeight (kg), maxLoad (kg)}
+const PALLETS = {
+  'eur1':   {name:'EUR 1 (EPAL)',      W:800,  L:1200, palletWeight:22,  maxLoad:2490, height:145},
+  'eur2':   {name:'EUR 2',            W:1000, L:1200, palletWeight:33,  maxLoad:1470, height:144},
+  'eur3':   {name:'EUR 3',            W:1000, L:1200, palletWeight:29,  maxLoad:1920, height:144},
+  'eur6':   {name:'EUR 6 (demi)',     W:600,  L:800,  palletWeight:9.5, maxLoad:500,  height:144},
+  'half':   {name:'Demi palette',     W:600,  L:400,  palletWeight:5,   maxLoad:250,  height:130},
+  'gma':    {name:'GMA Standard',     W:1016, L:1219, palletWeight:27,  maxLoad:1130, height:140},
+  'na42':   {name:'42"×42" (NA)',     W:1067, L:1067, palletWeight:27,  maxLoad:1360, height:140},
+  'na48':   {name:'48"×48" (NA)',     W:1219, L:1219, palletWeight:32,  maxLoad:2270, height:140},
+  'na4842': {name:'48"×42" (NA)',     W:1219, L:1067, palletWeight:29,  maxLoad:1810, height:140},
+  'na4040': {name:'40"×40" (NA)',     W:1016, L:1016, palletWeight:22,  maxLoad:1360, height:140},
+  'na4845': {name:'48"×45" (NA)',     W:1219, L:1143, palletWeight:30,  maxLoad:1450, height:140},
+  'aus':    {name:'Australie 1165',   W:1165, L:1165, palletWeight:28,  maxLoad:1500, height:150},
+  'asia1100':{name:'Asie 1100×1100', W:1100, L:1100, palletWeight:22,  maxLoad:1200, height:130},
+  'custom': {name:'Personnalisée',    W:1200, L:800,  palletWeight:25,  maxLoad:1000, height:144},
+};
+
+function getContainer(){return CONTAINERS[document.getElementById('calc-container').value];}
+function getPalletKey(){return document.getElementById('calc-pallet').value;}
+function getPallet(){
+  const key=getPalletKey();
+  if(key==='custom'){
+    return {
+      name:'Personnalisée',
+      W:+document.getElementById('custom-w').value||1200,
+      L:+document.getElementById('custom-l').value||800,
+      palletWeight:+document.getElementById('custom-pw').value||25,
+      maxLoad:+document.getElementById('custom-pl').value||1000,
+      height:144
+    };
+  }
+  return PALLETS[key];
+}
+
+function updateContainerInfo(){
+  const c=getContainer();
+  document.getElementById('ci-name').textContent=c.name;
+  document.getElementById('ci-l').textContent=(c.L/1000).toFixed(2)+' m';
+  document.getElementById('ci-w').textContent=(c.W/1000).toFixed(2)+' m';
+  document.getElementById('ci-h').textContent=(c.H/1000).toFixed(2)+' m';
+  const vol=(c.L*c.W*c.H/1e9).toFixed(1);
+  document.getElementById('ci-vol').textContent=vol+' m³';
+  document.getElementById('ci-payload').textContent=c.payload.toLocaleString()+' kg';
+  document.getElementById('ci-tare').textContent=c.tare.toLocaleString()+' kg';
+  calculate();
+}
+
+function updatePalletInfo(){
+  const key=getPalletKey();
+  // Show/hide custom inputs
+  document.getElementById('custom-pallet-inputs').style.display=(key==='custom'?'block':'none');
+  const p=getPallet();
+  document.getElementById('pi-name').textContent=p.name;
+  document.getElementById('pi-dims').textContent=p.W+'×'+p.L+' mm';
+  document.getElementById('pi-weight').textContent=p.palletWeight+' kg';
+  document.getElementById('pi-maxload').textContent=p.maxLoad.toLocaleString()+' kg';
+  document.getElementById('pi-area').textContent=((p.W*p.L)/1e6).toFixed(4)+' m²';
+  calculate();
+}
+
+// Core calculation
+function calcPalletsFloor(cL, cW, pW, pL, mixed){
+  // Orientation A: palette W along container W, L along container L
+  const rowsA=Math.floor(cW/pW);
+  const colsA=Math.floor(cL/pL);
+  const fitA=rowsA*colsA;
+
+  // Orientation B: palette rotated
+  const rowsB=Math.floor(cW/pL);
+  const colsB=Math.floor(cL/pW);
+  const fitB=rowsB*colsB;
+
+  if(!mixed) return {count:Math.max(fitA,fitB), orient:(fitA>=fitB?'A':'B'), rowsA,colsA,rowsB,colsB,fitA,fitB};
+
+  // Mixed: try filling remaining space with rotated orientation
+  // Best of A + leftover with B
+  const remAfterA_L = cL - colsA*pL;
+  const extraB_in_rem = Math.floor(cW/pL)*Math.floor(remAfterA_L/pW);
+  const totalMixA = fitA + extraB_in_rem;
+
+  const remAfterB_L = cL - colsB*pW;
+  const extraA_in_rem = Math.floor(cW/pW)*Math.floor(remAfterB_L/pL);
+  const totalMixB = fitB + extraA_in_rem;
+
+  const best=Math.max(fitA,fitB,totalMixA,totalMixB);
+  return {count:best, orient:'mixed', rowsA,colsA,rowsB,colsB,fitA,fitB};
+}
+
+function calculate(){
+  const c=getContainer();
+  const p=getPallet();
+  const qty=+document.getElementById('calc-qty').value||1;
+  const cargoWeightPerPallet=+document.getElementById('calc-cargo-weight').value||0;
+  const loadedHeight=+document.getElementById('calc-pallet-height').value||1400;
+  const stackEnabled=document.getElementById('calc-stack').checked;
+  const mixedEnabled=document.getElementById('calc-mixed').checked;
+
+  // Floor capacity
+  const floor=calcPalletsFloor(c.L,c.W,p.W,p.L,mixedEnabled);
+  let maxPallets=floor.count;
+  let levels=1;
+
+  // Stacking check
+  let stackOk=false;
+  if(stackEnabled && loadedHeight*2<=c.H){
+    maxPallets=floor.count*2;
+    levels=2;
+    stackOk=true;
+  }
+
+  // Weights
+  const totalPalletWeight=qty*p.palletWeight;
+  const totalCargoWeight=qty*cargoWeightPerPallet;
+  const totalWeight=totalPalletWeight+totalCargoWeight;
+  const payloadPct=(totalWeight/c.payload)*100;
+
+  // Floor usage
+  const floorAreaContainer=(c.L*c.W)/1e6; // m²
+  const usedPalletsFloor=Math.min(qty, floor.count);
+  const usedFloorArea=(usedPalletsFloor*p.W*p.L)/1e6;
+  const unusedFloorArea=floorAreaContainer-usedFloorArea;
+  const unusedFloorPct=((unusedFloorArea/floorAreaContainer)*100);
+
+  // Volume
+  const volContainer=(c.L*c.W*c.H)/1e9;
+  const usedVol=(Math.min(qty,maxPallets)*p.W*p.L*loadedHeight)/1e9;
+  const unusedVolPct=((volContainer-usedVol)/volContainer)*100;
+
+  // Status
+  const palletStatus=qty<=maxPallets?'ok':(qty<=maxPallets*1.1?'warn':'danger');
+  const weightStatus=payloadPct<=85?'ok':(payloadPct<=100?'warn':'danger');
+  const weightLabel=payloadPct<=85?'OK':(payloadPct<=100?'Limite':`DÉPASSÉ`);
+
+  // Display
+  renderResults({
+    c,p,qty,maxPallets,levels,stackOk,
+    totalWeight,totalPalletWeight,totalCargoWeight,payloadPct,
+    floorAreaContainer,usedFloorArea,unusedFloorArea,unusedFloorPct,
+    volContainer,usedVol,unusedVolPct,
+    palletStatus,weightStatus,weightLabel,
+    loadedHeight,cargoWeightPerPallet,floor,mixedEnabled
+  });
+}
+
+function renderResults(d){
+  const excessPallets=Math.max(0,d.qty-d.maxPallets);
+  const loadedPallets=Math.min(d.qty,d.maxPallets);
+  const fillPct=Math.min(100,(loadedPallets/d.maxPallets)*100).toFixed(1);
+
+  // Color for unused space
+  const unusedColor=d.unusedFloorPct<10?'green':(d.unusedFloorPct<25?'':'red');
+
+  const html=`
+    <!-- KPIs -->
+    <div class="result-header">
+      <div class="result-kpi">
+        <div class="kpi-value ${d.palletStatus==='ok'?'green':(d.palletStatus==='warn'?'':'red')}">${loadedPallets}<span style="font-size:18px;font-weight:400">/${d.maxPallets}</span></div>
+        <div class="kpi-label">Palettes chargées / Capacité max</div>
+        <div class="kpi-sub">${d.levels} niveau${d.levels>1?'x':''} · ${d.floor.count} au sol</div>
+      </div>
+      <div class="result-kpi">
+        <div class="kpi-value ${d.unusedFloorPct<10?'green':(d.unusedFloorPct>30?'red':'')}">${d.unusedFloorPct.toFixed(1)}<span style="font-size:18px;font-weight:400">%</span></div>
+        <div class="kpi-label">Espace plancher non utilisé</div>
+        <div class="kpi-sub">${d.unusedFloorArea.toFixed(2)} m² libre / ${d.floorAreaContainer.toFixed(2)} m² total</div>
+      </div>
+      <div class="result-kpi">
+        <div class="kpi-value ${d.weightStatus==='ok'?'green':(d.weightStatus==='warn'?'':' red')}">${d.payloadPct.toFixed(1)}<span style="font-size:18px;font-weight:400">%</span></div>
+        <div class="kpi-label">Charge utile utilisée</div>
+        <div class="kpi-sub">${d.totalWeight.toLocaleString()} kg / ${d.c.payload.toLocaleString()} kg max</div>
+      </div>
+    </div>
+
+    <!-- Container visual -->
+    <div class="container-visual-wrap">
+      <div class="container-visual-title">Vue plancher — Disposition des palettes (${loadedPallets} palettes sur ${d.maxPallets} max)</div>
+      <div class="container-svg-wrap">${renderContainerSVG(d,loadedPallets)}</div>
+    </div>
+
+    <!-- Detail table -->
+    <div class="result-detail">
+      <div class="detail-title">Récapitulatif détaillé</div>
+      <table class="detail-table">
+        <thead><tr><th>Paramètre</th><th>Valeur</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Palettes chargées</td>
+            <td><span class="val">${loadedPallets}</span> <span class="unit">palettes</span></td>
+            <td><span class="tag-${d.palletStatus}">${d.palletStatus==='ok'?'✓ OK':d.palletStatus==='warn'?'⚠ Limite':'✗ Surplus'}</span></td>
+          </tr>
+          ${excessPallets>0?`<tr><td>Palettes en excès (non chargées)</td><td><span class="val" style="color:var(--accent3)">${excessPallets}</span> <span class="unit">palettes</span></td><td><span class="tag-danger">✗ Surplus</span></td></tr>`:''}
+          <tr>
+            <td>Capacité maximale conteneur</td>
+            <td><span class="val">${d.maxPallets}</span> <span class="unit">(${d.floor.count} au sol × ${d.levels} niv.)</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Taux de remplissage plancher</td>
+            <td><span class="val">${fillPct}</span> <span class="unit">%</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Surface plancher utilisée</td>
+            <td><span class="val">${d.usedFloorArea.toFixed(2)}</span> <span class="unit">m²</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Surface plancher non utilisée</td>
+            <td><span class="val">${d.unusedFloorArea.toFixed(2)}</span> <span class="unit">m² (${d.unusedFloorPct.toFixed(1)}%)</span></td>
+            <td><span class="tag-${d.unusedFloorPct<10?'ok':(d.unusedFloorPct<25?'warn':'danger')}">${d.unusedFloorPct.toFixed(1)}%</span></td>
+          </tr>
+          <tr>
+            <td>Volume conteneur total</td>
+            <td><span class="val">${d.volContainer.toFixed(1)}</span> <span class="unit">m³</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Volume non utilisé</td>
+            <td><span class="val">${(d.volContainer-d.usedVol).toFixed(1)}</span> <span class="unit">m³ (${d.unusedVolPct.toFixed(1)}%)</span></td>
+            <td></td>
+          </tr>
+          <tr style="background:var(--bg)">
+            <td><strong>Poids total palettes vides</strong></td>
+            <td><span class="val">${d.totalPalletWeight.toLocaleString()}</span> <span class="unit">kg (${loadedPallets} × ${d.p.palletWeight} kg)</span></td>
+            <td></td>
+          </tr>
+          <tr style="background:var(--bg)">
+            <td><strong>Poids total marchandises</strong></td>
+            <td><span class="val">${d.totalCargoWeight.toLocaleString()}</span> <span class="unit">kg (${loadedPallets} × ${d.cargoWeightPerPallet} kg)</span></td>
+            <td></td>
+          </tr>
+          <tr style="background:rgba(196,127,0,.04)">
+            <td><strong>Poids total chargement</strong></td>
+            <td><span class="val" style="font-size:20px">${d.totalWeight.toLocaleString()}</span> <span class="unit">kg</span></td>
+            <td><span class="tag-${d.weightStatus}">${d.weightLabel}</span></td>
+          </tr>
+          <tr style="background:rgba(196,127,0,.04)">
+            <td><strong>Charge utile disponible restante</strong></td>
+            <td><span class="val" style="color:var(--accent2)">${Math.max(0,d.c.payload-d.totalWeight).toLocaleString()}</span> <span class="unit">kg</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Poids brut total (+ tare conteneur)</td>
+            <td><span class="val">${(d.totalWeight+d.c.tare).toLocaleString()}</span> <span class="unit">kg</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Empilage double niveau</td>
+            <td><span class="val" style="font-size:16px">${d.stackOk?'✓ Actif':'✗ Inactif'}</span></td>
+            <td>${d.stackOk?`<span class="tag-ok">Hauteur OK (${d.loadedHeight}mm × 2 = ${d.loadedHeight*2}mm ≤ ${d.c.H}mm)</span>`:`<span class="tag-warn">${d.loadedHeight*2}mm > ${d.c.H}mm</span>`}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Weight bar -->
+      <div class="weight-bar-wrap" style="margin-top:20px">
+        <div class="weight-bar-label">
+          <span>Utilisation charge utile</span>
+          <span><strong>${d.totalWeight.toLocaleString()} kg</strong> / ${d.c.payload.toLocaleString()} kg</span>
+        </div>
+        <div class="weight-bar">
+          <div class="weight-bar-fill ${d.weightStatus}" style="width:${Math.min(100,d.payloadPct).toFixed(1)}%"></div>
+        </div>
+      </div>
+      <div class="weight-bar-wrap" style="margin-top:12px">
+        <div class="weight-bar-label">
+          <span>Remplissage plancher</span>
+          <span><strong>${fillPct}%</strong></span>
+        </div>
+        <div class="weight-bar">
+          <div class="weight-bar-fill ok" style="width:${fillPct}%"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('calc-results').innerHTML=html;
+}
+
+function renderContainerSVG(d, loadedPallets){
+  const svgW=700, svgH=200;
+  const margin={top:20,left:20,right:20,bottom:20};
+  const cW=svgW-margin.left-margin.right;
+  const cH=svgH-margin.top-margin.bottom;
+
+  // Scale factor
+  const scaleX=cW/d.c.L;
+  const scaleY=cH/d.c.W;
+
+  // Determine best orientation
+  const pW_s=d.p.W*scaleX, pL_s=d.p.L*scaleX;
+  const rowsA=Math.floor(d.c.W/d.p.W), colsA=Math.floor(d.c.L/d.p.L);
+  const rowsB=Math.floor(d.c.W/d.p.L), colsB=Math.floor(d.c.L/d.p.W);
+  const useA=(rowsA*colsA>=rowsB*colsB)||!d.mixedEnabled;
+
+  let rects=[];
+  let count=0;
+  if(useA){
+    outer: for(let col=0;col<colsA;col++){
+      for(let row=0;row<rowsA;row++){
+        if(count>=loadedPallets)break outer;
+        const x=margin.left+col*d.p.L*scaleX;
+        const y=margin.top+row*d.p.W*scaleY;
+        rects.push({x,y,w:d.p.L*scaleX,h:d.p.W*scaleY,loaded:true});
+        count++;
+      }
+    }
+  } else {
+    outer: for(let col=0;col<colsB;col++){
+      for(let row=0;row<rowsB;row++){
+        if(count>=loadedPallets)break outer;
+        const x=margin.left+col*d.p.W*scaleX;
+        const y=margin.top+row*d.p.L*scaleY;
+        rects.push({x,y,w:d.p.W*scaleX,h:d.p.L*scaleY,loaded:true});
+        count++;
+      }
+    }
+  }
+
+  const rectsHTML=rects.map((r,i)=>`
+    <rect x="${r.x.toFixed(1)}" y="${r.y.toFixed(1)}" width="${(r.w-1).toFixed(1)}" height="${(r.h-1).toFixed(1)}"
+      fill="${r.loaded?'rgba(0,122,100,0.18)':'rgba(200,210,220,0.3)'}" stroke="${r.loaded?'#007a64':'#ccd6e0'}" stroke-width="1" rx="1"/>
+    <text x="${(r.x+r.w/2).toFixed(1)}" y="${(r.y+r.h/2+4).toFixed(1)}" text-anchor="middle" fill="${r.loaded?'#007a64':'#99aabb'}" font-size="8" font-family="JetBrains Mono,monospace">${i+1}</text>
+  `).join('');
+
+  return `<svg viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg">
+    <!-- Container outline -->
+    <rect x="${margin.left}" y="${margin.top}" width="${cW}" height="${cH}" fill="rgba(240,243,247,0.8)" stroke="#a8bcda" stroke-width="2" rx="2"/>
+    <!-- Door end indicator -->
+    <rect x="${margin.left+cW-8}" y="${margin.top}" width="8" height="${cH}" fill="rgba(196,127,0,0.08)" stroke="none"/>
+    <text x="${margin.left+cW-4}" y="${margin.top+cH/2}" text-anchor="middle" fill="#c47f00" font-size="8" font-family="JetBrains Mono,monospace" transform="rotate(90,${margin.left+cW-4},${margin.top+cH/2})">PORTE</text>
+    <!-- Pallets -->
+    ${rectsHTML}
+    <!-- Labels -->
+    <text x="${margin.left+4}" y="${margin.top-6}" fill="#7a8fa6" font-size="9" font-family="JetBrains Mono,monospace">${(d.c.L/1000).toFixed(2)}m</text>
+    <text x="${margin.left-2}" y="${margin.top+cH/2}" fill="#7a8fa6" font-size="9" font-family="JetBrains Mono,monospace" transform="rotate(-90,${margin.left-12},${margin.top+cH/2})">${(d.c.W/1000).toFixed(2)}m</text>
+    <!-- Legend -->
+    <rect x="${svgW-140}" y="${svgH-18}" width="12" height="10" fill="rgba(0,122,100,0.18)" stroke="#007a64" stroke-width="1"/>
+    <text x="${svgW-124}" y="${svgH-9}" fill="#7a8fa6" font-size="9" font-family="JetBrains Mono,monospace">Palette chargée (${loadedPallets})</text>
+  </svg>`;
+}
+
+function resetCalc(){
+  document.getElementById('calc-container').value='40std';
+  document.getElementById('calc-pallet').value='eur1';
+  document.getElementById('calc-qty').value='20';
+  document.getElementById('calc-cargo-weight').value='500';
+  document.getElementById('calc-pallet-height').value='1400';
+  document.getElementById('calc-stack').checked=false;
+  document.getElementById('calc-mixed').checked=false;
+  document.getElementById('custom-pallet-inputs').style.display='none';
+  updateContainerInfo();
+  updatePalletInfo();
+  document.getElementById('calc-results').innerHTML=`<div class="result-empty">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    <p>Configurez le conteneur et la palette,<br>puis cliquez sur <strong>Calculer</strong> pour afficher les résultats.</p></div>`;
+}
+
+// Auto-init calculator info on section show
+const _origShowSection = showSection;
+showSection = function(name, btn){
+  _origShowSection(name, btn);
+  if(name==='calculator'){ updateContainerInfo(); updatePalletInfo(); }
+};
+
+function observeReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*35);obs.unobserve(e.target);}});
+  },{threshold:.05});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded',()=>{renderTerms();setTimeout(observeReveal,50);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOverlay();});
+</script>
+</body>
+</html>
