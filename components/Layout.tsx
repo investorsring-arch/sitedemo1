@@ -19,20 +19,22 @@ const MODULES_MAIN = [
 
 const MODULES_TOOLS = [
   { num: 'TRK', label: 'Tracking & Intelligence',      href: '/modules/tracking',             badge: 'NEW' },
-  { num: 'SIM', label: 'Simulateur Droits & Taxes',    href: '/modules/simulateur',           badge: '↗'   },
+  { num: 'CAL', label: 'Simulateur Droits & Taxes',    href: '/modules/simulateur',           badge: '↗'   },
   { num: 'CMP', label: 'Comparateur Régimes',          href: '/modules/comparateur',          badge: '↗'   },
   { num: 'ORI', label: 'Origine ALECA / UE',           href: '/modules/origine-aleca',        badge: 'NEW' },
-  { num: 'ORI', label: 'Origine ALECA / UE', href: '/modules/origine-aleca', badge: 'NEW' },
-{ num: 'REF', label: 'Reference Logistique', href: '/modules/logistique2', badge: 'NEW' },  // ← ajouter
-{ num: '15',  label: 'Incoterms × Shipping Terms', ...
-  // ── Nouveau module 15 ──────────────────────────────────────────────────────
+  { num: 'REF', label: 'Référence Logistique',         href: '/modules/logistique2',          badge: 'NEW' },
   { num: '15',  label: 'Incoterms × Shipping Terms',   href: '/modules/incoterms-shipping',   badge: 'NEW' },
-  // ──────────────────────────────────────────────────────────────────────────
-  { num: 'ICI', label: 'Index Commerce Intl.',          href: '/modules/index-commerce',       badge: 'NEW' },
-  { num: 'ARB', label: 'Arborescence Commerce',         href: '/modules/arborescence-',        badge: 'NEW' },
-  { num: 'PRO', label: 'Procédures Douanières',         href: '/modules/procedures',           badge: 'NEW' },
-  { num: 'REG', label: 'Régimes Détaillés',             href: '/modules/procedures-regimes',   badge: 'NEW' },
-  { num: 'REF', label: 'Reference Logistique', href: '/modules/logistique2', badge: 'NEW' },
+  { num: 'REC', label: 'Régimes Économiques',          href: '/modules/regimes-economiques',  badge: 'NEW' },
+  { num: 'DOC', label: 'Documents par Code SH',        href: '/modules/documents-sh',         badge: 'NEW' },
+  { num: 'DUM', label: 'Vérificateur DUM',             href: '/modules/verificateur-dum',     badge: 'NEW' },
+  { num: 'SIM', label: 'Simulateur Fiscal Import',     href: '/modules/simulateur-fiscal',    badge: 'NEW' },
+  { num: 'GEN', label: 'Générateur Documents',         href: '/modules/generateur-docs',      badge: 'NEW' },
+  { num: 'GLO', label: 'Glossaire Douanier FR/AR',     href: '/modules/glossaire-douanier',   badge: 'NEW' },
+  { num: 'PRT', label: 'PortNet & Tanger Med',         href: '/modules/portnet-tanger',       badge: 'NEW' },
+  { num: 'PRO', label: 'Procédures Douanières',        href: '/modules/procedures',           badge: 'NEW' },
+  { num: 'RGM', label: 'Procédures & Régimes',         href: '/modules/procedures-process',   badge: 'NEW' },
+  { num: 'ICI', label: 'Index Commerce Intl.',         href: '/modules/index-commerce',       badge: 'NEW' },
+  { num: 'CFH', label: 'Facilitation Douanière', href: '/modules/facilitation', badge: 'NEW' },
 ]
 
 const MODULES_COMM = [

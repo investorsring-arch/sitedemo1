@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte des Bureaux douaniers — Douane.ia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── ROOT TOKENS (cohérents avec Douane.ia existant) ─── */
+:root{
+  --gold:#B8922A;--gold-h:#D4A940;--gold-pale:#FBF5E6;--gold-bd:rgba(184,146,42,.25);--gold-dim:rgba(184,146,42,.1);
+  --ink:#1A1A18;--mid:#5A5A54;--muted:#8A8A82;
+  --bg:#F9F8F4;--bg2:#F2F0EA;--surface:#FFFFFF;
+  --border:#E4E2DA;--border-mid:#D0CEC4;
+  --green:#1E7A4A;--green-bg:#EBF7EE;--green-bd:#B0DDB8;
+  --red:#9A2A22;--red-bg:#FEF0EE;--red-bd:#F0B0A8;
+  --amber:#8A5A10;--amber-bg:#FEF5E4;--amber-bd:#F0D080;
+  --blue:#1A3A9A;--blue-bg:#EEF4FE;--blue-bd:#B0C8F8;
+  --purple:#5A2AA0;--purple-bg:#F3EEFE;--purple-bd:#C8A8F8;
+  --sh:0 1px 4px rgba(26,26,24,.06);--sh-md:0 4px 20px rgba(26,26,24,.1);--sh-lg:0 8px 40px rgba(26,26,24,.14);
+  --r:8px;--r-lg:12px;--r-xl:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ─── HERO ─── */
+.hero{padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.hero h1{font-family:"DM Serif Display",serif;font-size:clamp(22px,3.5vw,38px);color:var(--ink);line-height:1.05}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{color:var(--mid);font-size:13px;margin-top:8px;max-width:640px;line-height:1.75}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.htag{font-family:"JetBrains Mono",monospace;font-size:9.5px;padding:3px 10px;border-radius:100px;border:1px solid}
+
+/* ─── KPI ROW ─── */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:800px){.kpi-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.kpi-row{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px;text-align:center;box-shadow:var(--sh)}
+.kpi-val{font-family:"DM Sans",sans-serif;font-size:22px;font-weight:700;color:var(--gold);line-height:1}
+.kpi-lbl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+
+/* ─── TOOLBAR ─── */
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:340px}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#search-input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border-mid);border-radius:var(--r);background:var(--surface);font-family:"DM Sans",sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color .18s}
+#search-input:focus{border-color:var(--gold)}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{padding:6px 13px;border:1px solid var(--border);border-radius:100px;background:var(--surface);font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap}
+.filter-btn:hover{border-color:var(--gold-bd);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#fff}
+.results-count{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);margin-left:auto;white-space:nowrap}
+
+/* ─── LAYOUT SPLIT ─── */
+.bureaux-layout{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+@media(max-width:960px){.bureaux-layout{grid-template-columns:1fr}}
+
+/* ─── LISTE BUREAUX ─── */
+.bureaux-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh);max-height:680px;overflow-y:auto;scroll-behavior:smooth}
+.bureaux-list::-webkit-scrollbar{width:4px}
+.bureaux-list::-webkit-scrollbar-track{background:var(--bg2)}
+.bureaux-list::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:2px}
+
+.region-header{padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:2}
+.region-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.region-name{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
+.region-count{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--muted);margin-left:auto}
+
+.bureau-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:all .15s}
+.bureau-item:hover{background:var(--gold-pale)}
+.bureau-item.active{background:var(--gold-pale);border-left:3px solid var(--gold)}
+.bureau-item:last-child{border-bottom:none}
+.bureau-code{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--gold);min-width:34px;flex-shrink:0}
+.bureau-name{font-size:12.5px;font-weight:500;color:var(--ink);flex:1;line-height:1.3}
+.bureau-type-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.bureau-item.hidden{display:none}
+
+/* ─── DETAIL PANEL ─── */
+.detail-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:0;box-shadow:var(--sh-md);overflow:hidden;min-height:400px}
+.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:12px;color:var(--muted)}
+.detail-empty svg{opacity:.25}
+.detail-empty p{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+
+.detail-hdr{padding:22px 24px 18px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--gold-pale) 0%,var(--surface) 100%)}
+.detail-hdr-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.detail-icon{width:48px;height:48px;border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--gold-bd);background:rgba(255,255,255,.7)}
+.detail-code{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.detail-name{font-family:"DM Serif Display",serif;font-size:22px;color:var(--ink);line-height:1.1;margin-bottom:4px}
+.detail-region-tag{font-family:"JetBrains Mono",monospace;font-size:9.5px;padding:3px 10px;border-radius:100px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);display:inline-block}
+.detail-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.dpill{font-family:"JetBrains Mono",monospace;font-size:9px;padding:3px 10px;border-radius:100px;border:1px solid}
+
+.detail-body{padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.detail-body{grid-template-columns:1fr}}
+.detail-section-title{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+
+/* ─── INFO TABLE ─── */
+.info-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.info-table td{padding:7px 8px;border-bottom:1px solid var(--bg2);vertical-align:top;color:var(--mid);line-height:1.5}
+.info-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;padding-right:12px}
+.info-table tr:last-child td{border-bottom:none}
+.td-badge{font-family:"JetBrains Mono",monospace;font-size:9px;padding:2px 8px;border-radius:100px;border:1px solid;display:inline-block}
+
+/* ─── COMPÉTENCES TAGS ─── */
+.competences-grid{display:flex;flex-wrap:wrap;gap:5px}
+.comp-tag{font-size:11px;padding:4px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);color:var(--mid);display:flex;align-items:center;gap:5px}
+.comp-tag.primary{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+.comp-tag.secondary{background:var(--blue-bg);border-color:var(--blue-bd);color:var(--blue)}
+.comp-tag.special{background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)}
+.comp-tag.restricted{background:var(--red-bg);border-color:var(--red-bd);color:var(--red)}
+
+/* ─── ALERT ─── */
+.alert{border-radius:var(--r);padding:9px 12px;font-size:12px;display:flex;gap:7px;align-items:flex-start}
+.a-info{background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue)}
+.a-warn{background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber)}
+.a-ok{background:var(--green-bg);border:1px solid var(--green-bd);color:var(--green)}
+
+/* ─── QUICK-FIND BANNER ─── */
+.quick-find{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:16px;box-shadow:var(--sh)}
+.quick-find-title{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.quick-chips{display:flex;gap:7px;flex-wrap:wrap}
+.qchip{padding:6px 13px;border:1px solid var(--border-mid);border-radius:var(--r);background:var(--bg2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.qchip:hover{border-color:var(--gold-bd);background:var(--gold-pale);color:var(--gold)}
+.qchip-icon{font-size:13px}
+
+/* ─── LAW REF ─── */
+.law-ref{font-family:"JetBrains Mono",monospace;font-size:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--mid);line-height:1.6;margin-top:16px}
+.law-ref strong{color:var(--ink)}
+
+/* ─── RÉGIONS MAP MINI ─── */
+.region-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.rleg{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--mid)}
+.rleg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ─── NO RESULT ─── */
+.no-result{padding:24px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+/* scrollbar thin for body */
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body style="padding:0 2rem 4rem;max-width:1300px;margin:0 auto">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Carte des <em>Bureaux douaniers</em></h1>
+  <p>50 bureaux de douane ADII classés par Direction Régionale — codes BADR, types, compétences sectorielles et informations opérationnelles. Arrêté n°459-24 du 20 février 2024.</p>
+  <div class="hero-meta">
+    <span class="htag" style="background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)">50 bureaux</span>
+    <span class="htag" style="background:var(--blue-bg);border-color:var(--blue-bd);color:var(--blue)">9 Directions Régionales</span>
+    <span class="htag" style="background:var(--green-bg);border-color:var(--green-bd);color:var(--green)">Arrêté 459-24 · 2024</span>
+    <span class="htag" style="background:var(--bg2);border-color:var(--border-mid);color:var(--muted)">BADR · PortNet</span>
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi"><div class="kpi-val">50</div><div class="kpi-lbl">Bureaux actifs</div></div>
+  <div class="kpi"><div class="kpi-val">9</div><div class="kpi-lbl">Dir. Régionales</div></div>
+  <div class="kpi"><div class="kpi-val">13</div><div class="kpi-lbl">Bureaux portuaires</div></div>
+  <div class="kpi"><div class="kpi-val">8</div><div class="kpi-lbl">Aéroports</div></div>
+  <div class="kpi"><div class="kpi-val">24/7</div><div class="kpi-lbl">Tanger Med</div></div>
+</div>
+
+<!-- QUICK FIND -->
+<div class="quick-find">
+  <div class="quick-find-title">Accès rapide — Cas d'usage fréquents</div>
+  <div class="quick-chips">
+    <div class="qchip" onclick="quickFilter('port')"><span class="qchip-icon">🚢</span>Ports maritimes</div>
+    <div class="qchip" onclick="quickFilter('aerien')"><span class="qchip-icon">✈️</span>Aéroports</div>
+    <div class="qchip" onclick="quickFilter('frontiere')"><span class="qchip-icon">🛂</span>Postes-frontières</div>
+    <div class="qchip" onclick="quickFilter('postal')"><span class="qchip-icon">📦</span>Colis postaux</div>
+    <div class="qchip" onclick="quickFilter('zfe')"><span class="qchip-icon">🏭</span>ZFE / ZFI</div>
+    <div class="qchip" onclick="quickFilter('all')"><span class="qchip-icon">🔄</span>Tout afficher</div>
+  </div>
+</div>
+
+<!-- LÉGENDE RÉGIONS -->
+<div class="region-legend" id="region-legend"></div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-input" type="text" placeholder="Rechercher bureau, code, ville…" oninput="filterBureaux()">
+  </div>
+  <div class="filter-group" id="filter-group">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">Tous</button>
+    <button class="filter-btn" data-filter="port" onclick="setFilter('port',this)">Port</button>
+    <button class="filter-btn" data-filter="aerien" onclick="setFilter('aerien',this)">Aérien</button>
+    <button class="filter-btn" data-filter="terrestre" onclick="setFilter('terrestre',this)">Terrestre</button>
+    <button class="filter-btn" data-filter="ville" onclick="setFilter('ville',this)">Ville</button>
+  </div>
+  <div class="results-count" id="results-count">50 bureaux</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="bureaux-layout">
+  <!-- LISTE -->
+  <div class="bureaux-list" id="bureaux-list"></div>
+
+  <!-- DETAIL -->
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <p>Sélectionner un bureau</p>
+    </div>
+  </div>
+</div>
+
+<div class="law-ref">
+  <strong>Référence légale :</strong> Arrêté n°459-24 du 20 février 2024 fixant la liste des bureaux et postes de douane et leurs compétences · Art. 28 Code des Douanes · Base BADR — ADII · Données indicatives, vérifier sur <strong>douane.gov.ma</strong>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — 50 bureaux ADII avec enrichissement sectoriel
+// ═══════════════════════════════════════════════
+const REGIONS = [
+  { id:'sud',      name:'Direction Régionale du Sud',              color:'#B8922A', short:'DR Sud' },
+  { id:'csud',     name:'Direction Régionale du Centre-Sud',       color:'#1E7A4A', short:'DR Centre-Sud' },
+  { id:'casa',     name:'Direction Douanes Port Casablanca',       color:'#1A3A9A', short:'DR Casa Port' },
+  { id:'casar',    name:'Direction Régionale Casablanca-Settat',   color:'#5A2AA0', short:'DR Casa-Settat' },
+  { id:'nord',     name:'Direction Régionale Tanger-Tét.-Al Hoc.',color:'#9A2A22', short:'DR Nord' },
+  { id:'tangmed',  name:'Direction Douanes Tanger Med',            color:'#D4A940', short:'DR Tanger Med' },
+  { id:'centre',   name:'Direction Régionale Rabat-Salé-Kénitra',  color:'#4A8A2A', short:'DR Centre' },
+  { id:'fmek',     name:'Direction Régionale Fès-Meknès',          color:'#2A6A9A', short:'DR Fès-Mek.' },
+  { id:'oriental', name:'Direction Régionale de l\'Oriental',      color:'#7A4A1A', short:'DR Oriental' },
+];
+
+const BUREAUX = [
+  // ── DR SUD ──
+  { code:'100', name:'Agadir Ville',         region:'sud',    type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'100', tel:'05 28 22 46 00',
+    competences:['Import/Export général','Agro-alimentaire','Produits de la mer','Transit TIR'],
+    specialite:'Premier port de pêche du Maroc. Fort volume export agrumes, primeurs, conserves de poisson.',
+    regimes:['010 Import','040 Export','031 Transit','071 Entrepôt'],
+    tags:['port_adjacent','peche','agro'],
+    note:'Bureau principal de la DR Sud. Traite les dossiers liés au port d\'Agadir Anza et à la ZI Ait Melloul.'
+  },
+  { code:'106', name:'Agadir/Aéroport Al Massira', region:'sud', type:'aerien', icon:'✈️',
+    horaires:'24h/24 – 7j/7', badr:'106', tel:'05 28 83 99 00',
+    competences:['Fret aérien','Bagages voyageurs','Express courier','Médicaments'],
+    specialite:'Aéroport international desservant Agadir. Contrôle fret aérien et passagers.',
+    regimes:['010 Import','040 Export','051 AT voyageurs'],
+    tags:['aerien','fret'],
+    note:'Aéroport Al Massira — trafic touristique dominant. Contrôle renforcé produits alimentaires et devises.'
+  },
+  { code:'101', name:'Laâyoune',             region:'sud',    type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'101', tel:'05 28 89 19 80',
+    competences:['Import général','Phosphates','Pêche hauturière'],
+    specialite:'Chef-lieu des provinces du Sud. Bureau principal pour la région Laâyoune-Sakia Al Hamra.',
+    regimes:['010 Import','040 Export','071 Entrepôt'],
+    tags:['ville'],
+    note:'Régime fiscal spécifique pour les provinces du Sud (Dahir 1958). Avantages douaniers particuliers.'
+  },
+  { code:'102', name:'Laâyoune/Aéroport',    region:'sud',    type:'aerien',    icon:'✈️',
+    horaires:'Selon vols', badr:'102', tel:'05 28 89 04 19',
+    competences:['Fret aérien','Bagages voyageurs'],
+    specialite:'Aéroport Hassan I — dessert les provinces du Sud.',
+    regimes:['010 Import','040 Export','051 AT'],
+    tags:['aerien'],
+    note:'Trafic limité. Fret essentiellement médical et alimentaire.'
+  },
+  { code:'103', name:'Laâyoune/Colis Postaux',region:'sud',   type:'postal',    icon:'📦',
+    horaires:'Lun–Ven 8h30–16h', badr:'103', tel:'05 28 89 04 19',
+    competences:['Colis postaux','E-commerce','Petits envois'],
+    specialite:'Bureau dédié au traitement des colis postaux et e-commerce.',
+    regimes:['010 Import','040 Export'],
+    tags:['postal'],
+    note:'Partenariat BARID AL MAGHRIB pour la dématérialisation des déclarations postales.'
+  },
+  { code:'104', name:'Ed-Dakhla',            region:'sud',    type:'ville',     icon:'🐟',
+    horaires:'Lun–Ven 8h30–17h', badr:'104', tel:'05 28 99 04 19',
+    competences:['Pêche hauturière','Import alimentaire','Zone franche Dakhla'],
+    specialite:'Zone de pêche hauturière et future ZFI Dakhla Atlantic. Régime fiscal particulier.',
+    regimes:['010 Import','040 Export','061 ZFE','031 Transit'],
+    tags:['ville','peche','zfe'],
+    note:'Régime fiscal dérogatoire des provinces du Sud. La ZFI Dakhla Atlantic est en cours de développement (2025+).'
+  },
+  { code:'105', name:'Tan-Tan',              region:'sud',    type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'105', tel:'05 28 87 71 00',
+    competences:['Pêche','Import vivres'],
+    specialite:'Port de pêche de Tan-Tan. Trafic modeste.',
+    regimes:['010 Import','040 Export'],
+    tags:['ville','peche'],
+    note:'Bureau secondaire de la DR Sud.'
+  },
+  // ── DR CENTRE-SUD ──
+  { code:'200', name:'Safi',                 region:'csud',   type:'port',      icon:'⚓',
+    horaires:'Lun–Ven 8h30–17h', badr:'200', tel:'05 24 62 30 00',
+    competences:['Phosphates OCP','Engrais export','Charbon import','Soufre','Acide phosphorique'],
+    specialite:'Port industriel OCP. 1er port export phosphates et engrais du Maroc.',
+    regimes:['010 Import','040 Export','071 Entrepôt'],
+    tags:['port','industrie','ocp'],
+    note:'Trafic dominé par le Groupe OCP. Spécialisation chimie-minerais. Accès réglementé (zone OCP).'
+  },
+  { code:'201', name:'Marrakech',            region:'csud',   type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'201', tel:'05 24 43 68 00',
+    competences:['Import général','Textile','Artisanat export','Transit terrestre'],
+    specialite:'Capitale touristique. Fort volume dossiers textile et artisanat.',
+    regimes:['010 Import','040 Export','031 Transit','071 Entrepôt'],
+    tags:['ville'],
+    note:'Bureau ville desservant l\'hinterland de Marrakech et les provinces Sud de l\'Atlas.'
+  },
+  { code:'202', name:'Essaouira',            region:'csud',   type:'ville',     icon:'🌊',
+    horaires:'Lun–Ven 8h30–17h', badr:'202', tel:'05 24 47 22 00',
+    competences:['Pêche artisanale','Artisanat'],
+    specialite:'Port de pêche artisanale et bureau ville pour Essaouira.',
+    regimes:['010 Import','040 Export'],
+    tags:['ville','peche'],
+    note:'Bureau de faible volume. Rattaché à la circonscription de Safi.'
+  },
+  { code:'203', name:'Ouarzazate',           region:'csud',   type:'ville',     icon:'🏜️',
+    horaires:'Lun–Ven 8h30–17h', badr:'203', tel:'05 24 88 23 16',
+    competences:['Import général','Cinéma/Productions','Transit Sahara'],
+    specialite:'Carrefour saharien. Bureau compétent pour les productions cinématographiques (ATA Carnet).',
+    regimes:['010 Import','040 Export','051 AT'],
+    tags:['ville'],
+    note:'Cas d\'usage unique : régime ATA Carnet pour les équipements de tournage. Fort trafic productions internationales.'
+  },
+  { code:'204', name:'Marrakech/Menara',     region:'csud',   type:'aerien',    icon:'✈️',
+    horaires:'24h/24 – 7j/7', badr:'204', tel:'05 24 44 78 65',
+    competences:['Fret aérien','Bagages voyageurs','Fleurs coupées','Express courier','Médicaments'],
+    specialite:'2ème aéroport du Maroc par le trafic. Import fleurs, express, fret divers.',
+    regimes:['010 Import','040 Export','051 AT','031 Transit'],
+    tags:['aerien','fret'],
+    note:'Fort trafic touristique. Contrôle renforcé produits naturels et devises. ONSSA présent.'
+  },
+  // ── DR CASA PORT ──
+  { code:'300', name:'Casablanca-MEAD',      region:'casa',   type:'port',      icon:'⚓',
+    horaires:'Lun–Ven 8h–18h (sam 8h–13h)', badr:'300', tel:'05 22 54 79 61',
+    competences:['Tous régimes','MEAD stockage','Conteneurs','Vrac','Ro-Ro','Marchandises générales'],
+    specialite:'Premier bureau du Maroc par volume. MEAD principal de Casablanca. Traite 33M t/an.',
+    regimes:['010 Import','040 Export','031 Transit','071 Entrepôt','051 AT','061 ZFE'],
+    tags:['port','mead','conteneurs'],
+    note:'Bureau principal de Casablanca Port. Dédouanement 24/7 sur demande pour urgences. Circuit vert disponible.'
+  },
+  { code:'309', name:'Casa/Port',            region:'casa',   type:'port',      icon:'⚓',
+    horaires:'Lun–Ven 8h–17h', badr:'309', tel:'05 22 30 37 85',
+    competences:['Passagers','Bateaux de plaisance','Ferry'],
+    specialite:'Gare maritime passagers. Contrôle MRE et voyageurs.',
+    regimes:['051 AT voyageurs','010 Import bagages'],
+    tags:['port','passagers'],
+    note:'Bureau spécialisé passagers maritimes. Fort trafic MRE saison estivale.'
+  },
+  { code:'302', name:'Mohammedia',           region:'casa',   type:'port',      icon:'⛽',
+    horaires:'Lun–Ven 8h–17h', badr:'302', tel:'05 23 32 00 00',
+    competences:['Hydrocarbures','Pétrole brut','Produits raffinés','Gaz liquéfié','Charbon'],
+    specialite:'Port pétrolier national. Approvisionnement ONHYM. Licence ANRE obligatoire.',
+    regimes:['010 Import','040 Export','071 Entrepôt hydrocarbures'],
+    tags:['port','hydrocarbures'],
+    note:'Réglementation spécifique TIC sur hydrocarbures. Coordinations ANRE, ONHYM, NARSA.'
+  },
+  { code:'303', name:'El-Jadida',            region:'casa',   type:'port',      icon:'⚓',
+    horaires:'Lun–Ven 8h–17h', badr:'303', tel:'05 23 37 06 00',
+    competences:['Hydrocarbures','Clinker','Acide phosphorique','Vrac'],
+    specialite:'Port de Jorf Lasfar — hub phosphatier OCP et centrale thermique.',
+    regimes:['010 Import','040 Export','071 Entrepôt'],
+    tags:['port','ocp','industrie'],
+    note:'À ne pas confondre avec Jorf Lasfar (code 305). Compétence territoriale ville El-Jadida.'
+  },
+  { code:'305', name:'Jorf Lasfar',          region:'casa',   type:'port',      icon:'🏭',
+    horaires:'Lun–Ven 8h–17h', badr:'305', tel:'05 23 34 64 00',
+    competences:['Phosphates dérivés','Acide sulfurique','Engrais DAP/MAP','Électricité (charbon)'],
+    specialite:'Complexe industrialo-portuaire OCP. Plus grand port de vrac du Maroc.',
+    regimes:['010 Import','040 Export','071 Entrepôt','031 Transit'],
+    tags:['port','ocp','industrie'],
+    note:'Zone industrielle Jorf Lasfar 2 en développement. Accès réglementé — badge ONEE/OCP requis.'
+  },
+  { code:'304', name:'Casa/Colis-Postaux',   region:'casa',   type:'postal',    icon:'📦',
+    horaires:'Lun–Ven 8h–17h', badr:'304', tel:'05 22 54 79 61',
+    competences:['Colis postaux','E-commerce B2C','Envois express','Petits colis'],
+    specialite:'Principal bureau colis postaux du Maroc. Traite le flux e-commerce import.',
+    regimes:['010 Import','040 Export'],
+    tags:['postal'],
+    note:'Centre de traitement colis postaux BARID AL MAGHRIB + intégration OGA pour express (DHL, FedEx, Aramex).'
+  },
+  { code:'306', name:'Casablanca-Extérieur', region:'casar',  type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'306', tel:'05 22 42 70 33',
+    competences:['Entreprises hors port','Textile','Automobile','Biens d\'équipement'],
+    specialite:'Bureau ville desservant les entreprises industrielles de Casablanca non liées au port.',
+    regimes:['010 Import','040 Export','031 Transit','071 Entrepôt'],
+    tags:['ville'],
+    note:'Compétence sur les ZI de Casablanca (Ain Sebaâ, Sidi Bernoussi, Lissasfa). Fort volume textile et auto.'
+  },
+  { code:'307', name:'Casa/Garantie',        region:'casar',  type:'ville',     icon:'🔒',
+    horaires:'Lun–Ven 8h30–17h', badr:'307', tel:'05 22 42 70 33',
+    competences:['Régimes suspensifs','Garanties douanières','ATA Carnet','Cautionnements'],
+    specialite:'Bureau spécialisé en régimes suspensifs et gestion des garanties douanières.',
+    regimes:['051 AT','071 Entrepôt','031 Transit','Régimes économiques'],
+    tags:['ville','garantie'],
+    note:'Interlocuteur pour les litiges et garanties. Gère les cautions et soumissions sur le ressort Casa.'
+  },
+  { code:'301', name:'Casa/Nouaceur-Fret',   region:'casar',  type:'aerien',    icon:'✈️',
+    horaires:'24h/24 – 7j/7', badr:'301', tel:'05 22 53 90 00',
+    competences:['Fret aérien','Express courier','E-commerce B2B','Fleurs coupées','Médicaments','Pièces automobiles'],
+    specialite:'Premier aéroport cargo du Maroc. Hub express DHL, FedEx, Aramex. Secteur auto fort.',
+    regimes:['010 Import','040 Export','031 Transit','051 AT','071 Entrepôt'],
+    tags:['aerien','fret','express'],
+    note:'Délais express en circuit vert < 4h. ONSSA et DPVCT présents pour contrôles spécialisés. Zone cargo dédiée.'
+  },
+  { code:'308', name:'Nouasser/Aérogare',    region:'casar',  type:'aerien',    icon:'✈️',
+    horaires:'24h/24 – 7j/7', badr:'308', tel:'05 22 53 90 00',
+    competences:['Bagages voyageurs','Devises','Passagers commerciaux'],
+    specialite:'Terminal passagers Mohammed V. Contrôle bagages, devises et voyageurs.',
+    regimes:['051 AT voyageurs','010 Import usage perso'],
+    tags:['aerien','passagers'],
+    note:'Fort trafic estival MRE. Contrôle renforcé devises, produits alimentaires et médicaments.'
+  },
+  { code:'310', name:'Settat',               region:'casar',  type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'310', tel:'05 23 40 00 00',
+    competences:['Import général','Industrie agroalimentaire','Transit intérieur'],
+    specialite:'Bureau de la wilaya de Settat. Dessert la ZI Ben Ahmed et Berrechid.',
+    regimes:['010 Import','040 Export','031 Transit'],
+    tags:['ville'],
+    note:'Compétence sur la nouvelle ZI Settat Sud. Trafic croissant lié à l\'autoroute A1.'
+  },
+  { code:'311', name:'Berrechid',            region:'casar',  type:'ville',     icon:'🏭',
+    horaires:'Lun–Ven 8h30–17h', badr:'311', tel:'05 22 33 80 00',
+    competences:['Industrie','Textile','Câblage automobile','ZI Berrechid'],
+    specialite:'Zone industrielle Berrechid — équipementiers automobiles et textile.',
+    regimes:['010 Import','040 Export','071 Entrepôt','Régimes économiques'],
+    tags:['ville','industrie'],
+    note:'Forte présence industrie automobile (Yazaki, Lear). Régimes perfectionnement actif fréquents.'
+  },
+  // ── DR NORD ──
+  { code:'400', name:'Tanger/Port',          region:'nord',   type:'port',      icon:'🚢',
+    horaires:'24h/24 – 7j/7', badr:'400', tel:'05 39 93 33 00',
+    competences:['Ferry','Ro-Ro','Véhicules d\'occasion','Passagers MRE','Bagages','TIR routier'],
+    specialite:'Port historique de Tanger. Flux MRE estival massif. Ferry vers Tarifa, Algésiras, Gênes.',
+    regimes:['010 Import','040 Export','031 Transit','051 AT voyageurs'],
+    tags:['port','ferry','passagers','tir'],
+    note:'Rôle complémentaire à Tanger Med. Fort pic juillet-août (MRE). TIR routier Europe-Maroc.'
+  },
+  { code:'401', name:'Tanger-Ville',         region:'nord',   type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'401', tel:'05 39 93 33 00',
+    competences:['Import général','Textile','Câblage','Zone Franche Tanger'],
+    specialite:'Bureau ville de Tanger. Compétence sur les entreprises de la ville et ZFI Tanger Free Zone.',
+    regimes:['010 Import','040 Export','061 ZFE','071 Entrepôt'],
+    tags:['ville','zfe'],
+    note:'Tanger Free Zone (TFZ) — agrément AMDIE requis. Spécialisation câblage auto, textile et logistique.'
+  },
+  { code:'402', name:'Tanger/Garantie & I.I.',region:'nord',  type:'ville',     icon:'🔒',
+    horaires:'Lun–Ven 8h30–17h', badr:'402', tel:'05 39 93 33 00',
+    competences:['Garanties','Impôts Indirects','Régimes suspensifs','Tabacs & boissons'],
+    specialite:'Gestion garanties douanières et impôts indirects (TIC, TVA) sur la région Nord.',
+    regimes:['Régimes économiques','Garanties','I.I.'],
+    tags:['ville','garantie'],
+    note:'Interlocuteur pour TIC tabacs, alcools, carburants sur la région Tanger-Tétouan.'
+  },
+  { code:'407', name:'Tétouan',              region:'nord',   type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'407', tel:'05 39 99 48 00',
+    competences:['Import général','Textile','Pêche','Zone Franche Tétouan Shore'],
+    specialite:'Capitale du Nord. Bureau compétent pour Martil, M\'diq, Fnideq.',
+    regimes:['010 Import','040 Export','061 ZFE'],
+    tags:['ville'],
+    note:'Tétouan Shore — ZFI automobile en développement (Renault). Fort potentiel industrie.'
+  },
+  { code:'408', name:'Bab-Sebta',            region:'nord',   type:'frontiere', icon:'🛂',
+    horaires:'24h/24 – 7j/7', badr:'408', tel:'05 39 97 35 00',
+    competences:['Frontière terrestre Espagne','Passagers','Marchandises Sebta','Navette commerciale'],
+    specialite:'Poste frontière terrestre avec Ceuta (Espagne). Trafic passagers et navette.',
+    regimes:['051 AT voyageurs','010 Import','040 Export'],
+    tags:['frontiere','passagers'],
+    note:'Contexte géopolitique spécifique. Marchandises soumises aux règles UE. Contrôle ONSSA strict.'
+  },
+  { code:'406', name:'Larache',              region:'nord',   type:'ville',     icon:'🌊',
+    horaires:'Lun–Ven 8h30–17h', badr:'406', tel:'05 39 91 00 00',
+    competences:['Pêche','Agro-alimentaire','Import général'],
+    specialite:'Port de Larache — pêche et trafic régional.',
+    regimes:['010 Import','040 Export'],
+    tags:['ville','peche'],
+    note:'Bureau secondaire. Rattaché à la Direction Régionale Nord.'
+  },
+  { code:'403', name:'Kénitra',              region:'centre', type:'port',      icon:'⚓',
+    horaires:'Lun–Ven 8h30–17h', badr:'403', tel:'05 37 36 97 00',
+    competences:['Port fluvial','Vrac céréales','Sucre','Bois','ZFI Kénitra'],
+    specialite:'Port sur l\'oued Sebou. ZFI Kénitra — secteur automobile (CEAT, Lear).',
+    regimes:['010 Import','040 Export','061 ZFE','071 Entrepôt'],
+    tags:['port','zfe','industrie'],
+    note:'ZFI Kénitra Atlantic Free Zone (KAFZ) — 2ème pôle automobile après Tanger. Secteurs: câblage, batteries.'
+  },
+  // ── DR TANGER MED ──
+  { code:'411', name:'Tanger-Méditerranée',  region:'tangmed',type:'port',      icon:'🚢',
+    horaires:'24h/24 – 7j/7', badr:'411', tel:'05 39 33 00 12',
+    competences:['Conteneurs','Ro-Ro véhicules neufs','Vrac liquide','ZFI Tanger Med','ZAT Transit','Ferry TIR'],
+    specialite:'1er port d\'Afrique. 9M+ EVP/an. Hub transbordement mondial. ZFI, ZAT, Zone Logistique.',
+    regimes:['010 Import','040 Export','031 Transit','061 ZFE','071 Entrepôt','ZAT'],
+    tags:['port','conteneurs','zfe','tir','24h'],
+    note:'Circuit vert < 2h. Présence permanente ADII, ANP, ONSSA, CoC. BADR 24/7. LGV raccordée.'
+  },
+  { code:'412', name:'Tanger Ibn Batouta',   region:'tangmed',type:'aerien',    icon:'✈️',
+    horaires:'24h/24 selon vols', badr:'412', tel:'05 39 33 85 00',
+    competences:['Fret aérien','Bagages voyageurs','E-commerce','Express courier'],
+    specialite:'Aéroport international Tanger. Fret aérien en forte croissance.',
+    regimes:['010 Import','040 Export','051 AT','031 Transit'],
+    tags:['aerien','fret'],
+    note:'Trafic fret en hausse grâce à l\'expansion industrielle (ZFI). Liaisons Europe et Golfe.'
+  },
+  { code:'410', name:'Tanger/Postes & Véhicules', region:'tangmed', type:'frontiere', icon:'🚗',
+    horaires:'24h/24 – 7j/7', badr:'410', tel:'05 39 93 33 00',
+    competences:['TIR routier','Véhicules importés','Ro-Ro','Camions transit'],
+    specialite:'Bureau dédié au trafic routier et véhicules au port de Tanger.',
+    regimes:['031 Transit TIR','010 Import véhicules','040 Export'],
+    tags:['frontiere','tir','vehicules'],
+    note:'Compétence spécifique véhicules d\'occasion et TIR. Coordinations NARSA obligatoires.'
+  },
+  // ── DR CENTRE ──
+  { code:'405', name:'Rabat',                region:'centre', type:'ville',     icon:'🏛️',
+    horaires:'Lun–Ven 8h30–17h', badr:'405', tel:'05 37 72 49 00',
+    competences:['Ambassades','Institutions internationales','Import diplomatique','Administration centrale'],
+    specialite:'Capitale administrative. Bureau compétent pour les franchises diplomatiques et ambassades.',
+    regimes:['010 Import','040 Export','Franchise diplomatique'],
+    tags:['ville','diplomatique'],
+    note:'Cas d\'usage unique : franchise douanière corps diplomatique. Coordination Ministère AE et protocole.'
+  },
+  { code:'404', name:'Rabat-Salé/Aéroport',  region:'centre', type:'aerien',    icon:'✈️',
+    horaires:'Selon vols', badr:'404', tel:'05 37 81 57 00',
+    competences:['Fret diplomatique','Bagages','Courrier officiel'],
+    specialite:'Aéroport Rabat-Salé. Trafic principalement institutionnel et diplomatique.',
+    regimes:['010 Import','040 Export','051 AT','Franchise diplomatique'],
+    tags:['aerien'],
+    note:'Trafic commercial limité. Surtout usages officiels (gouvernement, diplomatie).'
+  },
+  { code:'409', name:'Rabat-Ville/Colis-Postaux/ONCF', region:'centre', type:'postal', icon:'📦',
+    horaires:'Lun–Ven 8h30–16h', badr:'409', tel:'05 37 72 49 00',
+    competences:['Colis postaux Rabat','Fret ferroviaire ONCF','E-commerce'],
+    specialite:'Bureau postal et ferroviaire de Rabat. Traite le fret ONCF.',
+    regimes:['010 Import','040 Export'],
+    tags:['postal','ferroviaire'],
+    note:'Spécialité unique : compétence sur le fret ferroviaire ONCF (waybills chemin de fer).'
+  },
+  // ── DR FÈS-MEKNÈS ──
+  { code:'500', name:'Fès Ville',            region:'fmek',   type:'ville',     icon:'🕌',
+    horaires:'Lun–Ven 8h30–17h', badr:'500', tel:'05 35 65 22 00',
+    competences:['Artisanat','Textile','Tanneries','Import général','Biens d\'équipement'],
+    specialite:'Capitale de l\'artisanat marocain. Bureau compétent pour la région Fès-Meknès.',
+    regimes:['010 Import','040 Export','071 Entrepôt'],
+    tags:['ville'],
+    note:'Fort volume textile, cuir, artisanat. ZI Sidi Brahim et Hatane sous compétence du bureau.'
+  },
+  { code:'502', name:'Fès-Saïss/Aéroport',   region:'fmek',   type:'aerien',    icon:'✈️',
+    horaires:'Selon vols', badr:'502', tel:'05 35 67 47 12',
+    competences:['Fret aérien','Bagages voyageurs'],
+    specialite:'Aéroport de Fès Saïss — trafic croissant vers l\'Europe.',
+    regimes:['010 Import','040 Export','051 AT'],
+    tags:['aerien'],
+    note:'Trafic touristique et MRE. Extension de l\'aéroport en cours (2025).'
+  },
+  { code:'503', name:'Fès/Garantie & I.I.',   region:'fmek',   type:'ville',     icon:'🔒',
+    horaires:'Lun–Ven 8h30–17h', badr:'503', tel:'05 35 65 22 00',
+    competences:['Garanties','Impôts Indirects','Régimes suspensifs'],
+    specialite:'Gestion garanties et impôts indirects pour la région Fès-Meknès.',
+    regimes:['Régimes économiques','Garanties'],
+    tags:['ville','garantie'],
+    note:''
+  },
+  { code:'504', name:'Taza',                  region:'fmek',   type:'ville',     icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'504', tel:'05 35 67 00 00',
+    competences:['Import général','Transit intérieur'],
+    specialite:'Bureau secondaire sur l\'axe Fès-Oujda.',
+    regimes:['010 Import','040 Export','031 Transit'],
+    tags:['ville'],
+    note:'Point de passage sur la route nationale 6 vers l\'Oriental.'
+  },
+  { code:'700', name:'Meknès',                region:'fmek',   type:'ville',     icon:'🏰',
+    horaires:'Lun–Ven 8h30–17h', badr:'700', tel:'05 35 52 37 40',
+    competences:['Agroalimentaire','Vins & boissons','Olive','Import général','ZI Meknès'],
+    specialite:'Capitale agro-industrielle. Secteurs : olives, conserves, vins, minoteries.',
+    regimes:['010 Import','040 Export','071 Entrepôt'],
+    tags:['ville'],
+    note:'TIC spécifique sur alcools et boissons — compétence DR Fès-Meknès. ZI Sfassef sous ressort bureau.'
+  },
+  { code:'501', name:'Al-Hoceima',            region:'fmek',   type:'ville',     icon:'🌊',
+    horaires:'Lun–Ven 8h30–17h', badr:'501', tel:'05 39 34 04 55',
+    competences:['Pêche','Import général','Aéroport Al Hoceima'],
+    specialite:'Port de pêche et bureau aérien Al-Hoceima — Côte méditerranéenne.',
+    regimes:['010 Import','040 Export'],
+    tags:['ville','peche','aerien'],
+    note:'Compétence mixte port/aéroport. Rattaché à la DR Tanger-Tétouan-Al Hoceima.'
+  },
+  // ── DR ORIENTAL ──
+  { code:'600', name:'Oujda',                 region:'oriental',type:'ville',    icon:'🏙️',
+    horaires:'Lun–Ven 8h30–17h', badr:'600', tel:'05 36 68 21 48',
+    competences:['Import général','Transit Algérie','Textiles','Biens d\'équipement'],
+    specialite:'Capitale de l\'Oriental. Principal bureau de la région frontalière avec l\'Algérie.',
+    regimes:['010 Import','040 Export','031 Transit','071 Entrepôt'],
+    tags:['ville'],
+    note:'Frontière Oujda-Tlemcen fermée depuis 1994 — transit commercial suspendu. Impact sur volumes.'
+  },
+  { code:'601', name:'Oujda/Zouj Beghal',    region:'oriental',type:'frontiere', icon:'🛂',
+    horaires:'Selon ouverture frontalière', badr:'601', tel:'05 36 68 21 48',
+    competences:['Frontière terrestre Algérie','Passagers'],
+    specialite:'Poste frontière avec l\'Algérie — actuellement fermé au trafic commercial.',
+    regimes:['051 AT voyageurs'],
+    tags:['frontiere'],
+    note:'⚠️ Frontière fermée aux échanges commerciaux depuis 1994. Uniquement passagers exceptionnellement.'
+  },
+  { code:'602', name:'Nador',                 region:'oriental',type:'ville',    icon:'🏭',
+    horaires:'Lun–Ven 8h30–17h', badr:'602', tel:'05 36 60 88 06',
+    competences:['Import général','Sidérurgie','ZFI Nador','Transit Med'],
+    specialite:'Bureau ville de Nador. ZFI Nador West Med en cours de montée en puissance.',
+    regimes:['010 Import','040 Export','061 ZFE','031 Transit'],
+    tags:['ville','zfe','industrie'],
+    note:'Nador West Med (NWM) en développement — futur hub industriel et portuaire de l\'Oriental.'
+  },
+  { code:'607', name:'Nador Port',            region:'oriental',type:'port',     icon:'⚓',
+    horaires:'Lun–Ven 8h–17h', badr:'607', tel:'05 36 60 88 06',
+    competences:['Vrac minéralier','Acier','Ferraille','Ferry Méditerranée'],
+    specialite:'Port de Beni Nsar. Trafic ferry Nador-Almeria. Minerais et ferraille.',
+    regimes:['010 Import','040 Export','031 Transit'],
+    tags:['port','ferry'],
+    note:'Ferry Balearia Nador-Almeria (Espagne). Poste frontière maritime distinct du port commercial.'
+  },
+  { code:'603', name:'Ahfir',                 region:'oriental',type:'frontiere', icon:'🛂',
+    horaires:'24h/24 – 7j/7', badr:'603', tel:'05 36 69 60 00',
+    competences:['Frontière terrestre Algérie','Produits pétroliers'],
+    specialite:'Poste frontière Ahfir-Marnia avec l\'Algérie.',
+    regimes:['031 Transit','010 Import'],
+    tags:['frontiere'],
+    note:'Trafic limité. Frontière partiellement ouverte pour produits énergétiques.'
+  },
+  { code:'609', name:'Bab Mellilia',          region:'oriental',type:'frontiere', icon:'🛂',
+    horaires:'24h/24 – 7j/7', badr:'609', tel:'05 36 60 85 90',
+    competences:['Frontière terrestre Espagne','Passagers Mellilia','Navette commerciale'],
+    specialite:'Poste frontière terrestre avec Mellilia (Espagne).',
+    regimes:['051 AT voyageurs','010 Import','040 Export'],
+    tags:['frontiere','passagers'],
+    note:'Contexte similaire à Bab Sebta. Marchandises sous règles UE. Fort trafic navette informelle en régularisation.'
+  },
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let activeFilter = 'all';
+let activeCode = null;
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init() {
+  renderLegend();
+  renderList();
+  // auto-select first
+  if (BUREAUX.length > 0) selectBureau(BUREAUX[0].code);
+}
+
+function renderLegend() {
+  const el = document.getElementById('region-legend');
+  el.innerHTML = REGIONS.map(r =>
+    `<div class="rleg"><div class="rleg-dot" style="background:${r.color}"></div>${r.short}</div>`
+  ).join('');
+}
+
+function renderList() {
+  const el = document.getElementById('bureaux-list');
+  const search = document.getElementById('search-input').value.toLowerCase();
+  let html = '';
+  let visible = 0;
+
+  REGIONS.forEach(region => {
+    const items = BUREAUX.filter(b => {
+      if (b.region !== region.id) return false;
+      if (activeFilter !== 'all' && b.type !== activeFilter && !b.tags.includes(activeFilter)) return false;
+      if (search && !b.name.toLowerCase().includes(search) && !b.code.includes(search) && !b.competences.join(' ').toLowerCase().includes(search)) return false;
+      return true;
+    });
+    if (items.length === 0) return;
+    visible += items.length;
+    html += `<div class="region-header">
+      <div class="region-dot" style="background:${region.color}"></div>
+      <span class="region-name">${region.short}</span>
+      <span class="region-count">${items.length}</span>
+    </div>`;
+    items.forEach(b => {
+      const isActive = b.code === activeCode ? 'active' : '';
+      const typeDot = typeColor(b.type);
+      html += `<div class="bureau-item ${isActive}" id="item-${b.code}" onclick="selectBureau('${b.code}')">
+        <span class="bureau-code">${b.code}</span>
+        <span class="bureau-name">${b.name}</span>
+        <div class="bureau-type-dot" style="background:${typeDot}" title="${b.type}"></div>
+      </div>`;
+    });
+  });
+
+  if (visible === 0) html = `<div class="no-result">Aucun bureau trouvé</div>`;
+  el.innerHTML = html;
+  document.getElementById('results-count').textContent = visible + ' bureaux';
+}
+
+function typeColor(type) {
+  return {port:'#1A3A9A',aerien:'#1E7A4A',frontiere:'#9A2A22',postal:'#B8922A',ville:'#8A8A82',industrie:'#5A2AA0'}[type] || '#8A8A82';
+}
+
+function selectBureau(code) {
+  activeCode = code;
+  const b = BUREAUX.find(x => x.code === code);
+  if (!b) return;
+  const region = REGIONS.find(r => r.id === b.region);
+
+  // Update list active state
+  document.querySelectorAll('.bureau-item').forEach(el => el.classList.remove('active'));
+  const item = document.getElementById('item-' + code);
+  if (item) { item.classList.add('active'); item.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+
+  // Build detail
+  const typeLabel = {port:'Port maritime',aerien:'Aéroport',frontiere:'Frontière terrestre',postal:'Colis postaux',ville:'Bureau ville',industrie:'Zone industrielle'}[b.type] || b.type;
+  const regimesHtml = b.regimes.map(r => `<span class="td-badge" style="background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)">${r}</span>`).join(' ');
+  const compHtml = b.competences.map((c,i) =>
+    `<span class="comp-tag ${i===0?'primary':i<=2?'secondary':''}">${c}</span>`
+  ).join('');
+  const tagsHtml = b.tags.map(t => {
+    const cfg = {port:{label:'Port',cls:'pill-blue'},aerien:{label:'Aérien',cls:'pill-green'},frontiere:{label:'Frontière',cls:'pill-red'},postal:{label:'Postal',cls:'pill-amber'},zfe:{label:'ZFE/ZFI',cls:'pill-gold'},peche:{label:'Pêche',cls:'pill-blue'},ocp:{label:'OCP',cls:'pill-amber'},'24h':{label:'24h/7',cls:'pill-green'},tir:{label:'TIR',cls:'pill-blue'},vehicules:{label:'Véhicules',cls:'pill-blue'},garantie:{label:'Garantie',cls:'pill-amber'},ferroviaire:{label:'ONCF',cls:'pill-purple'}};
+    const c = cfg[t] || {label:t,cls:''};
+    return `<span class="dpill ${c.cls}" style="border-color:var(--border);background:var(--bg2);color:var(--mid)">${c.label}</span>`;
+  }).join('');
+
+  const noteHtml = b.note ? `<div class="alert a-info" style="margin-top:10px">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/></svg>
+    <span>${b.note}</span></div>` : '';
+
+  document.getElementById('detail-panel').innerHTML = `
+    <div class="detail-hdr">
+      <div class="detail-hdr-top">
+        <div class="detail-icon">${b.icon}</div>
+        <div>
+          <div class="detail-code">Bureau ADII · Code BADR ${b.badr}</div>
+          <div class="detail-name">${b.name}</div>
+          <div class="detail-region-tag" style="border-color:${region?.color}20;color:${region?.color}">${region?.short || ''}</div>
+        </div>
+      </div>
+      <div class="detail-pills">${tagsHtml}</div>
+    </div>
+    <div class="detail-body">
+      <div>
+        <div class="detail-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/></svg>
+          Informations opérationnelles
+        </div>
+        <table class="info-table">
+          <tr><td>Type</td><td>${typeLabel}</td></tr>
+          <tr><td>Code BADR</td><td><span style="font-family:JetBrains Mono,monospace;font-size:12px;color:var(--gold);font-weight:700">${b.badr}</span></td></tr>
+          <tr><td>Horaires</td><td>${b.horaires}</td></tr>
+          ${b.tel ? `<tr><td>Tél.</td><td><a href="tel:${b.tel}" style="color:var(--blue);text-decoration:none">${b.tel}</a></td></tr>` : ''}
+          <tr><td>Direction</td><td>${region?.name || ''}</td></tr>
+        </table>
+        <div style="margin-top:12px">
+          <div class="detail-section-title">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Régimes douaniers admissibles
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${regimesHtml}</div>
+        </div>
+      </div>
+      <div>
+        <div class="detail-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Compétences sectorielles
+        </div>
+        <div class="competences-grid">${compHtml}</div>
+        <div style="margin-top:12px">
+          <div class="detail-section-title">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Spécialité & contexte
+          </div>
+          <p style="font-size:12.5px;color:var(--mid);line-height:1.7">${b.specialite}</p>
+          ${noteHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+  if (activeCode) {
+    const item = document.getElementById('item-' + activeCode);
+    if (!item) activeCode = null;
+  }
+}
+
+function filterBureaux() {
+  renderList();
+}
+
+function quickFilter(type) {
+  activeFilter = type === 'all' ? 'all' : type;
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === activeFilter || (activeFilter === 'all' && b.dataset.filter === 'all'));
+  });
+  renderList();
+  // auto-select first visible
+  const first = BUREAUX.find(b => {
+    if (activeFilter === 'all') return true;
+    return b.type === activeFilter || b.tags.includes(activeFilter);
+  });
+  if (first) selectBureau(first.code);
+}
+
+// Styles for pills referenced in JS
+const style = document.createElement('style');
+style.textContent = `.pill-red{background:var(--red-bg);border-color:var(--red-bd);color:var(--red)}.pill-blue{background:var(--blue-bg);border-color:var(--blue-bd);color:var(--blue)}.pill-green{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}.pill-gold{background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)}.pill-amber{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber)}.pill-purple{background:var(--purple-bg);border-color:var(--purple-bd);color:var(--purple)}`;
+document.head.appendChild(style);
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

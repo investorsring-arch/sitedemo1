@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossaire Douanier FR/AR — Douane.ia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#B8922A;--gold-h:#D4A940;--gold-pale:#FBF5E6;--gold-bd:rgba(184,146,42,.25);--gold-dim:rgba(184,146,42,.1);
+  --ink:#1A1A18;--mid:#5A5A54;--muted:#8A8A82;
+  --bg:#F9F8F4;--bg2:#F2F0EA;--surface:#FFFFFF;
+  --border:#E4E2DA;--border-mid:#D0CEC4;
+  --green:#1E7A4A;--green-bg:#EBF7EE;--green-bd:#B0DDB8;
+  --red:#9A2A22;--red-bg:#FEF0EE;--red-bd:#F0B0A8;
+  --amber:#8A5A10;--amber-bg:#FEF5E4;--amber-bd:#F0D080;
+  --blue:#1A3A9A;--blue-bg:#EEF4FE;--blue-bd:#B0C8F8;
+  --sh:0 1px 4px rgba(26,26,24,.06);--sh-md:0 4px 20px rgba(26,26,24,.1);
+  --r:8px;--r-lg:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.hdr{background:rgba(249,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:0;z-index:200;box-shadow:var(--sh)}
+.hdr-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:14px;height:56px}
+.logo-mark{width:30px;height:30px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark svg{fill:#fff}
+.logo-txt{font-family:"DM Serif Display",serif;font-size:15px;color:var(--ink);line-height:1.1}
+.logo-txt span{display:block;font-size:9px;font-family:"JetBrains Mono",monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.hdr-sep{width:1px;height:26px;background:var(--border)}
+.hdr-lbl{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mid)}
+.hdr-badges{margin-left:auto;display:flex;gap:6px}
+.hb{font-family:"JetBrains Mono",monospace;font-size:9px;padding:3px 10px;letter-spacing:.07em;text-transform:uppercase;border-radius:100px;border:1px solid}
+.hb-gold{background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)}
+.hb-green{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 2rem 5rem}
+.hero{padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.hero h1{font-family:"DM Serif Display",serif;font-size:clamp(20px,3vw,36px);color:var(--ink);line-height:1.05}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{color:var(--mid);font-size:13px;margin-top:8px;max-width:600px;line-height:1.7}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.htag{font-family:"JetBrains Mono",monospace;font-size:9.5px;padding:3px 10px;border-radius:100px;border:1px solid}
+
+/* SEARCH & FILTERS */
+.search-zone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:18px;box-shadow:var(--sh-md)}
+.search-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;background:var(--bg);border:1px solid var(--border-mid);color:var(--ink);font-family:"DM Sans",sans-serif;font-size:14px;padding:9px 14px;border-radius:var(--r);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--gold);background:var(--surface)}
+.search-input::placeholder{color:var(--muted)}
+.lang-toggle{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.lang-btn{padding:8px 16px;border:none;background:transparent;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:all .15s}
+.lang-btn.active{background:var(--gold);color:#fff}
+.search-count{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* CATEGORY FILTERS */
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.cat-chip{padding:5px 12px;border:1px solid var(--border);border-radius:100px;background:var(--surface);color:var(--muted);font-family:"DM Sans",sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .15s}
+.cat-chip:hover{border-color:var(--gold-bd);color:var(--ink)}
+.cat-chip.active{background:var(--gold);border-color:var(--gold);color:#fff}
+
+/* ALPHA NAV */
+.alpha-nav{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:16px}
+.alpha-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.alpha-btn:hover{border-color:var(--gold-bd);color:var(--gold)}
+.alpha-btn.active{background:var(--gold);border-color:var(--gold);color:#fff}
+.alpha-btn.disabled{opacity:.3;cursor:default}
+
+/* TERMS GRID */
+.letter-group{margin-bottom:28px}
+.letter-header{font-family:"DM Serif Display",serif;font-size:28px;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--gold-bd)}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+.term-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;box-shadow:var(--sh);transition:all .2s;cursor:pointer;border-left:3px solid transparent}
+.term-card:hover{border-color:var(--border-mid);box-shadow:var(--sh-md);border-left-color:var(--gold-bd)}
+.term-card.expanded{border-left-color:var(--gold);box-shadow:var(--sh-md)}
+.term-fr{font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.term-ar{font-family:Arial,sans-serif;font-size:14px;color:var(--gold);direction:rtl;text-align:right;margin-bottom:5px;line-height:1.4}
+.term-en{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);margin-bottom:6px}
+.term-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.tbadge{font-family:"JetBrains Mono",monospace;font-size:8.5px;padding:2px 7px;border-radius:100px;border:1px solid}
+.cat-adii{background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)}
+.cat-fiscal{background:var(--red-bg);border-color:var(--red-bd);color:var(--red)}
+.cat-transport{background:var(--blue-bg);border-color:var(--blue-bd);color:var(--blue)}
+.cat-incoterms{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+.cat-documents{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber)}
+.cat-regime{background:var(--purple-bg,#F3EEFE);border-color:var(--purple-bd,#C8A8F8);color:var(--purple,#5A2AA0)}
+.term-def{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:12.5px;color:var(--mid);line-height:1.65;animation:fd .18s ease}
+.term-card.expanded .term-def{display:block}
+@keyframes fd{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
+
+.no-results{text-align:center;padding:50px;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:11px}
+footer{border-top:1px solid var(--border);padding:16px 2rem;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.07em;background:var(--surface);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="logo-mark"><svg width="15" height="15" viewBox="0 0 12 12"><path d="M6 0L11 3V9L6 12L1 9V3Z"/></svg></div>
+    <div class="logo-txt">Douane.ia <span>Intelligence Douanière</span></div>
+    <div class="hdr-sep"></div>
+    <div class="hdr-lbl">Glossaire Douanier</div>
+    <div class="hdr-badges">
+      <span class="hb hb-gold">FR · AR · EN</span>
+      <span class="hb hb-green">180+ termes</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Glossaire <em>Douanier</em> Trilingue</h1>
+    <p>Référentiel complet des termes douaniers, logistiques et fiscaux en français, arabe et anglais — adapté au contexte de l'ADII et du commerce international au Maroc.</p>
+    <div class="hero-meta">
+      <span class="htag" style="background:var(--gold-dim);border-color:var(--gold-bd);color:var(--gold)">Douane ADII</span>
+      <span class="htag" style="background:var(--blue-bg);border-color:var(--blue-bd);color:var(--blue)">Transport & Logistique</span>
+      <span class="htag" style="background:var(--green-bg);border-color:var(--green-bd);color:var(--green)">Incoterms 2020</span>
+      <span class="htag" style="background:var(--red-bg);border-color:var(--red-bd);color:var(--red)">Fiscalité douanière</span>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-zone">
+    <div class="search-row">
+      <input class="search-input" type="text" id="search-input" placeholder="Rechercher un terme en français, arabe ou anglais..." oninput="renderGlossaire()">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('all',this)">Tous</button>
+        <button class="lang-btn" onclick="setLang('fr',this)">FR</button>
+        <button class="lang-btn" onclick="setLang('ar',this)">AR</button>
+        <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+      </div>
+      <div class="search-count" id="search-count">— termes</div>
+    </div>
+    <div class="cat-filters">
+      <button class="cat-chip active" onclick="setCat('all',this)">Tous</button>
+      <button class="cat-chip" onclick="setCat('adii',this)">ADII / Douane</button>
+      <button class="cat-chip" onclick="setCat('fiscal',this)">Fiscalité</button>
+      <button class="cat-chip" onclick="setCat('transport',this)">Transport</button>
+      <button class="cat-chip" onclick="setCat('incoterms',this)">Incoterms</button>
+      <button class="cat-chip" onclick="setCat('documents',this)">Documents</button>
+      <button class="cat-chip" onclick="setCat('regime',this)">Régimes</button>
+    </div>
+  </div>
+
+  <!-- ALPHA NAV -->
+  <div class="alpha-nav" id="alpha-nav"></div>
+
+  <!-- TERMS -->
+  <div id="glossaire-output"></div>
+</div>
+
+<footer>Douane.ia — Glossaire Douanier Trilingue FR/AR/EN · Sources : ADII, Code des Douanes, Tarif Intégré Marocain, Incoterms ICC 2020</footer>
+
+<script>
+const TERMS = [
+  // A
+  {fr:"Accord de libre-échange (ALE)",ar:"اتفاقية التبادل الحر",en:"Free Trade Agreement (FTA)",cat:"adii",def:"Convention bilatérale ou multilatérale supprimant ou réduisant les droits de douane entre pays signataires. Le Maroc a conclu des ALE avec l'UE (ALECA), les USA, la Turquie, les pays arabes (GAFTA) et l'accord Agadir."},
+  {fr:"Admission temporaire (AT)",ar:"القبول المؤقت",en:"Inward Processing Relief (IPR)",cat:"regime",def:"Régime douanier économique permettant l'importation de matières premières en suspension de droits, sous condition de transformation et réexport dans un délai imparti. Code BADR : 051."},
+  {fr:"ADII",ar:"إدارة الجمارك والضرائب غير المباشرة",en:"Moroccan Customs Administration",cat:"adii",def:"Administration des Douanes et Impôts Indirects — autorité douanière marocaine chargée du contrôle des frontières, de la perception des droits et taxes, et de la lutte contre la fraude."},
+  {fr:"Apurement",ar:"تصفية النظام",en:"Discharge / Clearance",cat:"regime",def:"Opération par laquelle le redevable prouve à la douane que les obligations attachées à un régime économique ont été remplies (réexportation, mise à la consommation, destruction...)."},
+  {fr:"Accord ALECA",ar:"اتفاقية الشراكة المغرب-أوروبا",en:"EU-Morocco Association Agreement",cat:"adii",def:"Accord d'Association entre le Maroc et l'Union Européenne, entré en vigueur en 2000. Prévoit le démantèlement tarifaire progressif et l'accès préférentiel aux marchés des deux parties."},
+  {fr:"Assiette imposable",ar:"الوعاء الضريبي",en:"Tax base",cat:"fiscal",def:"Montant sur lequel est appliqué un taux d'imposition. En douane marocaine, l'assiette TVA est la valeur CAF + DI + TIC (base élargie selon Art. 96 CGI)."},
+  {fr:"Avis de passage",ar:"إشعار المرور",en:"Notice of passage",cat:"documents",def:"Document douanier notifiant au destinataire l'arrivée de sa marchandise et l'invitant à accomplir les formalités de dédouanement dans un délai imparti."},
+
+  // B
+  {fr:"BADR",ar:"نظام الجمارك الآلي عبر الشبكة",en:"Automated Customs Network System",cat:"adii",def:"Base Automatisée des Douanes en Réseau — système informatique de l'ADII pour le traitement des déclarations d'importation et d'exportation. Seuls les transitaires agréés y ont accès."},
+  {fr:"Bon à enlever (BAE)",ar:"إذن الإفراج",en:"Release Order",cat:"adii",def:"Document douanier autorisant la sortie des marchandises du port ou de l'aéroport après paiement des droits et taxes et validation de la DUM par BADR."},
+  {fr:"Bureau de douane",ar:"مكتب الجمارك",en:"Customs office",cat:"adii",def:"Lieu où sont accomplies les formalités de dédouanement. Les principaux bureaux marocains sont Casablanca Port, Tanger Med, Agadir, l'aéroport Mohammed V..."},
+  {fr:"B/L (Bill of Lading)",ar:"سند الشحن البحري",en:"Bill of Lading",cat:"documents",def:"Connaissement maritime — document émis par le transporteur attestant la prise en charge de la marchandise et le contrat de transport. Titre de propriété des marchandises."},
+
+  // C
+  {fr:"Caution douanière",ar:"ضمان جمركي",en:"Customs bond / guarantee",cat:"adii",def:"Garantie financière exigée pour les régimes économiques (AT, entrepôt) couvrant les droits et taxes suspendus. Sous forme bancaire ou versement en numéraire."},
+  {fr:"CAF (Coût, Assurance, Fret)",ar:"تكلفة التأمين والشحن",en:"CIF (Cost, Insurance, Freight)",cat:"incoterms",def:"Valeur en douane comprenant le coût de la marchandise (FOB) + assurance + fret jusqu'au port marocain. Base de calcul des droits d'importation (méthode OMC Art. 1)."},
+  {fr:"Certificat d'origine",ar:"شهادة المنشأ",en:"Certificate of origin",cat:"documents",def:"Document attestant l'origine préférentielle ou non préférentielle d'une marchandise. En format EUR.1 pour les accords UE-Maroc, ou Form-A pour les pays bénéficiaires du SPG."},
+  {fr:"Circuit douanier",ar:"المسار الجمركي",en:"Customs channel",cat:"adii",def:"Procédure d'examen des déclarations par BADR selon l'analyse de risque : Vert (mainlevée directe), Jaune (contrôle documentaire), Rouge (visite physique des marchandises)."},
+  {fr:"Code SH (Système Harmonisé)",ar:"نظام المنسق",en:"Harmonized System (HS) code",cat:"adii",def:"Nomenclature internationale de classement des marchandises à 6 chiffres, administrée par l'OMD. Le Maroc utilise une extension à 10 chiffres (NC10) pour son tarif douanier."},
+  {fr:"Connaissement (B/L)",ar:"بوليصة الشحن",en:"Bill of Lading",cat:"documents",def:"Document contractuel du transport maritime émis par le transporteur. Constitue un document d'importation obligatoire dans BADR pour toute importation maritime."},
+  {fr:"Contrôle douanier",ar:"الرقابة الجمركية",en:"Customs control",cat:"adii",def:"Ensemble des mesures appliquées par l'ADII pour assurer le respect de la réglementation : contrôle documentaire, visite physique, analyses de laboratoire, expertise de valeur."},
+
+  // D
+  {fr:"Déclaration en douane (DUM)",ar:"التصريح الجمركي - وثيقة الاستيراد الموحدة",en:"Customs declaration",cat:"adii",def:"Déclaration Unique des Marchandises — document obligatoire soumis dans BADR par le transitaire agréé décrivant les marchandises importées/exportées. Seul les transitaires agréés ADII peuvent soumettre une DUM."},
+  {fr:"Dédouanement",ar:"التخليص الجمركي",en:"Customs clearance",cat:"adii",def:"Ensemble des opérations permettant la mise en libre pratique d'une marchandise sur le territoire douanier : dépôt DUM, contrôle, liquidation, paiement des droits, bon à enlever."},
+  {fr:"Droit d'importation (DI)",ar:"حقوق الاستيراد",en:"Import duty",cat:"fiscal",def:"Taxe perçue par la douane sur la valeur en douane CAF des marchandises importées. Taux variables : 0%, 2,5%, 10%, 17,5%, 25%, 40% selon le code NC10 et les accords préférentiels."},
+  {fr:"Drawback",ar:"رد الحقوق",en:"Drawback",cat:"regime",def:"Régime permettant le remboursement des droits et taxes payés à l'importation sur des intrants qui ont été incorporés dans des produits exportés. Code BADR : 021. Délai : 12 mois après export."},
+  {fr:"Droits et taxes",ar:"الرسوم والضرائب",en:"Duties and taxes",cat:"fiscal",def:"Ensemble des prélèvements à l'importation : DI (droit d'importation), TVA, TIC (taxe intérieure consommation), PFI (prélèvement fiscal importation), droits antidumping éventuels."},
+
+  // E
+  {fr:"Engagement d'importation",ar:"التزام الاستيراد",en:"Import commitment",cat:"documents",def:"Document émis par l'Office des Changes, obligatoire pour toute importation. Matérialise l'engagement de l'importateur à rapatrier les devises en cas d'exportation."},
+  {fr:"Entrepôt de douane",ar:"المستودع الجمركي",en:"Customs warehouse",cat:"regime",def:"Local agréé par l'ADII permettant le stockage de marchandises importées sans paiement des droits pendant la durée du séjour (max 3 ans). Code BADR : 071."},
+  {fr:"Expertise en douane",ar:"الخبرة الجمركية",en:"Customs expertise",cat:"adii",def:"Procédure d'évaluation de la valeur ou de la nature d'une marchandise par un expert désigné par l'ADII. Déclenchée en cas de doute sur la valeur déclarée ou la classification NC10."},
+  {fr:"EUR.1 (Certificat de circulation)",ar:"شهادة تداول البضائع يورو 1",en:"EUR.1 movement certificate",cat:"documents",def:"Formulaire attestant le caractère originaire d'une marchandise pour bénéficier des préférences tarifaires dans le cadre des accords de libre-échange (ALECA Maroc-UE, ALE Turquie...)."},
+
+  // F
+  {fr:"Facture commerciale",ar:"الفاتورة التجارية",en:"Commercial invoice",cat:"documents",def:"Document obligatoire à l'importation émis par le vendeur, mentionnant : description marchandise, quantité, prix unitaire, valeur totale, incoterm, conditions de paiement, origine."},
+  {fr:"Facture pro forma",ar:"فاتورة مبدئية",en:"Pro forma invoice",cat:"documents",def:"Document préliminaire émis avant expédition, utilisé pour les démarches administratives et douanières. Ne constitue pas une créance exigible — permet l'établissement des titres d'importation."},
+  {fr:"Fiche suiveuse PortNet",ar:"ملف PortNet",en:"PortNet tracking file",cat:"documents",def:"Document électronique généré par PortNet lors de l'arrivée du navire. Constitue le point de départ de la procédure de dédouanement et lie la DUM au manifeste du navire."},
+  {fr:"FOB (Free On Board)",ar:"تسليم على ظهر السفينة",en:"Free On Board",cat:"incoterms",def:"Incoterm où le vendeur est responsable jusqu'à la mise à bord du navire au port d'expédition. Les risques et frais de transport maritime passent à l'acheteur dès le passage du bastingage."},
+  {fr:"Franchise douanière",ar:"الإعفاء الجمركي",en:"Customs exemption",cat:"fiscal",def:"Exonération totale ou partielle des droits et taxes douanières accordée à certaines catégories de marchandises ou dans le cadre d'accords préférentiels."},
+  {fr:"Fret",ar:"أجرة الشحن",en:"Freight",cat:"transport",def:"Coût du transport des marchandises d'un lieu à un autre. Composante de la valeur CAF avec le prix FOB et l'assurance. Obligatoirement assuré auprès d'une compagnie marocaine."},
+
+  // G
+  {fr:"GAFTA",ar:"منطقة التجارة الحرة العربية الكبرى",en:"Greater Arab Free Trade Area",cat:"adii",def:"Zone de libre-échange arabe regroupant 18 pays dont le Maroc, l'Égypte, la Jordanie, la Tunisie, l'Arabie Saoudite... Droits nuls entre pays membres sur les marchandises d'origine arabe."},
+
+  // I
+  {fr:"ICE (Identifiant Commun Entreprise)",ar:"رقم التعريف المشترك للمقاولة",en:"Common Business Identifier",cat:"adii",def:"Numéro d'identification unique à 15 chiffres attribué à toute entreprise marocaine. Obligatoire dans BADR pour l'identification de l'importateur/exportateur dans toute DUM."},
+  {fr:"IMANOR",ar:"المعهد المغربي للتقييس",en:"Moroccan Standards Institute",cat:"adii",def:"Institut Marocain de Normalisation — délivre les Certificats de Conformité (CoC) pour les produits soumis à réglementation technique marocaine (chaussures, meubles, jouets, électrique...)."},
+  {fr:"Importation temporaire",ar:"الاستيراد المؤقت",en:"Temporary importation",cat:"regime",def:"Régime permettant l'entrée temporaire de marchandises sans transformation, avec réexport obligatoire en l'état. Utilisé pour foires, matériel professionnel, équipements de tournage. Code BADR : 091."},
+  {fr:"Incoterms 2020",ar:"شروط التسليم الدولية 2020",en:"International Commercial Terms 2020",cat:"incoterms",def:"Règles internationales publiées par la Chambre de Commerce Internationale (ICC) définissant les obligations respectives du vendeur et de l'acheteur dans un contrat de vente internationale."},
+
+  // L
+  {fr:"Lettre de transport aérien (LTA)",ar:"وثيقة النقل الجوي",en:"Airway Bill (AWB)",cat:"documents",def:"Document de transport aérien équivalent au B/L maritime. Émis par la compagnie aérienne, il accompagne la marchandise et constitue un document obligatoire dans BADR pour les imports aériens."},
+  {fr:"Liquidation des droits",ar:"تصفية الحقوق",en:"Duties assessment",cat:"adii",def:"Calcul et notification par BADR du montant exact des droits et taxes dus sur une importation. Intervient après validation documentaire (circuit jaune ou vert) et avant le paiement."},
+
+  // M
+  {fr:"Mainlevée",ar:"الإفراج",en:"Release of goods",cat:"adii",def:"Acte par lequel la douane autorise la disposition des marchandises après accomplissement des formalités (circuit vert direct, ou après contrôle pour circuit jaune/rouge)."},
+  {fr:"Manifeste du navire",ar:"بيان الشحنة",en:"Ship's manifest",cat:"documents",def:"Document récapitulant toutes les marchandises chargées à bord d'un navire. Déposé par le consignataire dans BADR avant ou à l'arrivée du navire. Base des déclarations sommaires."},
+  {fr:"Mise à la consommation",ar:"الإفراج للاستهلاك",en:"Release for free circulation",cat:"regime",def:"Régime douanier standard permettant l'importation définitive d'une marchandise sur le territoire marocain après paiement de l'intégralité des droits et taxes. Code BADR : 010."},
+
+  // N
+  {fr:"NC10 (Nomenclature Combinée à 10 chiffres)",ar:"التسمية المجمعة ذات العشرة أرقام",en:"10-digit Combined Nomenclature",cat:"adii",def:"Extension marocaine du Système Harmonisé à 10 chiffres utilisée dans le Tarif Intégré Marocain. Détermine le taux DI, les documents requis, les régimes admissibles et les contrôles applicables."},
+  {fr:"Note de débit",ar:"مذكرة الدين",en:"Debit note",cat:"documents",def:"Document comptable émis par la douane récapitulant les montants des droits et taxes dus. Précède le paiement et la délivrance du bon à enlever (BAE)."},
+
+  // O
+  {fr:"ONSSA",ar:"المكتب الوطني للسلامة الصحية للمنتجات الغذائية",en:"National Office for Food Safety",cat:"adii",def:"Office National de Sécurité Sanitaire des produits Alimentaires. Contrôle phytosanitaire et vétérinaire à l'importation. Compétent sur les chapitres SH 01 à 24, 30 et 31 notamment."},
+  {fr:"OMC (Organisation Mondiale du Commerce)",ar:"منظمة التجارة العالمية",en:"World Trade Organization (WTO)",cat:"adii",def:"Organisation internationale régissant les règles du commerce mondial. L'accord OMC sur l'évaluation en douane (Art. 1 à 7) définit la méthode de calcul de la valeur en douane."},
+
+  // P
+  {fr:"Packing list",ar:"قائمة التعبئة",en:"Packing list",cat:"documents",def:"Document obligatoire à l'importation listant le détail des colis : contenu, poids brut/net, dimensions, numéros de colis. Complément indispensable de la facture commerciale."},
+  {fr:"PFI (Prélèvement Fiscal à l'Importation)",ar:"الرسم الجبائي على الاستيراد",en:"Import Fiscal Levy",cat:"fiscal",def:"Taxe douanière de 5% appliquée sur la valeur CAF de certains produits agricoles et agro-alimentaires importés. S'additionne au DI et est inclus dans la base TVA."},
+  {fr:"PortNet",ar:"نظام المجمع اللوجستي البحري",en:"PortNet logistics platform",cat:"transport",def:"Plateforme électronique de gestion portuaire marocaine interconnectant douane, ANP, transitaires et consignataires. Obligatoire pour la gestion des escales et la création des fiches suiveuses."},
+  {fr:"Position tarifaire",ar:"البند التعريفي",en:"Tariff heading",cat:"adii",def:"Niveau de classification dans la nomenclature douanière à 4 chiffres (sous-position à 6 chiffres, sous-position nationale à 8, code NC10 à 10 chiffres)."},
+
+  // R
+  {fr:"Régime douanier",ar:"النظام الجمركي",en:"Customs procedure",cat:"regime",def:"Traitement douanier particulier appliqué à une marchandise lors de son introduction ou de sa sortie du territoire douanier marocain. Codifié en 3 chiffres dans BADR (010, 051, 071...)."},
+  {fr:"Ristourne de droits",ar:"رد الحقوق الجمركية",en:"Duty drawback",cat:"fiscal",def:"Remboursement partiel des droits et taxes acquittés lors d'une mise à la consommation, accordé dans certaines conditions (réexportation ultérieure, marchandises défectueuses...)."},
+
+  // S
+  {fr:"SH (Système Harmonisé)",ar:"النظام المنسق لتسمية البضائع وترميزها",en:"Harmonized System (HS)",cat:"adii",def:"Nomenclature internationale de classification des marchandises à 6 chiffres administrée par l'Organisation Mondiale des Douanes (OMD). Base du Tarif Intégré Marocain."},
+  {fr:"Scellé douanier",ar:"الختم الجمركي",en:"Customs seal",cat:"adii",def:"Dispositif de fermeture apposé par la douane sur un conteneur ou un véhicule en transit pour garantir l'intégrité de la cargaison jusqu'au bureau de destination."},
+
+  // T
+  {fr:"Tarif Intégré Marocain (TIM)",ar:"التعريفة المندمجة المغربية",en:"Moroccan Integrated Tariff",cat:"adii",def:"Base de données officielle reprenant l'ensemble des codes NC10 avec leurs droits applicables, régimes admissibles, documents requis et mesures de politique commerciale."},
+  {fr:"TIC (Taxe Intérieure de Consommation)",ar:"الرسم الداخلي على الاستهلاك",en:"Excise duty",cat:"fiscal",def:"Taxe frappant la consommation de certains produits : tabac, boissons alcoolisées, hydrocarbures. Peut être ad valorem (% de valeur) ou spécifique (montant fixe par unité)."},
+  {fr:"Titre d'importation",ar:"رخصة الاستيراد",en:"Import licence",cat:"documents",def:"Autorisation administrative préalable exigée pour l'importation de certaines marchandises réglementées (armes, produits pharmaceutiques, véhicules, hydrocarbures...)."},
+  {fr:"Transitaire",ar:"المفوض بالتخليص الجمركي",en:"Customs broker / freight forwarder",cat:"adii",def:"Professionnel agréé par l'ADII habilité à établir et soumettre les déclarations en douane (DUM) dans BADR au nom des importateurs/exportateurs. Son agrément est personnel et révocable."},
+  {fr:"Transit",ar:"العبور",en:"Transit",cat:"regime",def:"Régime permettant le transport de marchandises d'un bureau de douane à un autre sous contrôle douanier, avec suspension des droits. Délai max 30 jours. Code BADR : 031."},
+  {fr:"TVA à l'importation",ar:"الضريبة على القيمة المضافة عند الاستيراد",en:"Import VAT",cat:"fiscal",def:"TVA due à l'importation, calculée sur la base élargie CAF + DI + TIC (Art. 96 CGI). Taux normal 20%, taux réduits 14%, 10%, 7% selon la nature des marchandises."},
+
+  // U
+  {fr:"Union douanière",ar:"الاتحاد الجمركي",en:"Customs union",cat:"adii",def:"Accord entre pays supprimant les droits de douane entre membres et appliquant un tarif extérieur commun vis-à-vis des tiers. Forme d'intégration économique plus avancée que la ZLE."},
+
+  // V
+  {fr:"Valeur en douane",ar:"القيمة الجمركية",en:"Customs value",cat:"fiscal",def:"Valeur servant de base au calcul des droits d'importation. Selon la méthode principale de l'OMC (Art. 1 accord OMC), c'est la valeur transactionnelle CAF (coût + assurance + fret)."},
+  {fr:"Visite douanière",ar:"التفتيش الجمركي",en:"Customs inspection",cat:"adii",def:"Contrôle physique des marchandises effectué par les agents des douanes (circuit rouge). Peut être partiel (sondage) ou total. Coûts de manutention à la charge du déclarant."},
+
+  // Z
+  {fr:"Zone franche d'exportation (ZFE)",ar:"المنطقة الحرة للتصدير",en:"Free Export Zone",cat:"regime",def:"Zone géographique bénéficiant d'un régime douanier et fiscal particulier : exonération totale des droits, TVA et IS pendant 5 ans. Exemples : Tanger Med, Kénitra, Dakhla Atlantique."},
+  {fr:"Zone de libre-échange (ZLE)",ar:"منطقة التبادل الحر",en:"Free Trade Zone",cat:"adii",def:"Accord supprimant les droits de douane entre pays membres sur les marchandises originaires, sans tarif extérieur commun (contrairement à l'union douanière)."},
+
+  // INCOTERMS
+  {fr:"EXW (Ex Works)",ar:"تسليم من المصنع",en:"Ex Works",cat:"incoterms",def:"Incoterm où le vendeur met la marchandise à disposition dans ses locaux. L'acheteur supporte tous les frais et risques de transport depuis l'usine jusqu'à destination."},
+  {fr:"DAP (Delivered At Place)",ar:"تسليم في المكان المحدد",en:"Delivered At Place",cat:"incoterms",def:"Le vendeur livre la marchandise au lieu de destination convenu, à disposition de l'acheteur. Droits de douane d'importation à la charge de l'acheteur."},
+  {fr:"DDP (Delivered Duty Paid)",ar:"تسليم مع دفع الرسوم",en:"Delivered Duty Paid",cat:"incoterms",def:"L'incoterm le plus complet pour l'acheteur : le vendeur prend en charge tous les frais jusqu'à livraison, y compris les droits de douane d'importation au pays de destination."},
+  {fr:"CFR (Cost and Freight)",ar:"التكلفة والشحن",en:"Cost and Freight",cat:"incoterms",def:"Le vendeur paie le fret maritime jusqu'au port de destination, mais les risques passent à l'acheteur dès la mise à bord. L'assurance maritime est à la charge de l'acheteur."},
+  {fr:"CPT (Carriage Paid To)",ar:"النقل مدفوع حتى",en:"Carriage Paid To",cat:"incoterms",def:"Equivalent de CFR pour tous modes de transport. Le vendeur paie le transport jusqu'au lieu convenu, les risques passent à l'acheteur lors de la remise au premier transporteur."},
+
+  // TRANSPORT
+  {fr:"Conteneur (EVP/TEU)",ar:"الحاوية (وحدة مكافئة للعشرين قدم)",en:"Container (TEU)",cat:"transport",def:"Unité de transport normalisée ISO. EVP (Équivalent Vingt Pieds) ou TEU en anglais. Tanger Med est le premier port à conteneurs d'Afrique avec plus de 7 millions EVP/an."},
+  {fr:"CMR (Convention Marchandises Routier)",ar:"عقد النقل البري للبضائع",en:"CMR Convention",cat:"transport",def:"Convention internationale régissant le transport routier international de marchandises. La lettre de voiture CMR est le document de transport obligatoire pour les imports routiers dans BADR."},
+  {fr:"Connaissement direct",ar:"بوليصة الشحن المباشر",en:"Through Bill of Lading",cat:"transport",def:"B/L couvrant le transport sur plusieurs modes ou avec transbordement, permettant la livraison jusqu'à destination finale sans re-émission de documents."},
+  {fr:"Fret aérien",ar:"الشحن الجوي",en:"Air freight",cat:"transport",def:"Transport de marchandises par voie aérienne. Plus rapide mais plus coûteux que le maritime. Document de transport : LTA (Lettre de Transport Aérien / AWB)."},
+  {fr:"Groupage (LCL)",ar:"الشحن المجمع",en:"Less than Container Load (LCL)",cat:"transport",def:"Expédition maritime groupant les marchandises de plusieurs clients dans un même conteneur. S'oppose au FCL (Full Container Load). Délais plus longs en raison du dégroupage."},
+];
+
+let currentCat = 'all';
+let currentLang = 'all';
+let currentAlpha = 'all';
+
+function setCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  currentAlpha = 'all';
+  renderGlossaire();
+}
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGlossaire();
+}
+
+function setAlpha(letter, btn) {
+  currentAlpha = letter;
+  document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGlossaire();
+}
+
+function renderGlossaire() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+
+  let filtered = TERMS.filter(t => {
+    if (currentCat !== 'all' && t.cat !== currentCat) return false;
+    if (currentAlpha !== 'all' && !t.fr.toUpperCase().startsWith(currentAlpha)) return false;
+    if (!q) return true;
+    if (currentLang === 'fr' || currentLang === 'all') {
+      if (t.fr.toLowerCase().includes(q)) return true;
+      if (t.def && t.def.toLowerCase().includes(q)) return true;
+    }
+    if (currentLang === 'ar' || currentLang === 'all') {
+      if (t.ar && t.ar.includes(q)) return true;
+    }
+    if (currentLang === 'en' || currentLang === 'all') {
+      if (t.en && t.en.toLowerCase().includes(q)) return true;
+    }
+    return false;
+  });
+
+  filtered.sort((a, b) => a.fr.localeCompare(b.fr, 'fr'));
+
+  document.getElementById('search-count').textContent = filtered.length + ' terme' + (filtered.length !== 1 ? 's' : '');
+
+  // Build alpha nav
+  const letters = [...new Set(TERMS.map(t => t.fr[0].toUpperCase()))].sort();
+  const usedLetters = new Set(filtered.map(t => t.fr[0].toUpperCase()));
+  document.getElementById('alpha-nav').innerHTML =
+    `<button class="alpha-btn${currentAlpha==='all'?' active':''}" onclick="setAlpha('all',this)">Tous</button>` +
+    letters.map(l => `<button class="alpha-btn${currentAlpha===l?' active':''}${!usedLetters.has(l)?' disabled':''}" onclick="${usedLetters.has(l)?`setAlpha('${l}',this)`:'void(0)'}">${l}</button>`).join('');
+
+  if (!filtered.length) {
+    document.getElementById('glossaire-output').innerHTML = `<div class="no-results">Aucun terme trouvé pour « ${q} »</div>`;
+    return;
+  }
+
+  // Group by letter
+  const groups = {};
+  filtered.forEach(t => {
+    const l = t.fr[0].toUpperCase();
+    if (!groups[l]) groups[l] = [];
+    groups[l].push(t);
+  });
+
+  let html = '';
+  Object.entries(groups).forEach(([letter, terms]) => {
+    html += `<div class="letter-group" id="group-${letter}">
+      <div class="letter-header">${letter}</div>
+      <div class="terms-grid">
+        ${terms.map((t, i) => `
+          <div class="term-card" onclick="toggleTerm(this)">
+            <div class="term-fr">${t.fr}</div>
+            <div class="term-ar">${t.ar}</div>
+            <div class="term-en">${t.en}</div>
+            <div class="term-badges">
+              <span class="tbadge cat-${t.cat}">${catLabel(t.cat)}</span>
+            </div>
+            <div class="term-def">${t.def}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  document.getElementById('glossaire-output').innerHTML = html;
+}
+
+function toggleTerm(el) {
+  const open = el.classList.contains('expanded');
+  document.querySelectorAll('.term-card.expanded').forEach(c => c.classList.remove('expanded'));
+  if (!open) el.classList.add('expanded');
+}
+
+function catLabel(cat) {
+  const labels = { adii:'ADII', fiscal:'Fiscal', transport:'Transport', incoterms:'Incoterms', documents:'Documents', regime:'Régime' };
+  return labels[cat] || cat;
+}
+
+document.addEventListener('DOMContentLoaded', () => renderGlossaire());
+</script>
+</body>
+</html>

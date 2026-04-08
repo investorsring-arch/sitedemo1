@@ -42,7 +42,7 @@ export default function Procedures() {
           </span>
         </div>
         <a
-          href="/modules/procedures-regimes"
+          href="/modules/procedures-process"
           style={{
             fontSize: 12,
             color: '#C9A84C',
@@ -144,7 +144,7 @@ export default function Procedures() {
           Pour les régimes économiques avancés (ATPA, AT, TSD, EIF, EPP, ZAI…) →{' '}
         </span>
         <a
-          href="/modules/procedures-regimes"
+          href="/modules/procedures-process"
           style={{ fontSize: 12, color: '#C9A84C', fontWeight: 500 }}
         >
           Consulter le guide complet des régimes
