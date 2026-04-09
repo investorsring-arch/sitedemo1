@@ -15,7 +15,7 @@ const STAT_COLORS: Record<string,string> = { 'Actif':'bg', 'Essai':'ba', 'Suspen
 export default function AdminUtilisateurs() {
   const [users, setUsers] = useState(USERS)
   const [q, setQ] = useState('')
-  const [modal, setModal] = useState<'edit'|'new'|null>(null)
+  const [modal, setModal] = useState<'edit'|'new'|'delete'|null>(null)
   const [form, setForm] = useState({ nom:'', email:'', societe:'', plan:'Consultation', statut:'Actif', tel:'', inscrit:'' })
   const [selected, setSelected] = useState<typeof USERS[0]|null>(null)
   const [toast, setToast] = useState('')
@@ -73,10 +73,12 @@ export default function AdminUtilisateurs() {
                     setModal('edit')
                   }}>Gérer</button>
                   {u.statut !== 'Suspendu'
-                    ? <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--amber)', color:'var(--amber)', cursor:'pointer' }}
+                    ? <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--amber)', color:'var(--amber)', cursor:'pointer', fontFamily:'inherit' }}
                         onClick={() => { setUsers(us => us.map(r => r.id===u.id ? {...r, statut:'Suspendu'} : r)); showToast(`${u.nom} suspendu`) }}>Suspendre</button>
-                    : <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--green)', color:'var(--green)', cursor:'pointer' }}
+                    : <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--green)', color:'var(--green)', cursor:'pointer', fontFamily:'inherit' }}
                         onClick={() => { setUsers(us => us.map(r => r.id===u.id ? {...r, statut:'Actif'} : r)); showToast(`${u.nom} réactivé`) }}>Réactiver</button>}
+                  <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--red)', color:'var(--red)', cursor:'pointer', fontFamily:'inherit' }}
+                    onClick={() => { setSelected(u); setModal('delete') }}>Supprimer</button>
                 </div>
               </td>
             </tr>
@@ -119,6 +121,28 @@ export default function AdminUtilisateurs() {
           </div>
         </div>
       )}
+      {/* ── MODAL SUPPRESSION ── */}
+      {modal === 'delete' && selected && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,.45)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center' }}
+          onClick={e => { if(e.target===e.currentTarget) setModal(null) }}>
+          <div style={{ background:'var(--white)', width:420, padding:'2rem' }}>
+            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:18, color:'var(--bd)', marginBottom:'.75rem' }}>Supprimer l'utilisateur ?</div>
+            <p style={{ fontSize:13, color:'var(--inkm)', lineHeight:1.6, marginBottom:'1.5rem' }}>
+              Le compte de <strong>{selected.nom}</strong> ({selected.email}) sera définitivement supprimé.
+              Cette action est irréversible.
+            </p>
+            <div style={{ display:'flex', justifyContent:'flex-end', gap:'.75rem' }}>
+              <button className="btn btn-outline" onClick={() => setModal(null)}>Annuler</button>
+              <button className="btn btn-danger" onClick={() => {
+                setUsers(us => us.filter(r => r.id !== selected.id))
+                showToast(`Compte de ${selected.nom} supprimé`)
+                setModal(null)
+              }}>Supprimer</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {toast && <div style={{ position:'fixed', bottom:'1.5rem', right:'1.5rem', background:'var(--bd)', color:'white', padding:'.7rem 1.2rem', fontSize:13, zIndex:999 }}>{toast}</div>}
     </AdminLayout>
   )
