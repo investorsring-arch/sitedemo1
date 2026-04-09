@@ -121,7 +121,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .classic-section-label{font-size:9px;letter-spacing:.18em;color:var(--ink3);padding:.25rem 0 .75rem 0;margin-top:1.25rem}
 .classic-section-label:first-child{margin-top:0}
 .c-nav{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
-.c-nav-item{border:1px solid var(--border);padding:1.25rem 1.5rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.c-nav-item{border:1px solid var(--border);padding:1.25rem 1.5rem;cursor:pointer;transition:all .15rem;display:flex;align-items:center;gap:.75rem;text-decoration:none}
 .c-nav-item:hover{border-color:var(--gold);background:var(--gold4)}
 .cn-num{font-size:22px;font-family:'Cormorant Garamond',serif;color:var(--gold);font-weight:600;min-width:36px}
 .cn-label{font-size:13px;color:var(--ink2)}
@@ -441,7 +441,7 @@ document.addEventListener("click",function(e){if(!e.target.closest(".db-dd")){do
       <span class="cn-num" style="color:var(--gold)">ORI</span>
       <div><div class="cn-label">Origine ALECA / UE</div><div class="cn-sub">Règles d\'origine · Calcul préférentiel</div></div>
     </a>
-    <a href="/modules/incoterms" class="c-nav-item" style="border-color:var(--gold)">
+    <a href="/modules/incoterms-shipping" class="c-nav-item" style="border-color:var(--gold)">
       <span class="cn-num" style="color:var(--gold)">INC</span>
       <div><div class="cn-label">Incoterms 2020</div><div class="cn-sub">11 règles · Obligations · Risques</div></div>
     </a>
@@ -449,7 +449,7 @@ document.addEventListener("click",function(e){if(!e.target.closest(".db-dd")){do
       <span class="cn-num" style="color:var(--gold)">ICI</span>
       <div><div class="cn-label">Index Commerce Intl.</div><div class="cn-sub">40 pays · 11 rubriques</div></div>
     </a>
-    <a href="/modules/arborescence-" class="c-nav-item" style="border-color:var(--gold)">
+    <a href="/modules/arborescence" class="c-nav-item" style="border-color:var(--gold)">
       <span class="cn-num" style="color:var(--gold)">ARB</span>
       <div><div class="cn-label">Arborescence Commerce</div><div class="cn-sub">Nomenclature SH · Arbre tarifaire</div></div>
     </a>
@@ -464,6 +464,42 @@ document.addEventListener("click",function(e){if(!e.target.closest(".db-dd")){do
     <a href="/modules/procedures-regimes" class="c-nav-item" style="border-color:var(--gold)">
       <span class="cn-num" style="color:var(--gold)">REG</span>
       <div><div class="cn-label">Régimes Détaillés</div><div class="cn-sub">22 procédures · Codes DUM · Checklist</div></div>
+    </a>
+    <a href="/modules/reference-logistique" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">REF</span>
+      <div><div class="cn-label">Référence Logistique</div><div class="cn-sub">Shipping terms · Marques ISO 780</div></div>
+    </a>
+    <a href="/modules/regimes-economiques" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">REC</span>
+      <div><div class="cn-label">Régimes Économiques</div><div class="cn-sub">ATF · Entrepôt · ZFI · TIM · ATPA</div></div>
+    </a>
+    <a href="/modules/documents-sh" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">DOC</span>
+      <div><div class="cn-label">Documents par Code SH</div><div class="cn-sub">Documents requis par position tarifaire</div></div>
+    </a>
+    <a href="/modules/verificateur-dum" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">DUM</span>
+      <div><div class="cn-label">Vérificateur DUM</div><div class="cn-sub">Contrôle déclaration unique en douane</div></div>
+    </a>
+    <a href="/modules/simulateur-fiscal" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">SIM</span>
+      <div><div class="cn-label">Simulateur Fiscal Import</div><div class="cn-sub">DI · TVA · TIC · PFI · Valeur DH</div></div>
+    </a>
+    <a href="/modules/generateur-docs" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">GEN</span>
+      <div><div class="cn-label">Générateur Documents</div><div class="cn-sub">Facture pro forma · Packing list · COO</div></div>
+    </a>
+    <a href="/modules/glossaire-douanier" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">GLO</span>
+      <div><div class="cn-label">Glossaire Douanier FR/AR</div><div class="cn-sub">Terminologie bilingue · 400+ termes</div></div>
+    </a>
+    <a href="/modules/portnet-tanger" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">PRT</span>
+      <div><div class="cn-label">PortNet & Tanger Med</div><div class="cn-sub">Guichet unique · Manifeste · Escales</div></div>
+    </a>
+    <a href="/modules/facilitation" class="c-nav-item" style="border-color:var(--gold)">
+      <span class="cn-num" style="color:var(--gold)">CFH</span>
+      <div><div class="cn-label">Facilitation Douanière</div><div class="cn-sub">OEA · Procédures simplifiées · Garanties</div></div>
     </a>
   </div>
 

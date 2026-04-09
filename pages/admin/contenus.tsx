@@ -20,7 +20,7 @@ const EMPTY = { module:'Procédures Expliquées', titre:'', type:'Procédure', s
 export default function AdminContenus() {
   const [data, setData] = useState(INIT)
   const [q, setQ] = useState('')
-  const [modal, setModal] = useState<'edit'|'new'|null>(null)
+  const [modal, setModal] = useState<'edit'|'new'|'delete'|null>(null)
   const [form, setForm] = useState({ ...EMPTY })
   const [selected, setSelected] = useState<typeof INIT[0]|null>(null)
   const [toast, setToast] = useState('')
@@ -73,6 +73,8 @@ export default function AdminContenus() {
                   <button className="btn btn-outline btn-sm" onClick={() => { setSelected(r); setForm({ module:r.module, titre:r.titre, type:r.type, statut:r.statut, acces:r.acces, modifie:r.modifie, contenu:r.contenu }); setModal('edit') }}>Éditer</button>
                   {r.statut==='Brouillon' && <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--green)', color:'var(--green)', cursor:'pointer' }}
                     onClick={() => { setData(d => d.map(x => x.id===r.id ? {...x, statut:'Publié'} : x)); showToast('✓ Publié') }}>Publier</button>}
+                  <button style={{ padding:'3px 8px', fontSize:10, background:'transparent', border:'.5px solid var(--red)', color:'var(--red)', cursor:'pointer', fontFamily:'inherit' }}
+                    onClick={() => { setSelected(r); setModal('delete') }}>Supprimer</button>
                 </div>
               </td>
             </tr>
@@ -125,6 +127,23 @@ export default function AdminContenus() {
           </div>
         </div>
       )}
+      {/* ── MODAL SUPPRESSION ── */}
+      {modal === 'delete' && selected && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,.45)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center' }}
+          onClick={e => { if(e.target===e.currentTarget) setModal(null) }}>
+          <div style={{ background:'var(--white)', width:420, padding:'2rem' }}>
+            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:18, color:'var(--bd)', marginBottom:'.75rem' }}>Supprimer le contenu ?</div>
+            <p style={{ fontSize:13, color:'var(--inkm)', lineHeight:1.6, marginBottom:'1.5rem' }}>
+              <strong>"{selected.titre}"</strong> sera définitivement supprimé.
+            </p>
+            <div style={{ display:'flex', justifyContent:'flex-end', gap:'.75rem' }}>
+              <button className="btn btn-outline" onClick={() => setModal(null)}>Annuler</button>
+              <button className="btn btn-danger" onClick={() => { setData(d => d.filter(r => r.id !== selected.id)); showToast(`"${selected.titre}" supprimé`); setModal(null) }}>Supprimer</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {toast && <div style={{ position:'fixed', bottom:'1.5rem', right:'1.5rem', background:'var(--bd)', color:'white', padding:'.7rem 1.2rem', fontSize:13, zIndex:999 }}>{toast}</div>}
     </AdminLayout>
   )
