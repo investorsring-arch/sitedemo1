@@ -18,23 +18,28 @@ const MODULES_MAIN = [
 ]
 
 const MODULES_TOOLS = [
-  { num: 'TRK', label: 'Tracking & Intelligence',      href: '/modules/tracking',             badge: 'NEW' },
-  { num: 'CAL', label: 'Simulateur Droits & Taxes',    href: '/modules/simulateur',           badge: '↗'   },
-  { num: 'CMP', label: 'Comparateur Régimes',          href: '/modules/comparateur',          badge: '↗'   },
-  { num: 'ORI', label: 'Origine ALECA / UE',           href: '/modules/origine-aleca',        badge: 'NEW' },
-  { num: 'REF', label: 'Référence Logistique',         href: '/modules/logistique2',          badge: 'NEW' },
-  { num: '15',  label: 'Incoterms × Shipping Terms',   href: '/modules/incoterms-shipping',   badge: 'NEW' },
-  { num: 'REC', label: 'Régimes Économiques',          href: '/modules/regimes-economiques',  badge: 'NEW' },
-  { num: 'DOC', label: 'Documents par Code SH',        href: '/modules/documents-sh',         badge: 'NEW' },
-  { num: 'DUM', label: 'Vérificateur DUM',             href: '/modules/verificateur-dum',     badge: 'NEW' },
-  { num: 'SIM', label: 'Simulateur Fiscal Import',     href: '/modules/simulateur-fiscal',    badge: 'NEW' },
-  { num: 'GEN', label: 'Générateur Documents',         href: '/modules/generateur-docs',      badge: 'NEW' },
-  { num: 'GLO', label: 'Glossaire Douanier FR/AR',     href: '/modules/glossaire-douanier',   badge: 'NEW' },
-  { num: 'PRT', label: 'PortNet & Tanger Med',         href: '/modules/portnet-tanger',       badge: 'NEW' },
-  { num: 'PRO', label: 'Procédures Douanières',        href: '/modules/procedures',           badge: 'NEW' },
-  { num: 'RGM', label: 'Procédures & Régimes',         href: '/modules/procedures-process',   badge: 'NEW' },
-  { num: 'ICI', label: 'Index Commerce Intl.',         href: '/modules/index-commerce',       badge: 'NEW' },
-  { num: 'CFH', label: 'Facilitation Douanière', href: '/modules/facilitation', badge: 'NEW' },
+  { num: 'TRK', label: 'Tracking & Intelligence',      href: '/modules/tracking',              badge: 'NEW' },
+  { num: 'CAL', label: 'Simulateur Droits & Taxes',    href: '/modules/simulateur',            badge: '↗'   },
+  { num: 'CMP', label: 'Comparateur Régimes',          href: '/modules/comparateur',           badge: '↗'   },
+  { num: 'ORI', label: 'Origine ALECA / UE',           href: '/modules/origine-aleca',         badge: 'NEW' },
+  // FIX-1 : slug corrigé logistique2 → reference-logistique
+  { num: 'REF', label: 'Référence Logistique',         href: '/modules/reference-logistique',  badge: 'NEW' },
+  { num: '15',  label: 'Incoterms × Shipping Terms',   href: '/modules/incoterms-shipping',    badge: 'NEW' },
+  // FIX-2 : modules standalone — les pages wrapper Next.js doivent exister dans pages/modules/
+  { num: 'REC', label: 'Régimes Économiques',          href: '/modules/regimes-economiques',   badge: 'NEW' },
+  { num: 'DOC', label: 'Documents par Code SH',        href: '/modules/documents-sh',          badge: 'NEW' },
+  { num: 'DUM', label: 'Vérificateur DUM',             href: '/modules/verificateur-dum',      badge: 'NEW' },
+  { num: 'SIM', label: 'Simulateur Fiscal Import',     href: '/modules/simulateur-fiscal',     badge: 'NEW' },
+  { num: 'GEN', label: 'Générateur Documents',         href: '/modules/generateur-docs',       badge: 'NEW' },
+  { num: 'GLO', label: 'Glossaire Douanier FR/AR',     href: '/modules/glossaire-douanier',    badge: 'NEW' },
+  { num: 'PRT', label: 'PortNet & Tanger Med',         href: '/modules/portnet-tanger',        badge: 'NEW' },
+  { num: 'PRO', label: 'Procédures Douanières',        href: '/modules/procedures',            badge: 'NEW' },
+  // FIX-3 : slug corrigé procedures-process → procedures-regimes (route canonique)
+  { num: 'RGM', label: 'Procédures & Régimes',         href: '/modules/procedures-regimes',    badge: 'NEW' },
+  { num: 'ICI', label: 'Index Commerce Intl.',         href: '/modules/index-commerce',        badge: 'NEW' },
+  { num: 'CFH', label: 'Facilitation Douanière',       href: '/modules/facilitation',          badge: 'NEW' },
+  // FIX-4 : page orpheline arborescence enregistrée dans la navigation
+  { num: 'ARB', label: 'Arborescence',                 href: '/modules/arborescence',          badge: 'NEW' },
 ]
 
 const MODULES_COMM = [
@@ -119,7 +124,8 @@ export default function Layout({ children, variant = 'inner' }: LayoutProps) {
               <Link href="/modules/analyses"    className="mast-nav-item">ANALYSES</Link>
               <Link href="/community"           className="mast-nav-item">COMMUNAUTÉ</Link>
               <Link href="/abonnements"         className="mast-nav-item">ABONNEMENTS</Link>
-              <Link href="/lexique/"            className="mast-nav-item">📚 LEXIQUE</Link>
+              {/* FIX-5 : trailing slash supprimé — uniformisation /lexique */}
+              <Link href="/lexique"             className="mast-nav-item">📚 LEXIQUE</Link>
               <button className="mast-nav-cta" onClick={() => setLoginOpen(true)}>ESSAYER GRATUITEMENT</button>
             </div>
           </div>
@@ -137,7 +143,8 @@ export default function Layout({ children, variant = 'inner' }: LayoutProps) {
             <Link href="/modules/analyses"    className={`topnav-link ${router.pathname.includes('analyses')            ? 'active' : ''}`}>ANALYSES</Link>
             <Link href="/community"           className={`topnav-link ${router.pathname.startsWith('/community')        ? 'active' : ''}`}>COMMUNAUTÉ</Link>
             <Link href="/abonnements"         className={`topnav-link ${router.pathname === '/abonnements'              ? 'active' : ''}`}>ABONNEMENTS</Link>
-            <Link href="/lexique/"            className={`topnav-link ${router.pathname === '/lexique'                  ? 'active' : ''}`}>📚 LEXIQUE</Link>
+            {/* FIX-5 : trailing slash supprimé — uniformisation /lexique */}
+            <Link href="/lexique"             className={`topnav-link ${router.pathname.startsWith('/lexique')          ? 'active' : ''}`}>📚 LEXIQUE</Link>
           </div>
           <div className="topnav-right">
             <span className="topnav-user">{user || 'Non connecté'}</span>
@@ -180,7 +187,8 @@ export default function Layout({ children, variant = 'inner' }: LayoutProps) {
               <Link href="/dashboard"   className={`sidebar-item ${router.pathname === '/dashboard'          ? 'active' : ''}`}><span className="sidebar-num">↗</span>Mon Dashboard</Link>
               <Link href="/mon-compte"  className={`sidebar-item ${router.pathname.startsWith('/mon-compte') ? 'active' : ''}`}><span className="sidebar-num">↗</span>Mon Compte</Link>
               <Link href="/abonnements" className={`sidebar-item ${router.pathname === '/abonnements'        ? 'active' : ''}`}><span className="sidebar-num">↗</span>Abonnements</Link>
-              <Link href="/lexique/"    className={`sidebar-item ${router.pathname === '/lexique'            ? 'active' : ''}`}><span className="sidebar-num">↗</span>📚 Lexique</Link>
+              {/* FIX-5 : trailing slash supprimé + condition corrigée en startsWith */}
+              <Link href="/lexique"     className={`sidebar-item ${router.pathname.startsWith('/lexique')    ? 'active' : ''}`}><span className="sidebar-num">↗</span>📚 Lexique</Link>
             </div>
 
           </aside>
